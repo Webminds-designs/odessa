@@ -5,9 +5,9 @@ import ShopByShape from "./components/ShopByShape";
 
 export default function Home() {
   return (
-    <div className="p-8 pb-20 gap-16 sm:p-20">
-      {/* <Hero /> */}
-      {/* <Highlight /> */}
+    <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-30 sm:p-20">
+      <Hero />
+      <Highlight />
       <ShopByShape />
     </div>
   );
