@@ -8,22 +8,22 @@
 }
 
 @font-face {
-  font-family: 'AeonikBoldItalic';
+  font-family: "AeonikBoldItalic";
   src: url("./asset/fonts/AeonikTRIAL-BoldItalic.otf") format("opentype");
 }
 
 @font-face {
-  font-family: 'AeonikRegular';
+  font-family: "AeonikRegular";
   src: url("./asset/fonts/AeonikTRIAL-Regular.otf") format("opentype");
 }
 
 @font-face {
-  font-family: 'AeonikRegularItalic';
+  font-family: "AeonikRegularItalic";
   src: url("./asset/fonts/AeonikTRIAL-RegularItalic.otf") format("opentype");
 }
 
 @font-face {
-  font-family: 'Vasion';
+  font-family: "Vasion";
   src: url("./asset/fonts/VASION.ttf") format("truetype");
 }
 
@@ -50,8 +50,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #130F0C;
-    --foreground: #FFFFFF;
+    --background: #130f0c;
+    --foreground: #ffffff;
   }
 }
 

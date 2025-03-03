@@ -1,10 +1,82 @@
-import React from "react";
+"use client";
+import React, { useRef, useEffect, useState } from "react";
+import Lottie from "lottie-react";
+import animationweb from "../asset/lotteie/ringAnimation.json";
+// import animationmob from "../../public/animation2mobi.json";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register the ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
+  const [isPotrait, setIsPotrait] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPotrait(window.innerWidth < window.innerHeight);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const lottieRef = useRef<any>(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!lottieRef.current || !containerRef.current) return;
+
+    const totalFrames = lottieRef.current.getDuration(true);
+
+    // Reverse the animation from last frame to first on load
+    const reverseAnimation = () => {
+      let currentFrame = totalFrames;
+      const interval = setInterval(() => {
+        if (currentFrame <= 0) {
+          clearInterval(interval);
+        } else {
+          currentFrame -= 1;
+          lottieRef.current.goToAndStop(currentFrame, true);
+        }
+      }, 100); // Adjust speed of reversal
+    };
+
+    reverseAnimation();
+
+    // Set up GSAP ScrollTrigger
+    ScrollTrigger.create({
+      trigger: containerRef.current, // Trigger animation when this element is in view
+      start: "top top", // Start when the top of the component hits the top of the viewport
+      end: "bottom 50%", // End when the bottom of the component hits the top of the viewport
+      scrub: true, // Smoothly scrub through the animation as the user scrolls
+      onUpdate: (self) => {
+        // Calculate the frame based on scroll progress
+        const frame = Math.floor(self.progress * totalFrames);
+        lottieRef.current.goToAndStop(frame, true);
+      },
+    });
+  }, []);
+
   return (
-    <div>
-      <div className="flex flex-col items-center justify-center gap-4 bg-amber-200 text-7xl text-amber-800">
-        hERO HERE
+    <div
+      ref={containerRef}
+      className="w-screen h-screen bg-black fixed top-0 left-0 flex items-center justify-center -z-10 overflow-hidden"
+    >
+      <div className="w-screen h-full overflow-hidden">
+        <Lottie
+          lottieRef={lottieRef}
+          animationData={animationweb}
+          // animationData={isPotrait ? animationmob : animationweb}
+
+          loop={false}
+          autoplay={false}
+          className="w-screen  object-cover overflow-hidden"
+        />
       </div>
     </div>
   );
