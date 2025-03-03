@@ -1,11 +1,7 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <div className="flex flex-col items-center justify-center gap-4 bg-amber-200 text-7xl text-amber-800">
-        Let's build a Next.js app with Tailwind CSS and TypeScript!
-      </div>
+    <div>
+      <h1 className="font-aeonikregularitalic">Hellow Test 1</h1>
     </div>
   );
 }

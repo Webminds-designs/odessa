@@ -1,8 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-aeonikbolditalic: AeonikBoldItalic, sans-serif;
+  --font-aeonikregular: AeonikRegular, sans-serif;
+  --font-aeonikregularitalic: AeonikRegularItalic, sans-serif;
+}
+
+@font-face {
+  font-family: 'AeonikBoldItalic';
+  src: url("./asset/fonts/AeonikTRIAL-BoldItalic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: 'AeonikRegular';
+  src: url("./asset/fonts/AeonikTRIAL-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: 'AeonikRegularItalic';
+  src: url("./asset/fonts/AeonikTRIAL-RegularItalic.otf") format("opentype");
+}
+
+.font-aeonikbolditalic {
+  font-family: var(--font-aeonikbolditalic);
+}
+
+.font-aeonikregular {
+  font-family: var(--font-aeonikregular);
+}
+
+.font-aeonikregularitalic {
+  font-family: var(--font-aeonikregularitalic);
 }
 
 :root {
@@ -12,8 +40,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #130F0C;
+    --foreground: #FFFFFF;
   }
 }
 
