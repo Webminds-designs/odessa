@@ -1,17 +1,43 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GoArrowRight } from 'react-icons/go'
 import diamond from '../asset/images/Ellipse 2.png'
 import Image from 'next/image'
 
+const shapesData = [
+    { id: 0, name: "Oval", src: diamond },
+    { id: 1, name: "Cushion", src: diamond },
+    { id: 2, name: "Round", src: diamond },
+    { id: 3, name: "Princess", src: diamond },
+    { id: 4, name: "Pear", src: diamond },
+];
+
 const ShopByShape = () => {
+    const [currentShapes, setCurrentShapes] = useState(shapesData);
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentShapes(prevShapes => {
+                // Create a copy of the array
+                const newShapes = [...prevShapes];
+                // Take the last item
+                const lastItem = newShapes.pop();
+                // Put it at the beginning
+                if (lastItem) newShapes.unshift(lastItem);
+                return newShapes;
+            });
+        }, 3000);
+        
+        // Clean up interval on component unmount
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className='flex flex-col gap-4 w-full'>
 
-            {/* forst title */}
+            {/* first title */}
             <div className='flex justify-between items-center w-full'>
-
                 <p className='font-vasion text-9xl'>Shop Diamond</p>
 
                 <div className='flex'>
@@ -22,12 +48,10 @@ const ShopByShape = () => {
                         <p className='font-aeonikregularitalic text-2xl'>try it now!</p>
                     </div>
                 </div>
-
             </div>
 
             {/* second title */}
             <div className='flex justify-end items-center gap-10'>
-
                 <p className='flex flex-col font-aeonikregularitalic text-2xl text-gray-300'>
                     <span>EXPLORE THE POSSIBILITIES OF TAILORED </span>
                     <span>CREAFTMANSHIP AND UNLIMITED </span>
@@ -35,7 +59,6 @@ const ShopByShape = () => {
                 </p>
 
                 <p className='font-vasion text-9xl'>by Shape</p>
-
             </div>
 
             {/* diamond slider */}
@@ -49,66 +72,21 @@ const ShopByShape = () => {
 
                 {/* circles container */}
                 <div className='absolute top-0 left-0 right-0 flex justify-evenly items-center z-10'>
-                    {/* First circle with label */}
-                    <div className='flex flex-col items-center'>
-                        <div className='rounded-full border bg-primary w-40 h-40 p-7 mb-10'>
-                            <Image
-                                src={diamond}
-                                alt='diamond'
-                            />
-                        </div>
-                        <p className='font-eurostyle font-bold text-2xl text-gray-500'>Oval</p>
-                    </div>
-
-                    {/* Second circle with label */}
-                    <div className='flex flex-col items-center'>
-                        <div className='rounded-full border bg-primary w-40 h-40 p-7 mb-10'>
-                            <Image
-                                src={diamond}
-                                alt='diamond'
-                            />
-                        </div>
-                        <p className='font-eurostyle font-bold text-2xl text-gray-500'>Cushion</p>
-                    </div>
-
-                    {/* Third circle with label (larger) */}
-                    <div className='flex flex-col items-center'>
-                        <div 
-                            style={{ boxShadow: '0 0 10px 5px rgba(89, 89, 89, 0.5)' }}
-                            className='rounded-full border bg-primary w-48 h-48 p-5 mb-6'
-                        >
-                            <Image
-                                src={diamond}
-                                alt='diamond'
-                            />
-                        </div>
-                        <p className='font-eurostyle font-extrabold text-4xl'>Round</p>
-                    </div>
-
-                    {/* Fourth circle with label */}
-                    <div className='flex flex-col items-center'>
-                        <div className='rounded-full border bg-primary w-40 h-40 p-7 mb-10'>
-                            <Image
-                                src={diamond}
-                                alt='diamond'
-                            />
-                        </div>
-                        <p className='font-eurostyle font-bold text-2xl text-gray-500'>Princess</p>
-                    </div>
-
-                    {/* Fifth circle with label */}
-                    <div className='flex flex-col items-center'>
-                        <div className='rounded-full border bg-primary w-40 h-40 p-7 mb-10'>
-                            <Image
-                                src={diamond}
-                                alt='diamond'
-                            />
-                        </div>
-                        <p className='font-eurostyle font-bold text-2xl text-gray-500'>Pear</p>
-                    </div>
+                    {currentShapes.map((shape, index) => {
+                        return (
+                            <div key={shape.id} className='flex flex-col items-center'>
+                                <div className={`rounded-full border bg-primary p-7 mb-10 ${index === 2 ? `w-48 h-48` : `w-40 h-40`}`}>
+                                    <Image
+                                        src={shape.src}
+                                        alt='diamond'
+                                    />
+                                </div>
+                                <p className={`font-eurostyle ${index === 2 ? `font-extrabold text-4xl` : `font-bold text-2xl text-gray-500`}`}>{shape.name}</p>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
-
         </div>
     )
 }
