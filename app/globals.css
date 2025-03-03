@@ -5,7 +5,9 @@
   --font-aeonikregular: AeonikRegular, sans-serif;
   --font-aeonikregularitalic: AeonikRegularItalic, sans-serif;
   --font-vasion: Vasion, sans-serif;
+  --font-eurostyle: EuroStyle, sans-serif;
   --color-brown: #A07648;
+  --color-primary: #130F0C;
 }
 
 @font-face {
@@ -28,6 +30,11 @@
   src: url("./asset/fonts/VASION.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: 'EuroStyle';
+  src: url("./asset/fonts/eurostile.TTF") format("truetype");
+}
+
 .font-aeonikbolditalic {
   font-family: var(--font-aeonikbolditalic);
 }
@@ -44,9 +51,13 @@
   font-family: var(--font-vasion);
 }
 
+.font-eurostyle {
+  font-family: var(--font-eurostyle);
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #130F0C;
 }
 
 @media (prefers-color-scheme: dark) {
