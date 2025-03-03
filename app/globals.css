@@ -4,6 +4,7 @@
   --font-aeonikbolditalic: AeonikBoldItalic, sans-serif;
   --font-aeonikregular: AeonikRegular, sans-serif;
   --font-aeonikregularitalic: AeonikRegularItalic, sans-serif;
+  --font-vasion: Vasion, sans-serif;
 }
 
 @font-face {
@@ -21,6 +22,11 @@
   src: url("./asset/fonts/AeonikTRIAL-RegularItalic.otf") format("opentype");
 }
 
+@font-face {
+  font-family: 'Vasion';
+  src: url("./asset/fonts/VASION.ttf") format("truetype");
+}
+
 .font-aeonikbolditalic {
   font-family: var(--font-aeonikbolditalic);
 }
@@ -31,6 +37,10 @@
 
 .font-aeonikregularitalic {
   font-family: var(--font-aeonikregularitalic);
+}
+
+.font-vasion {
+  font-family: var(--font-vasion);
 }
 
 :root {
