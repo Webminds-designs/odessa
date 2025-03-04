@@ -4,6 +4,7 @@ import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
 import HeroContent from "./components/HeroContent";
 import Footer from "./components/Footer";
+import Contact from "./components/Contanct";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <Highlight />
         <ShopByShape />
         <div className="w-full h-0.5 "></div>
+        <Contact />
         <Footer />
       </div>
     </div>
