@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
 import HeroContent from "./components/HeroContent";
+import NewCollection from "./components/NewCollection";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <div className="w-full h-screen"></div>
       <Highlight />
       <ShopByShape />
+      <NewCollection />
     </div>
   );
 }
