@@ -2,6 +2,7 @@ import Image from "next/image";
 import Hero from "./components/Hero";
 import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
+import NewCollection from "./components/NewCollection";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <Hero />
       <Highlight />
       <ShopByShape />
+      <NewCollection />
     </div>
   );
 }

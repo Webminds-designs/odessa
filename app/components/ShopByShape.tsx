@@ -70,7 +70,7 @@ const ShopByShape = () => {
             </div>
 
             {/* diamond slider */}
-            <div className='relative mt-30'>
+            <div className='relative mt-30 h-80'>
                 {/* single line - lowered z-index */}
                 <div className='relative flex items-center z-[-1] translate-y-23'>
                     <div className='h-3 w-3 rounded-full bg-white' />
