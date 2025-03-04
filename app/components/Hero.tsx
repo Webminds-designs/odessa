@@ -52,7 +52,7 @@ const Hero = () => {
     ScrollTrigger.create({
       trigger: containerRef.current, // Trigger animation when this element is in view
       start: "top top", // Start when the top of the component hits the top of the viewport
-      end: "bottom 50%", // End when the bottom of the component hits the top of the viewport
+      end: "bottom top", // End when the bottom of the component hits the top of the viewport
       scrub: true, // Smoothly scrub through the animation as the user scrolls
       onUpdate: (self) => {
         // Calculate the frame based on scroll progress
