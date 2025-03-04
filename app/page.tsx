@@ -3,18 +3,21 @@ import Hero from "./components/Hero";
 import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
 import HeroContent from "./components/HeroContent";
+import Footer from "./components/Footer";
 import NewCollection from "./components/NewCollection";
 
 export default function Home() {
   return (
-    <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-30 sm:p-20">
+    <div>
       <Hero />
-
       <HeroContent />
       <div className="w-full h-screen"></div>
-      <Highlight />
-      <ShopByShape />
-      <NewCollection />
+      <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-30 sm:p-20 bg-primary">
+        <Highlight />
+        <ShopByShape />
+        <div className="w-full h-0.5 "></div>
+        <Footer />
+      </div>
     </div>
   );
 }
