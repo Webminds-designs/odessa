@@ -21,7 +21,7 @@ const HeroContent = () => {
           <div className="group relative inline-block">
             <div className="relative px-4 py-2 bg-white text-black rounded-full cursor-pointer overflow-hidden  border-white border-2 ">
               {/* Animated overlay */}
-              <span className="absolute inset-0 bg-[#A07648] transform -translate-x-full transition-transform duration-600 group-hover:translate-x-0"></span>
+              <span className="absolute inset-0 bg-brown transform -translate-x-full transition-transform duration-600 group-hover:translate-x-0"></span>
               {/* Button text */}
               <span className="relative z-10 transition-colors duration-600 group-hover:text-white ">
                 Order Now
@@ -31,7 +31,7 @@ const HeroContent = () => {
           <div className="group relative inline-block">
             <div className="relative px-4 py-2 bg-transparent text-white border-solid border-white border-2 rounded-full cursor-pointer overflow-hidden  ">
               {/* Animated overlay */}
-              <span className="absolute inset-0 bg-[#A07648] transform -translate-x-full transition-transform duration-600 group-hover:translate-x-0"></span>
+              <span className="absolute inset-0 bg-brown transform -translate-x-full transition-transform duration-600 group-hover:translate-x-0"></span>
               {/* Button text */}
               <span className="relative z-10 transition-colors duration-600 group-hover:text-white ">
                 See Collection

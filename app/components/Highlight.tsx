@@ -16,7 +16,7 @@ const persons = [
 
 const Highlight = () => {
     return (
-        <div className='flex flex-col lg:flex-row gap-4 lg:gap-7 w-full'>
+        <div className='flex flex-col lg:flex-row gap-4 lg:gap-7 w-full bg-primary'>
             {/* First Card */}
             <div className='flex flex-col sm:flex-row bg-zinc-900 px-4 sm:px-10 py-6 sm:py-8 rounded-xl gap-5 sm:gap-10 w-full'>
                 {/* diamond image */}

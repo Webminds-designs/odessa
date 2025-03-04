@@ -4,7 +4,10 @@ import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
 import HeroContent from "./components/HeroContent";
 import Footer from "./components/Footer";
+
 import Contact from "./components/Contanct";
+import NewCollection from "./components/NewCollection";
+
 
 export default function Home() {
   return (
@@ -15,6 +18,7 @@ export default function Home() {
       <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-30 sm:p-20 bg-primary">
         <Highlight />
         <ShopByShape />
+        <NewCollection />
         <div className="w-full h-0.5 "></div>
         <Contact />
         <Footer />
