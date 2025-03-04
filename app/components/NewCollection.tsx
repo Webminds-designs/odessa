@@ -1,4 +1,6 @@
-import React from 'react'
+"use client";
+
+import React, { useState, useEffect } from 'react'
 import { GoArrowRight, GoArrowLeft } from 'react-icons/go'
 import diamond from '../asset/Images/Ellipse 1.png'
 import bgimg from '../asset/Images/bgimg1.png'
@@ -6,6 +8,84 @@ import gem from '../asset/Images/gem1.png'
 import Image from 'next/image'
 
 const NewCollection = () => {
+    // Add state to track current slide
+    const [currentIndex, setCurrentIndex] = useState(0);
+    // Add state for transitions
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const [fadeState, setFadeState] = useState('fade-in');
+
+    const diamonds = [
+        { 
+            id: 0, 
+            title: 'Introducing Pear Diamond Cluster', 
+            subtitle: 'Subtitle of the item', 
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
+            image: gem
+        },
+        { 
+            id: 1, 
+            title: 'Introducing Pear Diamond Cluster', 
+            subtitle: 'Subtitle of the item', 
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
+            image: gem
+        },
+        { 
+            id: 2, 
+            title: 'Introducing Pear Diamond Cluster', 
+            subtitle: 'Subtitle of the item', 
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
+            image: gem
+        },
+        { 
+            id: 3, 
+            title: 'Introducing Pear Diamond Cluster', 
+            subtitle: 'Subtitle of the item', 
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
+            image: gem
+        },
+        { 
+            id: 4, 
+            title: 'Introducing Pear Diamond Cluster', 
+            subtitle: 'Subtitle of the item', 
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
+            image: gem
+        },
+    ]
+
+    // Navigation functions with animation handling
+    const goToPrevious = () => {
+        if (isTransitioning) return;
+        
+        setFadeState('fade-out');
+        setIsTransitioning(true);
+        
+        setTimeout(() => {
+            setCurrentIndex((prevIndex) => 
+                prevIndex === 0 ? diamonds.length - 1 : prevIndex - 1
+            );
+            setFadeState('fade-in');
+            setTimeout(() => setIsTransitioning(false), 500);
+        }, 300);
+    };
+
+    const goToNext = () => {
+        if (isTransitioning) return;
+        
+        setFadeState('fade-out');
+        setIsTransitioning(true);
+        
+        setTimeout(() => {
+            setCurrentIndex((prevIndex) => 
+                prevIndex === diamonds.length - 1 ? 0 : prevIndex + 1
+            );
+            setFadeState('fade-in');
+            setTimeout(() => setIsTransitioning(false), 500);
+        }, 300);
+    };
+
+    // Get current diamond data
+    const currentDiamond = diamonds[currentIndex];
+
     return (
         <div className='flex flex-col w-full gap-10'>
 
@@ -61,29 +141,51 @@ const NewCollection = () => {
                     style={{ backgroundImage: `url(${bgimg.src})` }}
                 >
                     
-                    <div className='w-3/5'>
-                        <Image 
-                            src={gem}
-                            alt='gem'
-                            className='w-full h-full'
+                    <div className='w-3/5 relative overflow-hidden'>
+                        <div className={`transition-all duration-500 ${fadeState === 'fade-out' ? 'opacity-0 scale-105' : 'opacity-100 scale-100'}`}>
+                            <Image 
+                                src={currentDiamond.image}
+                                alt={currentDiamond.title}
+                                className='w-full h-full'
+                                key={`image-${currentIndex}`}
+                            />
+                        </div>
+                        <GoArrowLeft 
+                            onClick={goToPrevious}
+                            className='absolute bottom-5 right-2 text-white text-2xl cursor-pointer hover:-translate-x-2 transform transition-transform duration-300'
                         />
                     </div>
 
-                    <div className='flex flex-col gap-5 w-2/5 bg-zinc-900 opacity-70 py-10 px-20'>
+                    <div className='flex flex-col relative gap-5 w-2/5 bg-zinc-900 opacity-70 py-10 px-20'>
                         <div className='flex justify-end'>
-                            <div className='flex justify-center items-center py-1 px-5 border rounded-full'>
+                            <div className='flex justify-center items-center py-1 px-5 border rounded-full cursor-pointer hover:scale-105 transition-transform duration-500'>
                                 <GoArrowRight className='text-white text-3xl' />
                             </div>
                         </div>
-                        <p className='font-vasion text-4xl'>Introducing Pear Diamond Cluster</p>
-                        <p className='font-vasion text-xl text-brown'>Subtitle of the item</p>
-                        <p className='font-vasion text-xl'>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </span>
-                            <span className='text-brown'>See More...</span>
-                        </p>
+                        
+                        <div className={`transition-all duration-500 ${fadeState === 'fade-out' ? 'opacity-0 transform translate-y-4' : 'opacity-100 transform translate-y-0'}`}>
+                            <p className='font-vasion text-4xl'>{currentDiamond.title}</p>
+                        </div>
+                        
+                        <div className={`transition-all duration-500 delay-100 ${fadeState === 'fade-out' ? 'opacity-0 transform translate-y-4' : 'opacity-100 transform translate-y-0'}`}>
+                            <p className='font-vasion text-xl text-brown'>{currentDiamond.subtitle}</p>
+                        </div>
+                        
+                        <div className={`transition-all duration-500 delay-200 ${fadeState === 'fade-out' ? 'opacity-0 transform translate-y-4' : 'opacity-100 transform translate-y-0'}`}>
+                            <p className='font-vasion text-xl'>
+                                <span>{currentDiamond.description}</span>
+                                <span className='text-brown'>See More...</span>
+                            </p>
+                        </div>
+                        
+                        <GoArrowRight 
+                            onClick={goToNext}
+                            className='absolute bottom-5 left-2 text-brown text-2xl cursor-pointer hover:translate-x-2 transform transition-transform duration-300' 
+                        />
                     </div>
                     
                 </div>
+                
             </div>
 
         </div>
