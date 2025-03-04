@@ -15,6 +15,7 @@ export default function Home() {
       <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-30 sm:p-20 bg-primary">
         <Highlight />
         <ShopByShape />
+        <NewCollection />
         <div className="w-full h-0.5 "></div>
         <Footer />
       </div>
