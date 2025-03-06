@@ -1,7 +1,14 @@
 import Image from "next/image";
 import React from "react";
+import { useRouter } from "next/router";
 
 const HeroContent = () => {
+
+  const router = useRouter();
+  const handleOrderNow = () => {
+    router.push("/products");
+  };
+
   return (
     <div className=" absolute bottom-0 w-full h-screen md:px-24">
       <div className="flex flex-col items-start justify-center w-full md:w-2/3 h-screen text-start text-white gap-16">
@@ -18,7 +25,7 @@ const HeroContent = () => {
         </div>
         <div className="w-fit h-fit flex gap-0 font-aeonikregularitalic">
           <div className="group relative inline-block">
-            <div className="relative px-4 py-2 bg-white text-black rounded-full cursor-pointer overflow-hidden  border-white border-2 ">
+            <div onClick={handleOrderNow} className="relative px-4 py-2 bg-white text-black rounded-full cursor-pointer overflow-hidden  border-white border-2 ">
               {/* Animated overlay */}
               <span className="absolute inset-0 bg-brown transform -translate-x-full transition-transform duration-600 group-hover:translate-x-0"></span>
               {/* Button text */}
