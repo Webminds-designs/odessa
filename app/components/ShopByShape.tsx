@@ -2,16 +2,13 @@
 
 import React, { useState, useEffect } from 'react'
 import { GoArrowRight } from 'react-icons/go'
-const diamond1 = require('../asset/Images/Ellipse 1.png').default
-const diamond2 = require('../asset/Images/Ellipse 2.png').default
-import Image from 'next/image'
 
 const shapesData = [
-    { id: 0, name: "Oval", src: diamond2 },
-    { id: 1, name: "Cushion", src: diamond1 },
-    { id: 2, name: "Round", src: diamond2 },
-    { id: 3, name: "Princess", src: diamond1 },
-    { id: 4, name: "Pear", src: diamond2 },
+    { id: 0, name: "Oval", src: '/images/diamond1.png' },
+    { id: 1, name: "Cushion", src: '/images/diamond2.png' },
+    { id: 2, name: "Round", src: '/images/diamond2.png' },
+    { id: 3, name: "Princess", src: '/images/diamond1.png' },
+    { id: 4, name: "Pear", src: '/images/diamond1.png' },
 ];
 
 const ShopByShape = () => {
@@ -99,7 +96,7 @@ const ShopByShape = () => {
                                         ${index === 2 ? 'hover:scale-105' : 'hover:scale-110'}
                                     `}
                                 >
-                                    <Image
+                                    <img
                                         src={shape.src}
                                         alt={shape.name}
                                         className={`

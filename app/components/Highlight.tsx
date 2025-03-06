@@ -1,17 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
 import { GoArrowRight } from 'react-icons/go'
-const diamond = require('../asset/Images/Ellipse 1.png').default
-const person1 = require('../asset/Images/person1.png').default
-const person2 = require('../asset/Images/person2.png').default
-const person3 = require('../asset/Images/person3.png').default
-const person4 = require('../asset/Images/person4.png').default
 
 const persons = [
-    { src: person1, right: "right-24 sm:right-30" },
-    { src: person2, right: "right-16 sm:right-20" },
-    { src: person3, right: "right-8 sm:right-10" },
-    { src: person4, right: "right-0" },
+    { src: '/images/person1.png', right: "right-24 sm:right-30" },
+    { src: '/images/person2.png', right: "right-16 sm:right-20" },
+    { src: '/images/person3.png', right: "right-8 sm:right-10" },
+    { src: '/images/person4.png', right: "right-0" },
 ]
 
 const Highlight = () => {
@@ -22,7 +17,7 @@ const Highlight = () => {
                 {/* diamond image */}
                 <div className='relative w-24 sm:w-40 mx-auto sm:mx-0'>
                     <Image
-                        src={diamond}
+                        src='/images/diamond1.png'
                         alt='diamond'
                         width={130}
                         height={130}
@@ -58,7 +53,7 @@ const Highlight = () => {
                                 key={index}
                                 className={`rounded-full border-2 w-10 h-10 sm:w-15 sm:h-15 hover:scale-110 hover:-translate-y-2 transition-transform absolute ${person.right}`}
                             >
-                                <Image
+                                <img
                                     src={person.src}
                                     alt='person'
                                     className='object-cover'

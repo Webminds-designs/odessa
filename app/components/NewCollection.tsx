@@ -2,11 +2,6 @@
 
 import React, { useState } from 'react'
 import { GoArrowRight, GoArrowLeft } from 'react-icons/go'
-const diamond = require('../asset/Images/Ellipse 1.png').default
-const gem = require('../asset/Images/gem1.png').default
-const bgimg = require('../asset/Images/bgimg1.png').default
-// import bgimg from '../asset/Images/bgimg1.png'
-// import gem from '../asset/Images/gem1.png'
 import Image from 'next/image'
 
 const NewCollection = () => {
@@ -22,35 +17,35 @@ const NewCollection = () => {
             title: 'Introducing Pear Diamond Cluster', 
             subtitle: 'Subtitle of the item', 
             description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
-            image: gem
+            image: '/images/gem1.png'
         },
         { 
             id: 1, 
             title: 'Introducing Pear Diamond Cluster', 
             subtitle: 'Subtitle of the item', 
             description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
-            image: gem
+            image: '/images/gem1.png'
         },
         { 
             id: 2, 
             title: 'Introducing Pear Diamond Cluster', 
             subtitle: 'Subtitle of the item', 
             description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
-            image: gem
+            image: '/images/gem1.png'
         },
         { 
             id: 3, 
             title: 'Introducing Pear Diamond Cluster', 
             subtitle: 'Subtitle of the item', 
             description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
-            image: gem
+            image: '/images/gem1.png'
         },
         { 
             id: 4, 
             title: 'Introducing Pear Diamond Cluster', 
             subtitle: 'Subtitle of the item', 
             description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
-            image: gem
+            image: '/images/gem1.png'
         },
     ]
 
@@ -111,8 +106,8 @@ const NewCollection = () => {
                     <div className='flex relative'>
                         <div className='flex items-center justify-center rounded-full h-20 w-20 border absolute right-0'></div>
                         <div className='flex items-center justify-center rounded-full h-20 w-20 border absolute right-16 p-3'>
-                            <Image
-                                src={diamond}
+                            <img
+                                src='/images/diamond1.png'
                                 alt='diamond'
                             />
                         </div>
@@ -140,12 +135,12 @@ const NewCollection = () => {
             <div className="relative w-full mx-[-5vw]"> {/* Negative margin to break out of container */}
                 <div
                     className="flex w-[calc(100%+10vw)] h-[40vw] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${bgimg.src})` }}
+                    style={{ backgroundImage: "url('/images/bgimg1.png')" }}
                 >
                     
                     <div className='w-3/5 relative overflow-hidden'>
                         <div className={`transition-all duration-500 ${fadeState === 'fade-out' ? 'opacity-0 scale-105' : 'opacity-100 scale-100'}`}>
-                            <Image 
+                            <img 
                                 src={currentDiamond.image}
                                 alt={currentDiamond.title}
                                 className='w-full h-full'

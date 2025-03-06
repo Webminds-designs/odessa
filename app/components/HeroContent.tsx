@@ -1,13 +1,11 @@
 import Image from "next/image";
 import React from "react";
-// import logo from "../asset/Images/ODESSA2.png";
-const logo = require("../asset/Images/ODESSA2.png").default;
 
 const HeroContent = () => {
   return (
     <div className=" absolute bottom-0 w-full h-screen md:px-24">
       <div className="flex flex-col items-start justify-center w-full md:w-2/3 h-screen text-start text-white gap-16">
-        <Image src={logo} alt="logo" width={100} height={100} />
+        <Image src='/images/odessa.png' alt="logo" width={100} height={100} />
         <div className="flex flex-col gap-2">
           <div className="text-lg w-2/3 font-aeonikregularitalic ">
             Our young and expert design the most exquisite jewelry for you to

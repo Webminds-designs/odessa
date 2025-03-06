@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import img from "../asset/Images/contact.jpg";
 import { GoArrowRight } from "react-icons/go";
 import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
@@ -14,7 +13,7 @@ const Contact: React.FC = () => {
   return (
     <section className="w-full h-screen grid justify-center items-center text-white py-12 px-4 relative">
       <Image
-        src={img}
+        src='/images/contact.jpg'
         alt="person1"
         width={100}
         height={100}

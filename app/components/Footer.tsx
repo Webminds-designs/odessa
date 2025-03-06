@@ -1,14 +1,12 @@
 import React from "react";
 import { GoArrowRight } from "react-icons/go";
-// import logo from "../asset/Images/ODESSA2.png";
-const logo = require("../asset/Images/ODESSA2.png").default;
 
 const Footer = () => {
   return (
     <div
       className="w-full h-11/12 mt-36 text-white flex flex-col items-center justify-center gap-4"
       style={{
-        backgroundImage: `url(${logo})`,
+        backgroundImage: "url('/images/odessa.png')",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
