@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { GoArrowRight } from 'react-icons/go'
-import diamond2 from '../asset/Images/Ellipse 2.png'
-import diamond1 from '../asset/Images/Ellipse 1.png'
+const diamond1 = require('../asset/Images/Ellipse 1.png').default
+const diamond2 = require('../asset/Images/Ellipse 2.png').default
 import Image from 'next/image'
 
 const shapesData = [

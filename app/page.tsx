@@ -6,11 +6,10 @@ import ShopByShape from "./components/ShopByShape";
 import HeroContent from "./components/HeroContent";
 import Footer from "./components/Footer";
 import Contact from "./components/Contanct";
-// import NewCollection from "./components/NewCollection";
+import NewCollection from "./components/NewCollection";
 import dynamic from "next/dynamic";
 
 const Hero = dynamic(() => import('./components/Hero'), { ssr: false });
-const NewCollection = dynamic(() => import('./components/NewCollection'), { ssr: false });
 
 export default function Home() {
   return (

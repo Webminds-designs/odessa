@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react'
 import { GoArrowRight, GoArrowLeft } from 'react-icons/go'
-import diamond from '../asset/Images/Ellipse 1.png'
-import bgimg from '../asset/Images/bgimg1.png'
-import gem from '../asset/Images/gem1.png'
+const diamond = require('../asset/Images/Ellipse 1.png').default
+const gem = require('../asset/Images/gem1.png').default
+const bgimg = require('../asset/Images/bgimg1.png').default
+// import bgimg from '../asset/Images/bgimg1.png'
+// import gem from '../asset/Images/gem1.png'
 import Image from 'next/image'
 
 const NewCollection = () => {
