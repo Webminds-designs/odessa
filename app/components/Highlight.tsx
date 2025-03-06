@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
-import diamond from '../asset/Images/Ellipse 1.png'
+// import diamond from '../asset/Images/Ellipse 1.png'
+const diamond = require('../asset/Images/Ellipse 1.png').default
 import { GoArrowRight } from 'react-icons/go'
 const person1 = require('../asset/Images/person1.png').default
 const person2 = require('../asset/Images/person2.png').default
