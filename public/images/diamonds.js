@@ -46,9 +46,9 @@ const diamonds = [
     carat: 5.02,
     measurements: "12.23 x 7.89 x 5.20",
     images: [
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .pngg",
-      "/images/EmeraldCut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.pngg",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -81,9 +81,9 @@ const diamonds = [
     carat: 5.01,
     measurements: "11.83 x 8.12 x 5.42",
     images: [
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
