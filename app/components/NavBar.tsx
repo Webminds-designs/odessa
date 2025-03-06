@@ -19,7 +19,7 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="w-full relative">
+    <nav className="w-full relative md:p-4">
       <div className="w-full bg-[#181818] flex items-center justify-between px-4 py-3 text-white rounded-full">
         {/* Left side */}
         <div className="flex items-center space-x-2">
