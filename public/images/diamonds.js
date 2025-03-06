@@ -1,6 +1,6 @@
 const diamonds = [
   {
-    id: 1,
+    id: "1",
     name: "Cushion Brilliant Cut Diamond",
     price: "1,500.00 $",
     shape: "Cushion Brilliant",
@@ -18,7 +18,7 @@ const diamonds = [
     ],
   },
   {
-    id: 2,
+    id: "2",
     name: "Asscher Cut Diamond",
     price: "3,000.00 $",
     shape: "Asscher",
@@ -35,7 +35,7 @@ const diamonds = [
     ],
   },
   {
-    id: 3,
+    id: "3",
     name: "Emerald Cut Diamond",
     price: "10,000.00 $",
     shape: "Emerald",
@@ -47,12 +47,12 @@ const diamonds = [
     measurements: "12.23 x 7.89 x 5.20",
     images: [
       "/images/EmeraldCut.png",
-      "/images/EmeraldCut.pngg",
+      "/images/EmeraldCut.png",
       "/images/EmeraldCut.png",
     ],
   },
   {
-    id: 4,
+    id: "4",
     name: "Cushion Brilliant Cut Diamond",
     price: "4,000.00 $",
     shape: "Cushion Brilliant",
@@ -70,7 +70,7 @@ const diamonds = [
     ],
   },
   {
-    id: 5,
+    id: "5",
     name: "Emerald Cut Diamond",
     price: "12,000.00 $",
     shape: "Emerald",
@@ -87,8 +87,8 @@ const diamonds = [
     ],
   },
   {
-    id: 6,
-    name: "Emerald Cut Diamond",
+    id: "6",
+    name: "EmeraldCutDiamond",
     price: "1,500.00 $",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with excellent clarity.",
@@ -104,7 +104,7 @@ const diamonds = [
     ],
   },
   {
-    id: 7,
+    id: "7",
     name: "Heart Brilliant Cut Diamond",
     price: "4,500.00 $",
     shape: "Heart Brilliant",
@@ -122,7 +122,7 @@ const diamonds = [
     ],
   },
   {
-    id: 8,
+    id: "8",
     name: "Round Brilliant Cut Diamond",
     price: "4,500.00 $",
     shape: "Round Brilliant",
@@ -140,7 +140,7 @@ const diamonds = [
     ],
   },
   {
-    id: 9,
+    id: "9",
     name: "Emerald Cut Diamond",
     price: "5,000.00 $",
     shape: "Emerald",
@@ -157,7 +157,7 @@ const diamonds = [
     ],
   },
   {
-    id: 10,
+    id: "10",
     name: "Round Brilliant Cut Diamond",
     price: "5,000.00 $",
     shape: "Round Brilliant",
@@ -175,7 +175,7 @@ const diamonds = [
     ],
   },
   {
-    id: 11,
+    id: "11",
     name: "Princess Cut Diamond",
     price: "5,500.00 $",
     shape: "Princess",
@@ -192,7 +192,7 @@ const diamonds = [
     ],
   },
   {
-    id: 12,
+    id: "12",
     name: "Square Emerald Cut Diamond",
     price: "7,500.00 $",
     shape: "Square Emerald",
@@ -210,7 +210,7 @@ const diamonds = [
     ],
   },
   {
-    id: 13,
+    id: "13",
     name: "Emerald Cut Diamond",
     price: "3,000.00 $",
     shape: "Emerald",
@@ -227,8 +227,8 @@ const diamonds = [
     ],
   },
   {
-    id: 14,
-    name: "PearCutDiamond",
+    id: "14",
+    name: "Pear Cut Diamond",
     price: "15,000.00 $",
     shape: "Pear",
     shortDescription: "Lab-grown pear cut diamond with excellent clarity.",
@@ -239,7 +239,7 @@ const diamonds = [
     measurements: "15.14 x 9.31 x 5.95",
     images: [
       "/images/PearCutDiamond.png",
-      "/images/PeatCutDiamond.png",
+      "/images/PearCutDiamond.png",
       "/images/PearCutDiamond.png",
     ],
   },
