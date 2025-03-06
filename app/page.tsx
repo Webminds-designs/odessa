@@ -9,7 +9,7 @@ import Contact from "./components/Contanct";
 import NewCollection from "./components/NewCollection";
 import dynamic from "next/dynamic";
 
-const Hero = dynamic(() => import('./components/Hero'), { ssr: false });
+const Hero = dynamic(() => import("./components/Hero"), { ssr: false });
 
 export default function Home() {
   return (
@@ -17,6 +17,7 @@ export default function Home() {
       <Hero />
       <HeroContent />
       <div className="w-full h-screen"></div>
+      <div className="w-full lg:h-[500px]"></div>
       <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-30 sm:p-20 bg-primary">
         <Highlight />
         <ShopByShape />

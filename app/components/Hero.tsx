@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Lottie from "lottie-react";
-import animationweb from "../asset/lotteie/ringAnimation.json";
+import animationweb from "../asset/lotteie/gemWeb.json";
 // import animationmob from "../../public/animation2mobi.json";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";

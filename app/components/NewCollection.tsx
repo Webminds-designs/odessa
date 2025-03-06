@@ -4,55 +4,14 @@ import React, { useState } from "react";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import Image from "next/image";
 
+import diamonds from "../../public/images/diamonds.js";
+
 const NewCollection = () => {
   // Add state to track current slide
   const [currentIndex, setCurrentIndex] = useState(0);
   // Add state for transitions
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [fadeState, setFadeState] = useState("fade-in");
-
-  const diamonds = [
-    {
-      id: 0,
-      title: "Introducing Pear Diamond Cluster",
-      subtitle: "Subtitle of the item",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
-      image: "/images/gem1.png",
-    },
-    {
-      id: 1,
-      title: "Introducing Pear Diamond Cluster",
-      subtitle: "Subtitle of the item",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
-      image: "/images/gem1.png",
-    },
-    {
-      id: 2,
-      title: "Introducing Pear Diamond Cluster",
-      subtitle: "Subtitle of the item",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
-      image: "/images/gem1.png",
-    },
-    {
-      id: 3,
-      title: "Introducing Pear Diamond Cluster",
-      subtitle: "Subtitle of the item",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
-      image: "/images/gem1.png",
-    },
-    {
-      id: 4,
-      title: "Introducing Pear Diamond Cluster",
-      subtitle: "Subtitle of the item",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
-      image: "/images/gem1.png",
-    },
-  ];
 
   // Navigation functions with animation handling
   const goToPrevious = () => {
@@ -143,8 +102,8 @@ const NewCollection = () => {
               }`}
             >
               <img
-                src={currentDiamond.image}
-                alt={currentDiamond.title}
+                src={currentDiamond.images[0]}
+                alt={currentDiamond.name}
                 className="w-full h-full"
                 key={`image-${currentIndex}`}
               />
@@ -174,7 +133,7 @@ const NewCollection = () => {
                   : "opacity-100 transform translate-y-0"
               }`}
             >
-              <p className="font-vasion text-4xl">{currentDiamond.title}</p>
+              <p className="font-vasion text-4xl">{currentDiamond.name}</p>
             </div>
 
             <div
@@ -185,7 +144,7 @@ const NewCollection = () => {
               }`}
             >
               <p className="font-vasion text-xl text-brown">
-                {currentDiamond.subtitle}
+                {currentDiamond.shortDescription}
               </p>
             </div>
 
