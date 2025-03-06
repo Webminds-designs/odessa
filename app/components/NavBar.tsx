@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingCart, User, Menu, X } from "lucide-react";
+//use react-icons
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoMdClose } from "react-icons/io";
+import { FaShoppingCart } from "react-icons/fa";
+
 import { useState } from "react";
 
 export default function NavBar() {
@@ -29,9 +33,9 @@ export default function NavBar() {
               className="cursor-pointer focus:outline-none"
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <IoMdClose className="w-6 h-6" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <RxHamburgerMenu className="w-6 h-6" />
               )}
             </button>
           </div>
@@ -63,10 +67,16 @@ export default function NavBar() {
             See Collection
           </Link>
           <Link href="/profile" className="cursor-pointer">
-            <User className="w-6 h-6 hover:text-brown" />
+            <div className="w-8 h-8 bg-white rounded-full">
+              <img
+                src="/images/person1.png"
+                alt="profile"
+                className="w-8 h-8 rounded-full"
+              />
+            </div>
           </Link>
           <Link href="/cart" className="cursor-pointer">
-            <ShoppingCart className="w-6 h-6 hover:text-amber-400" />
+            <FaShoppingCart className="w-6 h-6 hover:text-amber-400" />
           </Link>
         </div>
       </div>
