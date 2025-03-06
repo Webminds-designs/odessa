@@ -5,19 +5,19 @@ const diamonds = [
     id: 1,
     name: "Round Diamond",
     price: "1,750.00 $",
-    image: "/diamond.png", // Replace with actual image path
+    image: "/images/diamond1.png", // Replace with actual image path
   },
   {
     id: 2,
     name: "Round Diamond",
     price: "1,750.00 $",
-    image: "/diamond.png", // Replace with actual image path
+    image: "/images/diamond1.png", // Replace with actual image path
   },
   {
     id: 3,
     name: "Round Diamond",
     price: "1,750.00 $",
-    image: "/diamond.png", // Replace with actual image path
+    image: "/images/diamond1.png", // Replace with actual image path
   },
 ];
 
@@ -44,7 +44,7 @@ const ProductView = () => {
     <div className="bg-black min-h-screen text-white p-10">
       <div className="flex gap-10">
         <div className="w-1/2">
-          <img src="/diamond.png" alt="Diamond" className="w-full rounded-lg" />
+          <img src="/images/diamond1.png" alt="Diamond" className="w-full rounded-lg" />
           <div className="flex gap-2 mt-4">
             <button className="p-2 bg-gray-700 rounded-lg">💎</button>
             <button className="p-2 bg-gray-700 rounded-lg">💎</button>

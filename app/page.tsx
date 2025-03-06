@@ -7,7 +7,6 @@ import HeroContent from "./components/HeroContent";
 import Footer from "./components/Footer";
 import Contact from "./components/Contanct";
 import NewCollection from "./components/NewCollection";
-import ProductView from "./components/ProductView";
 import dynamic from "next/dynamic";
 
 const Hero = dynamic(() => import('./components/Hero'), { ssr: false });
