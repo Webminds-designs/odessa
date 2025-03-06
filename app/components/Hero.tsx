@@ -3,7 +3,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import animationweb from "../asset/lotteie/gemWeb.json";
-// import animationmob from "../../public/animation2mobi.json";
+import animationmob from "../asset/lotteie/gemWebPor.json";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -12,6 +12,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const [isPotrait, setIsPotrait] = useState(false);
+
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      setIsPotrait(window.innerWidth < window.innerHeight);
+    };
+
+    handleOrientationChange();
+    window.addEventListener("resize", handleOrientationChange);
+
+    return () => {
+      window.removeEventListener("resize", handleOrientationChange);
+    };
+  }, []);
+
+  const animationData = isPotrait ? animationmob : animationweb;
 
   useEffect(() => {
     const handleResize = () => {
@@ -71,7 +86,7 @@ const Hero = () => {
       <div className="w-screen h-full overflow-hidden">
         <Lottie
           lottieRef={lottieRef}
-          animationData={animationweb}
+          animationData={animationData}
           // animationData={isPotrait ? animationmob : animationweb}
 
           loop={false}
