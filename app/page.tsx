@@ -1,5 +1,7 @@
 "use client";
 
+import Link from 'next/link'
+
 // import Hero from "./components/Hero";
 import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
@@ -26,6 +28,7 @@ export default function Home() {
         <div className="w-full h-0.5 "></div>
         <Contact />
         <Footer />
+       
       </div>
     </div>
   );
