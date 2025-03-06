@@ -12,9 +12,9 @@ const diamonds = [
     carat: 1.0,
     measurements: "5.95 x 5.86 x 3.74",
     images: [
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -98,9 +98,9 @@ const diamonds = [
     carat: 1.0,
     measurements: "6.58 x 4.80 x 3.18",
     images: [
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -151,9 +151,9 @@ const diamonds = [
     carat: 2.04,
     measurements: "8.42 x 6.12 x 4.00",
     images: [
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -221,9 +221,9 @@ const diamonds = [
     carat: 1.5,
     measurements: "7.44 x 5.23 x 3.80",
     images: [
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
-      "/images/EmeraldCut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
