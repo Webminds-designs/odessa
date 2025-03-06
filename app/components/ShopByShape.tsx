@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { GoArrowRight } from 'react-icons/go'
-import diamond2 from '../asset/images/Ellipse 2.png'
-import diamond1 from '../asset/images/Ellipse 1.png'
+import diamond2 from '../asset/Images/Ellipse 2.png'
+import diamond1 from '../asset/Images/Ellipse 1.png'
 import Image from 'next/image'
 
 const shapesData = [
@@ -72,7 +72,7 @@ const ShopByShape = () => {
             {/* diamond slider */}
             <div className='relative mt-30 h-80'>
                 {/* single line - lowered z-index */}
-                <div className='relative flex items-center z-[-1] translate-y-23'>
+                <div className='relative flex items-center z-10 translate-y-23'>
                     <div className='h-3 w-3 rounded-full bg-white' />
                     <div className='h-1 w-full bg-white' />
                     <div className='h-3 w-3 rounded-full bg-white' />

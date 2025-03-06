@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { GoArrowRight, GoArrowLeft } from 'react-icons/go'
 import diamond from '../asset/Images/Ellipse 1.png'
 import bgimg from '../asset/Images/bgimg1.png'

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Hero from "./components/Hero";
 import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";

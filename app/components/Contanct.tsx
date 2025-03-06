@@ -89,7 +89,7 @@ const Contact: React.FC = () => {
         </div>
         <div className="space-y-8 flex flex-col justify-end font-vasion ">
           <p className="text-white text-sm md:text-base leading-loose tracking-wider">
-            <span className="text-brown">We're here to assist you </span>with
+            <span className="text-brown">We&apos;re here to assist you </span>with
             any questions about our exclusive diamond collections. Whether you
             need guidance on selecting the perfect piece, are curious about
             custom designs, or want more details about our premium offerings,
