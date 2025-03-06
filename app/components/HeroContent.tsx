@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 const HeroContent = () => {
+
   return (
     <div className=" absolute bottom-0 w-full h-screen md:px-24">
       <div className="flex flex-col items-start justify-center w-full md:w-2/3 h-screen text-start text-white gap-16">
