@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import logo from "../asset/Images/ODESSA2.png";
+// import logo from "../asset/Images/ODESSA2.png";
+const logo = require("../asset/Images/ODESSA2.png").default;
 
 const HeroContent = () => {
   return (
