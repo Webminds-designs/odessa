@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import diamonds from "../../../public/images/diamonds.js";
 import { useParams } from "next/navigation.js";
+import ProductCards from "../../components/ProductCards";
 
 function DiamondDisplay() {
   const { id } = useParams();
@@ -33,7 +34,7 @@ function DiamondDisplay() {
             {/* Main diamond image with glow effect */}
             <div className="relative mb-4 rounded-full w-full h-full mx-auto overflow-hidden group">
               <img
-                src={selectedImage}
+                src={selectedDiamond.images[0]}
                 alt={selectedDiamond.name}
                 className="w-full h-full object-fit transition-transform duration-700"
               />
@@ -136,7 +137,7 @@ function DiamondDisplay() {
         </div>
 
         {/* Similar diamonds section with improved styling */}
-        <div className="mt-16 pt-8 border-t border-gray-800">
+        <div className="mt-16 pt-8 border-t  border-gray-800">
           <h2 className="text-2xl font-light mb-8 relative">
             <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
               Similar Diamonds
@@ -144,83 +145,12 @@ function DiamondDisplay() {
             <div className="w-12 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mt-2"></div>
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {diamonds.slice(0, 3).map((diamond, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-b from-gray-900 to-gray-950 rounded-xl p-5 relative group overflow-hidden hover:shadow-lg hover:shadow-amber-900/10 transition-all duration-300"
-              >
-                {/* Diagonal decorative line */}
-                <div className="absolute -right-8 -top-8 w-16 h-16 bg-amber-600/10 rotate-45 transform scale-0 group-hover:scale-100 transition-transform duration-500"></div>
-
-                <button className="absolute top-4 right-4 z-10 text-gray-400 hover:text-red-400 transition-colors">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                </button>
-
-                <div className="mb-6 flex justify-center">
-                  <div className="w-40 h-40 relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
-                    <Image
-                      src={diamond.images[0]}
-                      alt={diamond.name}
-                      width={160}
-                      height={160}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-center gap-2 mb-4">
-                  <span className="w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center">
-                    <span className="w-4 h-4 bg-gray-600 rounded-full"></span>
-                  </span>
-                  <span className="w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center">
-                    <span className="w-4 h-4 bg-gray-600 rounded-full"></span>
-                  </span>
-                  <span className="w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center">
-                    <span className="w-4 h-4 bg-gray-600 rounded-full"></span>
-                  </span>
-                </div>
-
-                <button className="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 text-sm rounded-lg mb-4 transition-colors duration-300 flex items-center justify-center gap-1 group">
-                  <span>Add to cart</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 transform group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </button>
-
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-300">{diamond.name}</span>
-                  <span className="text-sm font-medium text-amber-400">
-                    {diamond.price}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className=" w-full flex justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center justify-items-center">
+              {diamonds.slice(0, 3).map((diamond, index) => (
+                <ProductCards key={index} diamond={diamond} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

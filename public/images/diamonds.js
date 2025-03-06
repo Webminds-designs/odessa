@@ -12,9 +12,9 @@ const diamonds = [
     carat: 1.0,
     measurements: "5.95 x 5.86 x 3.74",
     images: [
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -46,9 +46,9 @@ const diamonds = [
     carat: 5.02,
     measurements: "12.23 x 7.89 x 5.20",
     images: [
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .pngg",
-      "/images/Emerald Cut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -64,9 +64,9 @@ const diamonds = [
     carat: 2.01,
     measurements: "7.73 x 7.13 x 4.72",
     images: [
-      "/images/Cushion Brilliant.png",
-      "/images/Cushion Brilliant.png",
-      "/images/Cushion Brilliant.png",
+      "/images/CushionBrilliant.png",
+      "/images/CushionBrilliant.png",
+      "/images/CushionBrilliant.png",
     ],
   },
   {
@@ -81,14 +81,14 @@ const diamonds = [
     carat: 5.01,
     measurements: "11.83 x 8.12 x 5.42",
     images: [
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
     id: "6",
-    name: "Emerald Cut Diamond",
+    name: "EmeraldCutDiamond",
     price: "1,500.00 $",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with excellent clarity.",
@@ -98,9 +98,9 @@ const diamonds = [
     carat: 1.0,
     measurements: "6.58 x 4.80 x 3.18",
     images: [
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -116,9 +116,9 @@ const diamonds = [
     carat: 2.03,
     measurements: "8.34 x 8.66 x 4.78",
     images: [
-      "/images/Heart Brilliant.png",
-      "/images/Heart Brilliant.png",
-      "/images/Heart Brilliant.png",
+      "/images/HeartBrilliant.png",
+      "/images/HeartBrilliant.png",
+      "/images/HeartBrilliant.png",
     ],
   },
   {
@@ -134,9 +134,9 @@ const diamonds = [
     carat: 2.03,
     measurements: "8.08 x 8.12 x 5.03",
     images: [
-      "/images/Round Brilliant.png",
-      "/images/Round Brilliant.png",
-      "/images/Round Brilliant.png",
+      "/images/RoundBrilliant.png",
+      "/images/RoundBrilliant.png",
+      "/images/RoundBrilliant.png",
     ],
   },
   {
@@ -151,9 +151,9 @@ const diamonds = [
     carat: 2.04,
     measurements: "8.42 x 6.12 x 4.00",
     images: [
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -169,9 +169,9 @@ const diamonds = [
     carat: 2.0,
     measurements: "8.12 x 8.19 x 4.84",
     images: [
-      "/images/Round Brilliant.png",
-      "/images/Round Brilliant.png",
-      "/images/Round Brilliant.png",
+      "/images/RoundBrilliant.png",
+      "/images/RoundBrilliant.png",
+      "/images/RoundBrilliant.png",
     ],
   },
   {
@@ -186,9 +186,9 @@ const diamonds = [
     carat: 2.21,
     measurements: "7.04 x 7.03 x 5.06",
     images: [
-      "/images/Cushion Brilliant.png",
-      "/images/Cushion Brilliant.png",
-      "/images/Cushion Brilliant.png",
+      "/images/CushionBrilliant.png",
+      "/images/CushionBrilliant.png",
+      "/images/CushionBrilliant.png",
     ],
   },
   {
@@ -204,9 +204,9 @@ const diamonds = [
     carat: 3.01,
     measurements: "7.93 x 7.96 x 5.29",
     images: [
-      "/images/Square Emerald Cut",
-      "/images/Square Emerald Cut",
-      "/images/Square Emerald Cut",
+      "/images/SquareEmeraldCut.png",
+      "/images/SquareEmeraldCut.png",
+      "/images/SquareEmeraldCut.png",
     ],
   },
   {
@@ -221,9 +221,9 @@ const diamonds = [
     carat: 1.5,
     measurements: "7.44 x 5.23 x 3.80",
     images: [
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
-      "/images/Emerald Cut .png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
+      "/images/EmeraldCut.png",
     ],
   },
   {
@@ -238,9 +238,9 @@ const diamonds = [
     carat: 5.0,
     measurements: "15.14 x 9.31 x 5.95",
     images: [
-      "/images/Pear Cut Diamond.png",
-      "/images/Pear Cut Diamond.png",
-      "/images/Pear Cut Diamond.png",
+      "/images/PearCutDiamond.png",
+      "/images/PearCutDiamond.png",
+      "/images/PearCutDiamond.png",
     ],
   },
 ];
