@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useRef, useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import animationweb from "../asset/lotteie/ringAnimation.json";

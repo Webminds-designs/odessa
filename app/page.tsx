@@ -1,12 +1,15 @@
-import Hero from "./components/Hero";
+"use client";
+
+// import Hero from "./components/Hero";
 import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
 import HeroContent from "./components/HeroContent";
 import Footer from "./components/Footer";
-
 import Contact from "./components/Contanct";
 import NewCollection from "./components/NewCollection";
+import dynamic from "next/dynamic";
 
+const Hero = dynamic(() => import('./components/Hero'), { ssr: false });
 
 export default function Home() {
   return (
