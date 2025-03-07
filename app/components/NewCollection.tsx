@@ -52,9 +52,9 @@ const NewCollection = () => {
       {/* Title 1 */}
       <div className="flex justify-between items-end">
         <div className="flex gap-10 items-end">
-          <p className="font-vasion text-9xl">NEW</p>
+          <p className="font-vasion text-7xl lg:text-9xl">NEW</p>
 
-          <p className="font-aeonikregularitalic text-2xl text-gray-300 flex flex-col">
+          <p className="hidden font-aeonikregularitalic text-lg lg:text-2xl text-gray-300 lg:flex flex-col">
             <span>EXPLORE THE POSSIBILITIES OF </span>
             <span>TAILORED CREAFTMANSHIP AND </span>
             <span>UNLIMITED CAPABILITIES</span>
@@ -63,26 +63,31 @@ const NewCollection = () => {
 
         <div className="flex">
           <div className="flex relative">
-            <div className="flex items-center justify-center rounded-full h-20 w-20 border absolute right-0"></div>
-            <div className="flex items-center justify-center rounded-full h-20 w-20 border absolute right-16 p-3">
-              <img src="/images/diamond1.png" alt="diamond" />
+            <div className="flex items-center justify-center rounded-full h-16 w-16 lg:h-20 lg:w-20 border absolute right-0"></div>
+            <div className="flex items-center justify-center rounded-full h-16 w-16 lg:h-20 lg:w-20 border absolute right-10 lg:right-16 p-3">
+              <img src="/images/diamond1.png" alt="diamond" width="auto" height="auto" />
             </div>
-            <div className="flex items-center justify-center rounded-full h-20 w-20 border absolute right-32"></div>
+            <div className="flex items-center justify-center rounded-full h-16 w-16 lg:h-20 lg:w-20 border absolute right-20 lg:right-32"></div>
           </div>
 
-          <div className="flex items-center justify-center rounded-full h-20 w-20 bg-brown hover:bg-primary hover:border transition-colors duration-300 cursor-pointer">
-            <GoArrowRight className="text-white text-6xl" />
+          <div className="flex items-center justify-center rounded-full h-16 w-16 lg:h-20 lg:w-20 bg-brown hover:bg-primary hover:border transition-colors duration-300 cursor-pointer">
+            <GoArrowRight className="text-white text-4xl lg:text-6xl" />
           </div>
 
-          <div className="flex items-center justify-center h-20 px-10 border rounded-full hover:scale-95 transition-all duration-300 cursor-pointer">
+          <div className="flex items-center justify-center h-16 lg:h-20 px-8 lg:px-10 border rounded-full hover:scale-95 transition-all duration-300 cursor-pointer">
             <p className="font-aeonikregularitalic text-2xl">try it now!</p>
           </div>
         </div>
       </div>
 
       {/* Title 2 */}
-      <div className="flex justify-end">
-        <p className="font-vasion text-9xl">COLLECTION</p>
+      <div className="flex justify-between gap-4">
+        <p className="font-aeonikregularitalic text-md lg:text-2xl text-gray-300 flex flex-col">
+          <span>EXPLORE THE POSSIBILITIES OF </span>
+          <span>TAILORED CREAFTMANSHIP AND </span>
+          <span>UNLIMITED CAPABILITIES</span>
+        </p>
+        <p className="font-vasion text-7xl lg:text-9xl">COLLECTION</p>
       </div>
 
       {/* Full-width carousel without padding */}
@@ -95,11 +100,10 @@ const NewCollection = () => {
         >
           <div className="w-3/5 relative overflow-hidden">
             <div
-              className={`transition-all duration-500 ${
-                fadeState === "fade-out"
+              className={`transition-all duration-500 ${fadeState === "fade-out"
                   ? "opacity-0 scale-105"
                   : "opacity-100 scale-100"
-              }`}
+                }`}
             >
               <img
                 src={currentDiamond.images[0]}
@@ -127,21 +131,19 @@ const NewCollection = () => {
             </div>
 
             <div
-              className={`transition-all duration-500 ${
-                fadeState === "fade-out"
+              className={`transition-all duration-500 ${fadeState === "fade-out"
                   ? "opacity-0 transform translate-y-4"
                   : "opacity-100 transform translate-y-0"
-              }`}
+                }`}
             >
               <p className="font-vasion text-4xl">{currentDiamond.name}</p>
             </div>
 
             <div
-              className={`transition-all duration-500 delay-100 ${
-                fadeState === "fade-out"
+              className={`transition-all duration-500 delay-100 ${fadeState === "fade-out"
                   ? "opacity-0 transform translate-y-4"
                   : "opacity-100 transform translate-y-0"
-              }`}
+                }`}
             >
               <p className="font-vasion text-xl text-brown">
                 {currentDiamond.shortDescription}
@@ -149,11 +151,10 @@ const NewCollection = () => {
             </div>
 
             <div
-              className={`transition-all duration-500 delay-200 ${
-                fadeState === "fade-out"
+              className={`transition-all duration-500 delay-200 ${fadeState === "fade-out"
                   ? "opacity-0 transform translate-y-4"
                   : "opacity-100 transform translate-y-0"
-              }`}
+                }`}
             >
               <p className="font-vasion text-xl">
                 <span>{currentDiamond.description}</span>

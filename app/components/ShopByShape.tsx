@@ -57,7 +57,7 @@ const ShopByShape = () => {
 
             {/* second title */}
             <div className='flex justify-end items-center gap-10'>
-                <p className='flex flex-col font-aeonikregularitalic text-xl lg:text-2xl text-gray-300'>
+                <p className='flex flex-col font-aeonikregularitalic text-lg lg:text-2xl text-gray-300'>
                     <span>EXPLORE THE POSSIBILITIES OF TAILORED </span>
                     <span>CREAFTMANSHIP AND UNLIMITED </span>
                     <span>CAPABILITIES</span>
@@ -67,15 +67,14 @@ const ShopByShape = () => {
             </div>
 
             {/* diamond slider */}
-            <div className='relative mt-30 h-80'>
-                {/* single line - lowered z-index */}
+            {/* <div className='relative mt-30 h-80'>
+                
                 <div className='relative flex items-center z-10 translate-y-23'>
                     <div className='h-3 w-3 rounded-full bg-white' />
                     <div className='h-1 w-full bg-white' />
                     <div className='h-3 w-3 rounded-full bg-white' />
                 </div>
 
-                {/* circles container - add a parent container with background */}
                 <div className='absolute top-0 left-0 right-0 flex justify-evenly items-center z-10 bg-transparent'>
                     {currentShapes.map((shape, index) => {
                         return (
@@ -120,7 +119,7 @@ const ShopByShape = () => {
                         )
                     })}
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

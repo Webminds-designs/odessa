@@ -1,8 +1,5 @@
 "use client";
 
-import Link from 'next/link'
-
-// import Hero from "./components/Hero";
 import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
 import HeroContent from "./components/HeroContent";
@@ -10,7 +7,6 @@ import Footer from "./components/Footer";
 import Contact from "./components/Contanct";
 import NewCollection from "./components/NewCollection";
 import dynamic from "next/dynamic";
-// import NavBar from "./components/NavBar";
 
 const Hero = dynamic(() => import("./components/Hero"), { ssr: false });
 
@@ -21,7 +17,7 @@ export default function Home() {
       <HeroContent />
       <div className="w-full h-screen"></div>
       <div className="w-full lg:h-[500px]"></div>
-      <div className="grid items-center justify-items-center min-h-screen w-fit p-8 pb-20 gap-30 sm:p-20 bg-primary">
+      <div className="grid items-center justify-items-center min-h-screen w-full p-8 pb-20 gap-30 lg:p-20 bg-primary">
         <Highlight />
         <ShopByShape />
         <NewCollection />
