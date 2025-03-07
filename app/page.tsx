@@ -18,7 +18,7 @@ export default function Home() {
       <HeroContent />
       <div className="w-full h-screen"></div>
       <div className="w-full lg:h-[500px]"></div>
-      <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-30 sm:p-20 bg-primary">
+      <div className="grid items-center justify-items-center min-h-screen w-fit p-8 pb-20 gap-30 sm:p-20 bg-primary">
         <Highlight />
         <ShopByShape />
         <NewCollection />
