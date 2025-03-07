@@ -67,31 +67,33 @@ const ShopByShape = () => {
             </div>
 
             {/* diamond slider */}
-            {/* <div className='relative mt-30 h-80'>
+            <div className='relative mt-16 md:mt-30 h-auto md:h-80 overflow-hidden'>
                 
-                <div className='relative flex items-center z-10 translate-y-23'>
-                    <div className='h-3 w-3 rounded-full bg-white' />
-                    <div className='h-1 w-full bg-white' />
-                    <div className='h-3 w-3 rounded-full bg-white' />
+                <div className='relative flex items-center z-10 translate-y-10 md:translate-y-23 px-4 md:px-0'>
+                    <div className='h-2 md:h-3 w-2 md:w-3 rounded-full bg-white' />
+                    <div className='h-0.5 md:h-1 w-full bg-white' />
+                    <div className='h-2 md:h-3 w-2 md:w-3 rounded-full bg-white' />
                 </div>
 
-                <div className='absolute top-0 left-0 right-0 flex justify-evenly items-center z-10 bg-transparent'>
+                <div className='absolute top-0 left-0 right-0 flex flex-wrap md:flex-nowrap justify-center md:justify-evenly items-center z-10 bg-transparent px-2 md:px-6'>
                     {currentShapes.map((shape, index) => {
                         return (
                             <div 
                                 key={shape.id} 
                                 className={`
-                                    flex flex-col items-center
+                                    flex flex-col items-center mx-1 sm:mx-2 md:mx-0
                                     transition-all duration-700 ease-out
                                     ${isTransitioning ? 'transform-gpu' : ''}
                                 `}
                             >
                                 <div 
                                     className={`
-                                        rounded-full border bg-primary p-7 mb-10
+                                        rounded-full border bg-primary p-3 sm:p-5 md:p-7 mb-4 md:mb-10
                                         transition-all duration-700 ease-out
                                         hover:shadow-lg hover:shadow-amber-100/20
-                                        ${index === 2 ? `w-48 h-48` : `w-40 h-40`}
+                                        ${index === 2 ? 
+                                            `w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48` : 
+                                            `w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40`}
                                         ${index === 2 ? 'hover:scale-105' : 'hover:scale-110'}
                                     `}
                                 >
@@ -99,17 +101,19 @@ const ShopByShape = () => {
                                         src={shape.src}
                                         alt={shape.name}
                                         className={`
-                                            transition-all duration-700 ease-out
+                                            transition-all duration-700 ease-out w-full h-full object-contain
                                             ${index === 2 ? 'animate-[spin_30s_linear_infinite]' : ''}
                                         `}
                                     />
                                 </div>
                                 <p 
                                     className={`
-                                        font-eurostyle 
+                                        font-eurostyle text-center
                                         transition-all duration-700 ease-in-out
                                         transform
-                                        ${index === 2 ? `font-extrabold text-4xl` : `font-bold text-2xl text-gray-500`}
+                                        ${index === 2 ? 
+                                            `font-extrabold text-2xl md:text-4xl` : 
+                                            `font-bold text-lg md:text-2xl text-gray-500`}
                                         ${isTransitioning ? '-translate-x-2' : 'opacity-100'}
                                     `}
                                 >
@@ -119,7 +123,7 @@ const ShopByShape = () => {
                         )
                     })}
                 </div>
-            </div> */}
+            </div>
         </div>
     )
 }

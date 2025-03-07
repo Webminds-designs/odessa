@@ -19,8 +19,8 @@ export default function Home() {
       <div className="w-full lg:h-[500px]"></div>
       <div className="grid items-center justify-items-center min-h-screen w-full p-8 pb-20 gap-30 lg:p-20 bg-primary">
         <Highlight />
-        <ShopByShape />
-        <NewCollection />
+        {/* <ShopByShape /> */}
+        {/* <NewCollection /> */}
         <div className="w-full h-0.5 "></div>
         <Contact />
         <Footer />
