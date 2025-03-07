@@ -1,5 +1,7 @@
 "use client";
 
+import Link from 'next/link'
+
 // import Hero from "./components/Hero";
 import Highlight from "./components/Highlight";
 import ShopByShape from "./components/ShopByShape";
@@ -8,6 +10,7 @@ import Footer from "./components/Footer";
 import Contact from "./components/Contanct";
 import NewCollection from "./components/NewCollection";
 import dynamic from "next/dynamic";
+// import NavBar from "./components/NavBar";
 
 const Hero = dynamic(() => import("./components/Hero"), { ssr: false });
 
@@ -25,6 +28,7 @@ export default function Home() {
         <div className="w-full h-0.5 "></div>
         <Contact />
         <Footer />
+       
       </div>
     </div>
   );
