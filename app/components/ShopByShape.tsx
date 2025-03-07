@@ -43,27 +43,27 @@ const ShopByShape = () => {
 
             {/* first title */}
             <div className='flex justify-between items-center w-full'>
-                <p className='font-vasion text-9xl'>Shop Diamond</p>
+                <p className='font-vasion text-7xl lg:text-9xl'>Shop Diamond</p>
 
                 <div className='flex'>
-                    <div className='flex items-center justify-center rounded-full h-20 w-20 bg-brown hover:bg-primary hover:border transition-colors duration-300 cursor-pointer'>
-                        <GoArrowRight className='text-white text-6xl' />
+                    <div className='flex items-center justify-center rounded-full lg:h-20 lg:w-20 h-16 w-16 bg-brown hover:bg-primary hover:border transition-colors duration-300 cursor-pointer'>
+                        <GoArrowRight className='text-white text-4xl lg:text-6xl' />
                     </div>
-                    <div className='flex items-center justify-center h-20 px-10 border rounded-full hover:scale-95 transition-all duration-300 cursor-pointer'>
-                        <p className='font-aeonikregularitalic text-2xl'>try it now!</p>
+                    <div className='flex items-center justify-center lg:h-20 md:h-16 lg:px-10 px-8 border rounded-full hover:scale-95 transition-all duration-300 cursor-pointer'>
+                        <p className='font-aeonikregularitalic lg:text-2xl text-xl'>try it now!</p>
                     </div>
                 </div>
             </div>
 
             {/* second title */}
             <div className='flex justify-end items-center gap-10'>
-                <p className='flex flex-col font-aeonikregularitalic text-2xl text-gray-300'>
+                <p className='flex flex-col font-aeonikregularitalic text-xl lg:text-2xl text-gray-300'>
                     <span>EXPLORE THE POSSIBILITIES OF TAILORED </span>
                     <span>CREAFTMANSHIP AND UNLIMITED </span>
                     <span>CAPABILITIES</span>
                 </p>
 
-                <p className='font-vasion text-9xl'>by Shape</p>
+                <p className='font-vasion text-7xl lg:text-9xl'>by Shape</p>
             </div>
 
             {/* diamond slider */}
