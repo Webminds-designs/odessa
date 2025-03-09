@@ -42,7 +42,7 @@ const ShopByShape = () => {
     <div className="flex flex-col gap-4 w-full h-screen p-4 md:p-8 bg-black">
       {/* First Title Section */}
       <div className="flex flex-col md:flex-row justify-between items-center w-full">
-        <p className="font-vasion text-4xl md:text-7xl lg:text-9xl text-center md:text-left mb-4 md:mb-0">
+        <p className="font-vasion text-4xl md:text-6xl lg:text-9xl text-center md:text-left mb-4 md:mb-0">
           Shop Diamond
         </p>
         <div className="flex flex-col md:flex-row items-center gap-4">
@@ -70,7 +70,7 @@ const ShopByShape = () => {
           </span>
           <span>CAPABILITIES</span>
         </p>
-        <p className="font-vasion text-4xl md:text-7xl lg:text-9xl text-center">
+        <p className="font-vasion text-4xl md:text-6xl lg:text-9xl text-center">
           by Shape
         </p>
       </div>

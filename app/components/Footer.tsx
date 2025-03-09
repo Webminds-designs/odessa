@@ -6,15 +6,7 @@ const Footer = () => {
     <div className="w-full h-fit  md:h-11/12 md:py-8 text-white flex flex-col items-center justify-center gap-4 px-4 md:px-16 bg-black">
       <div className="flex flex-col text-wrap font-vasion text-3xl md:text-8xl w-full text-left gap-2">
         <div>GET the Last Infromation</div>
-        <div className="flex  gap-2">
-          From Us
-          <span className="flex  relative h-full items-end p-2">
-            <div className="rounded-full h-[30px] w-[30px] md:h-[80px] md:w-[80px] bg-white absolute -right-8 md:-right-30 " />
-            <div className="rounded-full  h-[30px] w-[30px] md:h-[80px] md:w-[80px] bg-[#A07648] absolute  flex items-center">
-              <GoArrowRight className="w-8 md:w-20" />
-            </div>
-          </span>
-        </div>
+        <div className="flex  gap-2">From Us</div>
       </div>
       <div className="py-3 w-full h-fit  flex flex-col md:flex-row justify-between items-end gap-12">
         <div className="flex w-full md:w-1/2 relative">

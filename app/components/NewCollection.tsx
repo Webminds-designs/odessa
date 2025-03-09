@@ -54,7 +54,7 @@ const NewCollection = () => {
         <div className="flex gap-4 md:gap-10 items-end">
           <p className="font-vasion text-4xl lg:text-9xl">NEW</p>
 
-          <p className="hidden font-aeonikregularitalic text-lg lg:text-2xl text-gray-300 lg:flex flex-col">
+          <p className="hidden font-aeonikregularitalic text-sm lg:text-2xl text-gray-300 md:flex flex-col">
             <span>EXPLORE THE POSSIBILITIES OF </span>
             <span>TAILORED CREAFTMANSHIP AND </span>
             <span>UNLIMITED CAPABILITIES</span>
@@ -72,7 +72,7 @@ const NewCollection = () => {
                 height="auto"
               />
             </div>
-            <div className="md:flex hidden items-center justify-center rounded-full h-12 w-12 lg:h-20 lg:w-20 border absolute right-20 lg:right-32"></div>
+            <div className="lg:flex hidden items-center justify-center rounded-full h-12 w-12 lg:h-20 lg:w-20 border absolute right-20 lg:right-32"></div>
           </div>
 
           <div className="flex items-center justify-center rounded-full h-12 w-12 lg:h-20 lg:w-20 bg-brown hover:bg-primary hover:border transition-colors duration-300 cursor-pointer">
@@ -89,7 +89,7 @@ const NewCollection = () => {
 
       {/* Title 2 */}
       <div className="flex justify-between gap-4">
-        <p className="font-aeonikregularitalic text-md lg:text-2xl text-gray-300 md:flex flex-col hidden">
+        <p className="font-aeonikregularitalic text-md lg:text-2xl text-gray-300 lg:flex flex-col hidden">
           <span>EXPLORE THE POSSIBILITIES OF </span>
           <span>TAILORED CREAFTMANSHIP AND </span>
           <span>UNLIMITED CAPABILITIES</span>
@@ -102,10 +102,10 @@ const NewCollection = () => {
         {" "}
         {/* Negative margin to break out of container */}
         <div
-          className="flex flex-col md:flex-row w-full h-fit md:h-[30vw] bg-cover bg-center"
+          className="flex flex-col lg:flex-row w-full h-fit lg:h-[30vw] bg-cover bg-center"
           style={{ backgroundImage: "url('/images/bgimg1.png')" }}
         >
-          <div className="w-full h-full md:h-full md:w-3/5 relative overflow-hidden ">
+          <div className="w-full h-full lg:h-full lg:w-3/5 relative overflow-hidden ">
             <div
               className={`transition-all duration-500 ${
                 fadeState === "fade-out"
@@ -122,11 +122,11 @@ const NewCollection = () => {
             </div>
             <GoArrowLeft
               onClick={goToPrevious}
-              className="absolute bottom-5 right-2 text-white text-2xl cursor-pointer hover:-translate-x-2 transform transition-transform duration-300 hidden md:flex"
+              className="absolute bottom-5 right-2 text-white text-2xl cursor-pointer hover:-translate-x-2 transform transition-transform duration-300 hidden lg:flex"
             />
           </div>
 
-          <div className="flex flex-col relative gap-5 w-full md:w-2/5 bg-zinc-900 opacity-70 py-2 px-4 md:py-10 md:px-20 h-fit md:h-full">
+          <div className="flex flex-col relative gap-5 w-full lg:w-2/5 bg-zinc-900 opacity-70 py-2 px-4 md:py-10 md:px-20 h-fit lg:h-full">
             <div className="flex justify-end">
               <div className="flex justify-center items-center py-1 px-5 border rounded-full cursor-pointer hover:scale-105 transition-transform duration-500">
                 <GoArrowRight
@@ -167,7 +167,7 @@ const NewCollection = () => {
                   : "opacity-100 transform translate-y-0"
               }`}
             >
-              <p className="font-vasion text-lg md:text-xl">
+              <p className="font-vasion text-lg lg:text-xl">
                 <span>{currentDiamond.description}</span>
                 <span className="text-brown"> See More...</span>
               </p>
@@ -175,9 +175,9 @@ const NewCollection = () => {
 
             <GoArrowRight
               onClick={goToNext}
-              className="absolute bottom-5 left-2 text-brown text-2xl cursor-pointer hover:translate-x-2 transform transition-transform duration-300 md:flex hidden"
+              className="absolute bottom-5 left-2 text-brown text-2xl cursor-pointer hover:translate-x-2 transform transition-transform duration-300 lg:flex hidden"
             />
-            <div className="w-full flex justify-center md:hidden">
+            <div className="w-full flex justify-center lg:hidden">
               <div className="flex justify-between  w-fit gap-2">
                 <GoArrowLeft
                   onClick={goToPrevious}
