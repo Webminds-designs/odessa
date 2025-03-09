@@ -105,9 +105,9 @@ const NewCollection = () => {
           className="flex flex-col md:flex-row w-full h-fit md:h-[30vw] bg-cover bg-center"
           style={{ backgroundImage: "url('/images/bgimg1.png')" }}
         >
-          <div className="w-full h-fit md:h-full md:w-3/5 relative overflow-hidden hidden md:flex">
+          <div className="w-full h-full md:h-full md:w-3/5 relative overflow-hidden ">
             <div
-              className={`transition-all duration-500 hidden md:flex ${
+              className={`transition-all duration-500 ${
                 fadeState === "fade-out"
                   ? "opacity-0 scale-105"
                   : "opacity-100 scale-100"
