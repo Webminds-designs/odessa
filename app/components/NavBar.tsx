@@ -64,7 +64,7 @@ export default function Header() {
             <li>
               <Link
                 href="/collection"
-                className="px-4 py-2 border border-white rounded-full hover:bg-white hover:text-black transition cursor-pointer"
+                className="px-4 py-2 border hidden md:flex border-white rounded-full  hover:bg-white hover:text-black transition cursor-pointer"
               >
                 See Collection
               </Link>
@@ -105,6 +105,15 @@ export default function Header() {
               className="cursor-pointer"
             >
               Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="#collection"
+              onClick={toggleMobileMenu}
+              className="cursor-pointer"
+            >
+              Collection
             </Link>
           </li>
           <li>
