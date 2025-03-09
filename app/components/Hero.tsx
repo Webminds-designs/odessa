@@ -12,7 +12,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const [isPotrait, setIsPotrait] = useState(false);
-  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const handleOrientationChange = () => {
@@ -32,10 +31,6 @@ const Hero = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsPotrait(window.innerWidth < window.innerHeight);
-      setScreenSize({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
     };
 
     handleResize();
@@ -52,12 +47,6 @@ const Hero = () => {
   useEffect(() => {
     if (!lottieRef.current || !containerRef.current) return;
 
-    // Clean up any existing ScrollTrigger instances
-    const cleanup = () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-    cleanup();
-
     const totalFrames = lottieRef.current.getDuration(true);
 
     // Reverse the animation from last frame to first on load
@@ -70,49 +59,39 @@ const Hero = () => {
           currentFrame -= 1;
           lottieRef.current.goToAndStop(currentFrame, true);
         }
-      }, screenSize.width < 768 ? 50 : 100); // Faster on mobile
+      }, 100); // Adjust speed of reversal
     };
 
     reverseAnimation();
 
-    // Set up GSAP ScrollTrigger with mobile-friendly settings
+    // Set up GSAP ScrollTrigger
     ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top top",
-      end: screenSize.width < 768 ? "200% top" : "bottom top", // Longer scroll range on mobile
-      scrub: true,
+      trigger: containerRef.current, // Trigger animation when this element is in view
+      start: "top top", // Start when the top of the component hits the top of the viewport
+      end: "bottom top", // End when the bottom of the component hits the top of the viewport
+      scrub: true, // Smoothly scrub through the animation as the user scrolls
       onUpdate: (self) => {
+        // Calculate the frame based on scroll progress
         const frame = Math.floor(self.progress * totalFrames);
         lottieRef.current.goToAndStop(frame, true);
       },
     });
-
-    return cleanup;
-  }, [screenSize.width]); // Re-run when screen width changes
+  }, []);
 
   return (
     <div
       ref={containerRef}
-      className="fixed top-0 left-0 w-full h-screen bg-black flex items-center justify-center -z-10 overflow-hidden"
+      className="w-screen h-screen bg-black fixed top-0 left-0 flex items-center justify-center -z-10 overflow-hidden"
     >
-      <div className="relative w-full h-full overflow-hidden">
+      <div className="w-screen h-full overflow-hidden">
         <Lottie
           lottieRef={lottieRef}
           animationData={animationData}
           // animationData={isPotrait ? animationmob : animationweb}
+
           loop={false}
           autoplay={false}
-          className={`
-            object-cover
-            w-full h-full
-            ${isPotrait ? 'scale-[1.4] md:scale-125' : 'scale-110'}
-            ${screenSize.width < 640 ? 'transform translate-y-[-5%]' : ''}
-          `}
-          style={{
-            // Fine-tune positioning based on screen dimensions
-            objectPosition: isPotrait ? 'center center' : '50% 50%',
-            maxWidth: 'none'
-          }}
+          className="w-screen  object-cover overflow-hidden"
         />
       </div>
     </div>
