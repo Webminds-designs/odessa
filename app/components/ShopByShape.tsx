@@ -39,10 +39,10 @@ const ShopByShape = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 w-full h-screen p-4 md:p-8 bg-black">
+    <div className="flex flex-col gap-4 w-full h-screen p-4 md:p-26 bg-black">
       {/* First Title Section */}
       <div className="flex flex-col md:flex-row justify-between items-center w-full">
-        <p className="font-vasion text-4xl md:text-6xl lg:text-9xl text-center md:text-left mb-4 md:mb-0">
+        <p className="font-vasion text-4xl md:text-6xl lg:text-8xl text-center md:text-left mb-4 md:mb-0">
           Shop Diamond
         </p>
         <div className="flex flex-col md:flex-row items-center gap-4">
@@ -59,7 +59,7 @@ const ShopByShape = () => {
 
       {/* Second Title Section */}
       <div className="flex flex-col md:flex-row justify-end items-center gap-4">
-        <p className="font-aeonikregularitalic text-sm md:text-lg lg:text-2xl text-gray-300 text-center md:text-right">
+        <p className="font-aeonikregularitalic max-w-[800px] text-sm md:text-lg lg:text-2xl text-gray-300 text-wrap md:text-right">
           <span>
             EXPLORE THE POSSIBILITIES OF TAILORED
             <br className="md:hidden" />
@@ -70,7 +70,7 @@ const ShopByShape = () => {
           </span>
           <span>CAPABILITIES</span>
         </p>
-        <p className="font-vasion text-4xl md:text-6xl lg:text-9xl text-center">
+        <p className="font-vasion text-4xl md:text-6xl lg:text-8xl text-center">
           by Shape
         </p>
       </div>
