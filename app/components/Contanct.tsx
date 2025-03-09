@@ -11,9 +11,9 @@ import { IoCall } from "react-icons/io5";
 
 const Contact: React.FC = () => {
   return (
-    <section className="w-full h-screen grid justify-center items-center text-white py-12 px-4 relative">
+    <section className="w-full h-fit md:h-screen grid justify-center items-center text-white py-12 px-4 relative bg-black">
       <Image
-        src='/images/contact.jpg'
+        src="/images/contact.jpg"
         alt="person1"
         width={100}
         height={100}
@@ -88,9 +88,9 @@ const Contact: React.FC = () => {
         </div>
         <div className="space-y-8 flex flex-col justify-end font-vasion ">
           <p className="text-white text-sm md:text-base leading-loose tracking-wider">
-            <span className="text-brown">We&apos;re here to assist you </span>with
-            any questions about our exclusive diamond collections. Whether you
-            need guidance on selecting the perfect piece, are curious about
+            <span className="text-brown">We&apos;re here to assist you </span>
+            with any questions about our exclusive diamond collections. Whether
+            you need guidance on selecting the perfect piece, are curious about
             custom designs, or want more details about our premium offerings,
             our experienced team is ready to help. Please fill out the form
             below, and one of our experts will reach out to you shortly.
