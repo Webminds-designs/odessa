@@ -65,7 +65,7 @@ const Highlight = () => {
               {persons.map((person, index) => (
                 <div
                   key={index}
-                  className={`rounded-full border-2 border-brown w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 
+                  className={`rounded-full border-2 border-brown w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-15 lg:h-15 
                                     hover:scale-110 hover:-translate-y-1 transition-transform duration-300 absolute ${person.right}`}
                 >
                   <img
