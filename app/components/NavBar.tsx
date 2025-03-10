@@ -51,7 +51,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="cursor-pointer">
+              <Link href="#contact" className="cursor-pointer">
                 Contact Us
               </Link>
             </li>
