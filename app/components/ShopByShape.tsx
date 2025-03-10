@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { motion, AnimatePresence } from "framer-motion"
 import diamonds from "../../public/images/diamonds.js";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -84,11 +85,11 @@ const ShopByShape = () => {
         <p className="font-vasion text-4xl md:text-6xl lg:text-8xl text-center md:text-left mb-4 md:mb-0">
           Shop Diamond
         </p>
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          <div className="flex items-center justify-center rounded-full h-16 w-16 md:h-20 md:w-20 bg-brown hover:bg-primary hover:border transition-colors duration-300 cursor-pointer">
+        <div className="flex  items-center">
+          <div className="flex items-center justify-center rounded-full h-12 w-12 md:h-20 md:w-20 bg-brown hover:bg-primary hover:border transition-colors duration-300 cursor-pointer">
             <GoArrowRight className="text-white text-3xl md:text-4xl" />
           </div>
-          <div className="flex items-center justify-center border rounded-full px-6 py-2 hover:scale-95 transition-all duration-300 cursor-pointer">
+          <div className="flex items-center justify-center border rounded-full h-12 md:h-20 px-6 py-2 hover:scale-95 transition-all duration-300 cursor-pointer">
             <p className="font-aeonikregularitalic text-xl md:text-2xl">
               try it now!
             </p>
@@ -119,17 +120,17 @@ const ShopByShape = () => {
         {/* Navigation Arrows */}
         <button
           onClick={handlePrev}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-brown/80 hover:bg-primary rounded-full p-3 transition-all duration-300"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-brown opacity-50 rounded-full p-3 transition-all duration-300"
           disabled={isTransitioning}
         >
-          <GoArrowLeft className="text-white text-2xl" />
+          <ChevronLeft className="text-primary hover:text-white text-2xl" />
         </button>
         <button
           onClick={handleNext}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-brown/80 hover:bg-primary rounded-full p-3 transition-all duration-300"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-brown opacity-50 rounded-full p-3 transition-all duration-300"
           disabled={isTransitioning}
         >
-          <GoArrowRight className="text-white text-2xl" />
+          <ChevronRight className="text-primary hover:text-white text-2xl" />
         </button>
 
         {/* Carousel Container */}
