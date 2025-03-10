@@ -22,7 +22,7 @@ export default function Home() {
 
       <NewCollection />
       <ShopByShape />
-      <div className="w-full h-0.5 "></div>
+      {/* <div className="w-full h-0.5 "></div> */}
       <Contact />
       <Footer />
       {/* </div> */}
