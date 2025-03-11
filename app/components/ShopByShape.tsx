@@ -40,7 +40,7 @@ const ShopByShape = () => {
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
 
   const getVisibleDiamonds = () => {
-    const wrappedIndex = (index) => {
+    const wrappedIndex = (index: number) => {
       const wrapped = ((index % uniqueShapeDiamonds.length) + uniqueShapeDiamonds.length) % uniqueShapeDiamonds.length;
       return wrapped;
     };
