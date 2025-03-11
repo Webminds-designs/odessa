@@ -19,7 +19,7 @@ const HeroContent = () => {
             shine in a special way in the world
           </div>
 
-          <div className="text-2xl md:text-5xl lg:text-7xl font-vasion">
+          <div className="text-4xl md:text-5xl lg:text-7xl font-vasion">
             Diamonds that reflect your uniqueness.
           </div>
         </div>
