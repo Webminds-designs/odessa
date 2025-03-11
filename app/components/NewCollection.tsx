@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 import diamonds from "../../public/images/diamonds.js";
 
@@ -50,7 +51,12 @@ const NewCollection = () => {
   return (
     <div className="flex flex-col w-full gap-4 md:gap-10 bg-black h-fit py-4 px-4 md:px-16">
       {/* Title 1 */}
-      <div className="flex justify-between items-end">
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="flex justify-between items-end">
         <div className="flex gap-4 md:gap-10 items-end">
           <p className="font-vasion text-4xl lg:text-9xl">NEW</p>
 
@@ -85,20 +91,25 @@ const NewCollection = () => {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Title 2 */}
-      <div className="flex justify-between gap-4">
-        <p className="font-aeonikregularitalic text-md lg:text-2xl text-gray-300 lg:flex flex-col hidden">
-          <span>EXPLORE THE POSSIBILITIES OF </span>
-          <span>TAILORED CREAFTMANSHIP AND </span>
-          <span>UNLIMITED CAPABILITIES</span>
-        </p>
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="flex justify-start lg:justify-end gap-4">
         <p className="font-vasion text-4xl lg:text-9xl">COLLECTION</p>
-      </div>
+      </motion.div>
 
       {/* Full-width carousel without padding */}
-      <div className="relative w-full ">
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="relative w-full ">
         {" "}
         {/* Negative margin to break out of container */}
         <div
@@ -191,7 +202,7 @@ const NewCollection = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

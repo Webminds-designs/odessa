@@ -4,6 +4,7 @@ import { GoArrowRight } from "react-icons/go";
 import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { IoCall } from "react-icons/io5";
+import { motion } from "framer-motion";
 
 // interface ContactProps {
 //   // You can define any prop types here if needed
@@ -19,7 +20,12 @@ const Contact: React.FC = () => {
         height={100}
         className="absolute top-0 w-full h-full object-cover opacity-5 py-4 md:py-20 rounded-2xl "
       />
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 justify-center items-center z-10 ">
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 justify-center items-center z-10 ">
         <div className="space-y-16">
           <h1 className="text-3xl md:text-5xl font-semibold font-vasion ">
             Lost in the selecting diamond ?
@@ -118,7 +124,7 @@ const Contact: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
