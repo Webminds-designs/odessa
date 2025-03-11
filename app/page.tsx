@@ -16,7 +16,7 @@ export default function Home() {
       <Hero />
       <HeroContent />
       <div className="w-full h-screen"></div>
-      <div className="w-full lg:h-[500px]"></div>
+      {/* <div className="w-full lg:h-[500px]"></div> */}
       {/* <div className="grid items-center justify-items-center min-h-screen w-screen p-8 pb-20 gap-30 lg:p-20 bg-red-300"> */}
       <Highlight />
 

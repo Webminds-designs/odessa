@@ -3,7 +3,7 @@ import React from "react";
 
 const HeroContent = () => {
   return (
-    <div className=" absolute bottom-0 w-full h-screen px-6 mb-4 md:mb-0 md:px-24">
+    <div className="absolute bottom-0 w-full h-screen px-6 mb-4 md:mb-0 md:px-24">
       <div className="flex flex-col items-start justify-end md:justify-center w-full md:w-2/3 h-screen text-start text-white gap-8 md:gap-16">
         <Image
           src="/images/odessa.png"
