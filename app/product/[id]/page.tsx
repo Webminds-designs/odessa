@@ -11,6 +11,7 @@ type Diamond = {
   id: string;
   name: string;
   price: string;
+  cut: string;
   shape: string;
   shortDescription: string;
   description: string;
@@ -90,7 +91,7 @@ function DiamondDisplay() {
               </div>
               <p className="flex flex-col">
                 <span className="text-xs text-gray-400">Shape</span>
-                <span className="text-sm">{selectedDiamond.shape}</span>
+                <span className="text-sm">{selectedDiamond.cut}</span>
               </p>
               <p className="flex flex-col">
                 <span className="text-xs text-gray-400">Carat</span>
@@ -139,16 +140,22 @@ function DiamondDisplay() {
         <div className="mt-16 pt-8 border-t border-gray-800">
           <h2 className="text-2xl font-light mb-8 relative">
             <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              Similar Diamonds
+              Similar {selectedDiamond.cut} Diamonds
             </span>
             <div className="w-12 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mt-2"></div>
           </h2>
 
           <div className="w-full flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center justify-items-center">
-              {diamonds.slice(0, 3).map((diamond, index) => (
-                <ProductCards key={index} diamond={diamond} />
-              ))}
+              {diamonds
+                .filter(diamond => 
+                  diamond.shape === selectedDiamond.shape && 
+                  diamond.id !== selectedDiamond.id
+                )
+                .slice(0, 3)
+                .map((diamond, index) => (
+                  <ProductCards key={diamond.id} diamond={diamond} />
+                ))}
             </div>
           </div>
         </div>
