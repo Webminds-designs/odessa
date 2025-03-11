@@ -54,7 +54,7 @@ function DiamondDisplay() {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen relative overflow-hidden">
+    <div className="bg-primary text-white min-h-screen relative overflow-hidden font-aeonikregular">
       <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Main product display */}
         <div className="flex flex-col lg:flex-row gap-8 mb-12 items-center">
@@ -72,7 +72,7 @@ function DiamondDisplay() {
 
           {/* Product details */}
           <div className="lg:w-2/5">
-            <h1 className="text-3xl font-light mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+            <h1 className="text-3xl fmb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent font-vasion font-bold">
               {selectedDiamond.name}
             </h1>
 
@@ -84,11 +84,9 @@ function DiamondDisplay() {
 
             {/* Diamond specifications */}
             <div className="mb-6 grid grid-cols-2 gap-4 bg-gray-900/50 p-4 rounded-lg">
-              <div className="col-span-2 mb-2 pb-2 border-b border-gray-800">
-                <h3 className="text-sm uppercase tracking-wider text-gray-400">
-                  Specifications
-                </h3>
-              </div>
+              <h3 className="text-sm uppercase tracking-wider text-gray-400">
+                Specifications
+              </h3>
               <p className="flex flex-col">
                 <span className="text-xs text-gray-400">Shape</span>
                 <span className="text-sm">{selectedDiamond.cut}</span>
@@ -146,11 +144,12 @@ function DiamondDisplay() {
           </h2>
 
           <div className="w-full flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center justify-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12 items-center justify-items-center">
               {diamonds
-                .filter(diamond => 
-                  diamond.shape === selectedDiamond.shape && 
-                  diamond.id !== selectedDiamond.id
+                .filter(
+                  (diamond) =>
+                    diamond.shape === selectedDiamond.shape &&
+                    diamond.id !== selectedDiamond.id
                 )
                 .slice(0, 3)
                 .map((diamond, index) => (
