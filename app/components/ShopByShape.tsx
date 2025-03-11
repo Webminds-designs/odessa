@@ -81,7 +81,12 @@ const ShopByShape = () => {
   return (
     <div className="flex flex-col gap-4 w-full min-h-screen p-4 md:p-26 bg-black">
       {/* First Title Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center w-full">
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="flex flex-col md:flex-row justify-between items-center w-full">
         <p className="font-vasion text-4xl md:text-6xl lg:text-8xl text-center md:text-left mb-4 md:mb-0">
           Shop Diamond
         </p>
@@ -95,28 +100,32 @@ const ShopByShape = () => {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Second Title Section */}
-      <div className="flex flex-col md:flex-row justify-end items-center gap-4">
-        <p className="font-aeonikregularitalic max-w-[800px] text-sm md:text-lg lg:text-2xl text-gray-300 text-wrap md:text-right">
-          <span>
-            EXPLORE THE POSSIBILITIES OF TAILORED
-            <br className="md:hidden" />
-          </span>
-          <span>
-            CRAFTSMANSHIP AND UNLIMITED
-            <br className="md:hidden" />
-          </span>
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="flex flex-col md:flex-row justify-end items-center gap-4">
+        <p className="flex flex-col font-aeonikregularitalic max-w-[800px] text-sm md:text-lg lg:text-2xl text-gray-300 text-wrap md:text-right">
+          <span>EXPLORE THE POSSIBILITIES OF TAILORED</span>
+          <span>CRAFTSMANSHIP AND UNLIMITED</span>
           <span>CAPABILITIES</span>
         </p>
         <p className="font-vasion text-4xl md:text-6xl lg:text-8xl text-center">
           by Shape
         </p>
-      </div>
+      </motion.div>
 
       {/* Enhanced Diamond Slider */}
-      <div className="relative mt-8 md:mt-16 h-[400px] md:h-[500px] overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="relative mt-8 md:mt-16 h-[400px] md:h-[500px] overflow-hidden">
         {/* Navigation Arrows */}
         <button
           onClick={handlePrev}
@@ -202,7 +211,7 @@ const ShopByShape = () => {
             </AnimatePresence>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

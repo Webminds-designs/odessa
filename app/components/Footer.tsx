@@ -1,10 +1,16 @@
 import React from "react";
 import { GoArrowRight } from "react-icons/go";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
     <div className="w-full h-fit  md:h-11/12 md:py-8 text-white flex flex-col items-center justify-center gap-4 px-4 md:px-16 bg-black">
-      <div className="flex flex-col text-wrap font-vasion text-3xl md:text-8xl w-full text-left gap-2">
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="flex flex-col text-wrap font-vasion text-3xl md:text-8xl w-full text-left gap-2">
         <div>GET the Last Infromation</div>
         <div className="relative flex w-fit">
           <span className="mr-5">From Us</span>
@@ -13,8 +19,13 @@ const Footer = () => {
             <GoArrowRight />
           </div>
         </div>
-      </div>
-      <div className="py-3 w-full h-fit  flex flex-col md:flex-row justify-between items-end gap-12">
+      </motion.div>
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="py-3 w-full h-fit  flex flex-col md:flex-row justify-between items-end gap-12">
         <div className="flex w-full md:w-1/2 relative">
           <input
             type="email"
@@ -31,10 +42,15 @@ const Footer = () => {
           collections. Subscribe for the latest offers and insights to shine
           with unmatched elegance.
         </div>
-      </div>
+      </motion.div>
       <div className="w-full h-[100px] md:h-[200px]"></div>
       <hr className="w-full border-1 border-solid border-white opacity-80"></hr>
-      <div className="w-full flex md:flex-row md:justify-between flex-col items-center font-aeonikregularitalic ">
+      <motion.div 
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="w-full flex md:flex-row md:justify-between flex-col items-center font-aeonikregularitalic ">
         <div className="w-fit text-sm text-center md:text-left">
           @2025 All right Reserved. Developed by WebMinds
         </div>
@@ -54,7 +70,7 @@ const Footer = () => {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
