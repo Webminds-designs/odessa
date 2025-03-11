@@ -40,11 +40,7 @@ export default function Header() {
                 Home
               </Link>
             </li>
-            <li>
-              <Link href="/products" className="cursor-pointer">
-                Products
-              </Link>
-            </li>
+
             <li>
               <Link href="/aboutus" className="cursor-pointer">
                 About Us
@@ -116,15 +112,7 @@ export default function Header() {
               Collection
             </Link>
           </li>
-          <li>
-            <Link
-              href="/products"
-              onClick={toggleMobileMenu}
-              className="cursor-pointer"
-            >
-              Products
-            </Link>
-          </li>
+
           <li>
             <Link
               href="/aboutus"
