@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { motion, AnimatePresence } from "framer-motion"
-import diamonds from "../../public/images/diamonds.js";
+import diamonds, { uniqueShapeDiamonds } from "../../public/images/diamonds.js";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slideVariants = {
@@ -41,14 +41,14 @@ const ShopByShape = () => {
 
   const getVisibleDiamonds = () => {
     const wrappedIndex = (index) => {
-      const wrapped = ((index % diamonds.length) + diamonds.length) % diamonds.length;
+      const wrapped = ((index % uniqueShapeDiamonds.length) + uniqueShapeDiamonds.length) % uniqueShapeDiamonds.length;
       return wrapped;
     };
     
     const items = [];
     for (let i = -2; i <= 2; i++) {
       items.push({
-        ...diamonds[wrappedIndex(currentIndex + i)],
+        ...uniqueShapeDiamonds[wrappedIndex(currentIndex + i)],
         position: i
       });
     }
@@ -59,7 +59,7 @@ const ShopByShape = () => {
     if (isTransitioning) return;
     setDirection(1);
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev + 1) % diamonds.length);
+    setCurrentIndex((prev) => (prev + 1) % uniqueShapeDiamonds.length);
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
@@ -67,7 +67,7 @@ const ShopByShape = () => {
     if (isTransitioning) return;
     setDirection(-1);
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev - 1 + diamonds.length) % diamonds.length);
+    setCurrentIndex((prev) => (prev - 1 + uniqueShapeDiamonds.length) % uniqueShapeDiamonds.length);
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
