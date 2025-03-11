@@ -21,19 +21,20 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
   return (
     <div
       className="
-      bg-gradient-to-b from-gray-900 to-gray-950 
+      bg-gradient-to-b from-[#1d1d1d] to-[#161616]
       rounded-xl p-5 relative group 
-      overflow-hidden hover:shadow-lg hover:shadow-amber-900/10 
+      overflow-hidden hover:shadow-lg hover:shadow-gray-500/10 
       transition-all duration-300 
       flex flex-col justify-between
-      w-full max-w-xs mx-auto min-h-[350px]
+      w-full max-w-xs min-w-[250px] mx-auto min-h-[350px]
+      font-aeonikregular
     "
     >
-      {/* Diagonal decorative line */}
+      {/* Diagonal decorative line with gray color */}
       <div
         className="
         absolute -right-8 -top-8 w-16 h-16 
-        bg-amber-600/10 rotate-45 transform 
+        bg-gray-600/10 rotate-45 transform 
         scale-0 group-hover:scale-100 
         transition-transform duration-500
       "
@@ -43,7 +44,7 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
       <button
         className="
         absolute top-4 right-4 z-10 
-        text-gray-400 hover:text-red-400 
+        text-gray-400 hover:text-gray-300
         transition-colors
       "
       >
@@ -72,7 +73,7 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
             <div
               className="
               absolute inset-0 
-              bg-gradient-to-r from-blue-400/10 to-purple-500/10 
+              bg-gradient-to-r from-gray-400/10 to-gray-500/10 
               opacity-0 group-hover:opacity-100 
               transition-opacity duration-500 
               rounded-full
@@ -104,7 +105,7 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
       {/* Add to cart button */}
       <button
         className="
-          mt-auto w-full bg-gray-800 hover:bg-gray-700 
+          mt-auto w-full bg-gray-700 hover:bg-[#292929]
           text-white py-2 text-sm sm:text-base 
           rounded-lg transition-colors duration-300 
           flex items-center justify-center gap-1 group

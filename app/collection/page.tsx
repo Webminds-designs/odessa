@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import diamonds from "../../public/images/diamonds.js";
 import ProductCards from "../components/ProductCards";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
+import Link from "next/link";
 
 const CollectionPage = () => {
   // Pagination states
@@ -31,18 +32,22 @@ const CollectionPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black px-4 py-6 sm:px-8 md:px-12 lg:px-20 font-aeonikregular">
+    <div className="min-h-screen bg-primary px-2 py-6 sm:px-2 md:px-6 lg:px-16 font-aeonikregular">
       {/* Page Title */}
-
-      <h2 className="font-vasion text-4xl lg:text-9xl mb-10">
+      <h2 className="font-vasion text-4xl lg:text-9xl mb-10 px-4">
         Your Brilliance
         <br /> Begins
       </h2>
 
-      {/* Responsive grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {currentData.map((diamond, index) => (
-          <ProductCards key={index} diamond={diamond} />
+      {/* Responsive grid with auto-fit so cards don't overlap */}
+      <div
+        className="grid gap-6"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
+      >
+        {currentData.map((diamond) => (
+          <Link href={`/product/${diamond.id}`} key={diamond.id}>
+            <ProductCards diamond={diamond} />
+          </Link>
         ))}
       </div>
 
