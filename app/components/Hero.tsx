@@ -2,8 +2,8 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Lottie from "lottie-react";
-import animationweb from "../asset/lotteie/gemWeb.json";
-import animationmob from "../asset/lotteie/gemWebPor.json";
+import animationweb from "../asset/lotteie/gemWeb2.json";
+import animationmob from "../asset/lotteie/gemWeb2Por.json";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -48,6 +48,8 @@ const Hero = () => {
     if (!lottieRef.current || !containerRef.current) return;
 
     const totalFrames = lottieRef.current.getDuration(true);
+
+    console.log("taonta", totalFrames);
 
     // Reverse the animation from last frame to first on load
     const reverseAnimation = () => {
