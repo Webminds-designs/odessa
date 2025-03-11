@@ -127,7 +127,7 @@ export default function Header() {
           </li>
           <li>
             <Link
-              href="/about"
+              href="/aboutus"
               onClick={toggleMobileMenu}
               className="cursor-pointer"
             >
@@ -136,7 +136,7 @@ export default function Header() {
           </li>
           <li>
             <Link
-              href="/contact"
+              href="#contact"
               onClick={toggleMobileMenu}
               className="cursor-pointer"
             >
