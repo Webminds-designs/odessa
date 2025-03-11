@@ -2,8 +2,9 @@ const diamonds = [
   {
     id: "1",
     name: "Cushion Brilliant Cut Diamond",
-    price: "1,500.00 $",
-    shape: "Cushion Brilliant",
+    price: "648.00 $",
+    cut: "Cushion Brilliant",
+    shape: "Cushion",
     shortDescription:
       "Lab-grown cushion brilliant cut diamond with exceptional sparkle.",
     description:
@@ -20,7 +21,8 @@ const diamonds = [
   {
     id: "2",
     name: "Asscher Cut Diamond",
-    price: "3,000.00 $",
+    price: "1,776.00 $",
+    cut: "Asscher",
     shape: "Asscher",
     shortDescription: "Lab-grown Asscher cut diamond with excellent clarity.",
     description:
@@ -37,7 +39,8 @@ const diamonds = [
   {
     id: "3",
     name: "Emerald Cut Diamond",
-    price: "10,000.00 $",
+    price: "6,232.00 $",
+    cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with stunning clarity.",
     description:
@@ -54,8 +57,9 @@ const diamonds = [
   {
     id: "4",
     name: "Cushion Brilliant Cut Diamond",
-    price: "4,000.00 $",
-    shape: "Cushion Brilliant",
+    price: "2,472.00 $",
+    cut: "Cushion Brilliant",
+    shape: "Cushion",
     shortDescription:
       "Lab-grown cushion brilliant cut diamond with vivid blue color.",
     description:
@@ -72,7 +76,8 @@ const diamonds = [
   {
     id: "5",
     name: "Emerald Cut Diamond",
-    price: "12,000.00 $",
+    price: "6,144.00 $",
+    cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with fancy blue color.",
     description:
@@ -88,8 +93,9 @@ const diamonds = [
   },
   {
     id: "6",
-    name: "EmeraldCutDiamond",
-    price: "1,500.00 $",
+    name: "Emerald Cut Diamond",
+    price: "632.00 $",
+    cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with excellent clarity.",
     description:
@@ -106,8 +112,9 @@ const diamonds = [
   {
     id: "7",
     name: "Heart Brilliant Cut Diamond",
-    price: "4,500.00 $",
-    shape: "Heart Brilliant",
+    price: "2,192.00 $",
+    cut: "Heart Brilliant",
+    shape: "Heart",
     shortDescription:
       "Lab-grown heart brilliant cut diamond with excellent clarity.",
     description:
@@ -124,8 +131,9 @@ const diamonds = [
   {
     id: "8",
     name: "Round Brilliant Cut Diamond",
-    price: "4,500.00 $",
-    shape: "Round Brilliant",
+    price: "1,632.00 $",
+    cut: "Round Brilliant",
+    shape: "Round",
     shortDescription:
       "Lab-grown round brilliant cut diamond with excellent clarity.",
     description:
@@ -142,7 +150,8 @@ const diamonds = [
   {
     id: "9",
     name: "Emerald Cut Diamond",
-    price: "5,000.00 $",
+    price: "1,912.00 $",
+    cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with excellent clarity.",
     description:
@@ -159,8 +168,9 @@ const diamonds = [
   {
     id: "10",
     name: "Round Brilliant Cut Diamond",
-    price: "5,000.00 $",
-    shape: "Round Brilliant",
+    price: "1,608.00 $",
+    cut: "Round Brilliant",
+    shape: "Round",
     shortDescription:
       "Lab-grown round brilliant cut diamond with excellent clarity.",
     description:
@@ -177,7 +187,8 @@ const diamonds = [
   {
     id: "11",
     name: "Princess Cut Diamond",
-    price: "5,500.00 $",
+    price: "2,080.00 $",
+    cut: "Princess",
     shape: "Princess",
     shortDescription: "Lab-grown princess cut diamond with fancy blue color.",
     description:
@@ -194,8 +205,9 @@ const diamonds = [
   {
     id: "12",
     name: "Square Emerald Cut Diamond",
-    price: "7,500.00 $",
-    shape: "Square Emerald",
+    price: "3,344.00 $",
+    cut: "Square Emerald",
+    shape: "Emerald",
     shortDescription:
       "Lab-grown square emerald cut diamond with excellent clarity.",
     description:
@@ -212,7 +224,8 @@ const diamonds = [
   {
     id: "13",
     name: "Emerald Cut Diamond",
-    price: "3,000.00 $",
+    price: "1,184.00 $",
+    cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with excellent clarity.",
     description:
@@ -229,7 +242,8 @@ const diamonds = [
   {
     id: "14",
     name: "Pear Cut Diamond",
-    price: "15,000.00 $",
+    price: "6,264.00 $",
+    cut: "Pear",
     shape: "Pear",
     shortDescription: "Lab-grown pear cut diamond with excellent clarity.",
     description:
@@ -245,4 +259,13 @@ const diamonds = [
   },
 ];
 
-export default diamonds;
+const uniqueShapeDiamonds = Object.values(
+  diamonds.reduce((acc, diamond) => {
+    if (!acc[diamond.shape]) {
+      acc[diamond.shape] = diamond;
+    }
+    return acc;
+  }, {})
+);
+
+export { diamonds as default, uniqueShapeDiamonds };

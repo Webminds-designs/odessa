@@ -11,7 +11,7 @@ import { IoCall } from "react-icons/io5";
 
 const Contact: React.FC = () => {
   return (
-    <section className="w-full h-fit md:h-screen grid justify-center items-center text-white py-12 px-4 relative bg-black">
+    <section id="contact" className="w-full h-fit md:h-screen grid justify-center items-center text-white py-12 px-4 relative bg-black">
       <Image
         src="/images/contact.jpg"
         alt="person1"

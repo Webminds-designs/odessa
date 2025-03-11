@@ -58,6 +58,7 @@
 :root {
   --background: #ffffff;
   --foreground: #130F0C;
+  scroll-behavior: smooth;
 }
 
 @media (prefers-color-scheme: dark) {

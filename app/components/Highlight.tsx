@@ -38,10 +38,10 @@ const Highlight = () => {
         </div>
 
         <div className="flex flex-col space-y-2 sm:space-y-3 text-center sm:text-left">
-          <h2 className="font-aeonikbolditalic text-gray-400 text-xs sm:text-sm md:text-xl">
+          <h2 className="font-aeonikbolditalic text-gray-400 text-sm sm:text-md md:text-xl">
             Discover brilliance in every facet
           </h2>
-          <p className="flex flex-col font-vasion text-lg sm:text-2xl md:text-3xl lg:text-5xl leading-tight">
+          <p className="flex flex-col font-vasion text-xl sm:text-2xl md:text-3xl lg:text-5xl leading-tight">
             <span>Shop exquisitely </span>
             <span>finished and finely cut </span>
             <span>diamonds</span>
@@ -51,7 +51,7 @@ const Highlight = () => {
 
       {/* Second Card */}
       <div className="bg-brown px-4 sm:px-6 md:px-10 py-5 sm:py-6 md:py-8 rounded-xl flex flex-col gap-4 sm:gap-6 md:gap-10 w-full lg:w-[40%] xl:w-1/3">
-        <p className="font-aeonikbolditalic flex flex-col text-center sm:text-left text-xs sm:text-sm md:text-xl">
+        <p className="font-aeonikbolditalic flex flex-col text-center sm:text-left text-sm sm:text-md md:text-xl">
           <span>Users and Supportive</span>
           <span>Community</span>
         </p>
@@ -65,7 +65,7 @@ const Highlight = () => {
               {persons.map((person, index) => (
                 <div
                   key={index}
-                  className={`rounded-full border-2 border-brown w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 
+                  className={`rounded-full border-2 border-brown w-10 h-10 md:w-12 md:h-12 lg:w-15 lg:h-15 
                                     hover:scale-110 hover:-translate-y-1 transition-transform duration-300 absolute ${person.right}`}
                 >
                   <img
