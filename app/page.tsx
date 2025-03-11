@@ -6,6 +6,7 @@ import HeroContent from "./components/HeroContent";
 import Footer from "./components/Footer";
 import Contact from "./components/Contanct";
 import NewCollection from "./components/NewCollection";
+import AfterHero from "./components/AfterHero";
 import dynamic from "next/dynamic";
 
 const Hero = dynamic(() => import("./components/Hero"), { ssr: false });
@@ -17,7 +18,9 @@ export default function Home() {
       <HeroContent />
       <div className="w-full h-screen"></div>
 
-      <div className="w-full h-[400px] lg:h-[800px]"></div>
+      <div className="w-full h-[400px] lg:h-[800px]">
+        <AfterHero />
+      </div>
 
       {/* <div className="grid items-center justify-items-center min-h-screen w-screen p-8 pb-20 gap-30 lg:p-20 bg-red-300"> */}
       <Highlight />

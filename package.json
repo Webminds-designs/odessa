@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@motionone/utils": "^10.18.0",
     "framer-motion": "^12.4.10",
     "gsap": "^3.12.7",
     "lottie-react": "^2.4.1",
