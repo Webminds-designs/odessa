@@ -4,14 +4,13 @@ import React from "react";
 
 export default function BillPage() {
   return (
-    <div className="min-h-screen text-white font-aeonikregular py-8 px-4">
-      {/* Container */}
-
-      <div className="max-w-6xl mx-6 grid grid-cols-1 md:grid-cols-2 gap-20">
+    <div className="min-h-screen text-white font-aeonikregular py-8 px-8">
+      {/* Outer container with 3-column grid on md+ screens */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-10 lg:gap-20">
+        
         {/* Left Column - Billing Form */}
-
         <div>
-          <h1 className="text-2xl mb-6">Billing</h1>
+          <h1 className="text-2xl mb-10">Billing</h1>
           <form className="space-y-4">
             {/* First & Last Name */}
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
@@ -128,24 +127,30 @@ export default function BillPage() {
           </form>
         </div>
 
+        {/* Divider (visible only on md+ screens) */}
+        <div className="hidden md:block w-[1px] bg-white/20" />
+
         {/* Right Column - Order Summary */}
-        <div className="bg-[#292929] p-6 rounded-md">
-          <h2 className="text-xl mb-4">Order summary</h2>
-          <div className="mb-2 flex justify-between">
-            <span>Item subtotal</span>
-            <span>1,750.00 $</span>
-          </div>
-          <div className="mb-2 flex justify-between">
-            <span>Shipping fee</span>
-            <span>0 $</span>
-          </div>
-          <div className="mb-2 flex justify-between">
-            <span>Tax</span>
-            <span>0 $</span>
-          </div>
-          <div className="flex justify-between text-lg">
-            <span>Total</span>
-            <span>1,750.00 $</span>
+        <div>
+          <div className="bg-[#292929] px-8 py-4 rounded-md">
+            <h2 className="text-xl mb-4 text-center pb-6">Order summary</h2>
+            <div className="mb-2 flex justify-between">
+              <span>Item subtotal</span>
+              <span>1,750.00 $</span>
+            </div>
+            <div className="mb-2 flex justify-between">
+              <span>Shipping fee</span>
+              <span>0 $</span>
+            </div>
+            <div className="mb-2 flex justify-between">
+              <span>Tax</span>
+              <span>0 $</span>
+            </div>
+            <div className="flex justify-between text-lg pb-10">
+              <span>Total</span>
+              <span>1,750.00 $</span>
+            </div>
+
           </div>
         </div>
       </div>
