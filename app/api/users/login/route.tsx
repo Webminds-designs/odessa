@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     console.log("Login request body:", body);
 
     // Validate email and password
-    const user = await User.findOne({ email }).select("+password"); // Add .select("+password") to include the password field
+    const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     // Create response
     const response = NextResponse.json(
-      { message: "Login successful", user: tokenData },
+      { message: "Login successful",token: token, user: tokenData },
       { status: 200 }
     );
 
@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
+
   } catch (error) {
     console.error("Error logging in user:", error);
     return NextResponse.json(
