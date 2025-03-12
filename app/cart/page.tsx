@@ -58,8 +58,8 @@ const CartPage: React.FC = () => {
   };
 
   return (
-    <div className="m-10">
-      <h2 className="font-vasion text-2xl ml-6">Shopping Cart</h2>
+    <div className="mx-30">
+      <h2 className="font-vasion text-3xl ml-6">Shopping Cart</h2>
       <div className="flex flex-col md:flex-row  justify-between gap-6">
         {/* Products Section */}
         <div className="w-full lg:w-2/3  text-white p-6 AeonikRegular ">
@@ -74,7 +74,7 @@ const CartPage: React.FC = () => {
                       <Image
                         src={diomondimg}
                         alt={product.name}
-                        className="w-[200px] h-[200px] object-cover mx-auto"
+                        className="w-[150px] h-[150px] object-cover mx-auto"
                         width={600}
                         height={600}
                         priority
@@ -82,28 +82,28 @@ const CartPage: React.FC = () => {
                     </div>
 
                     <button
-                      onClick={() => handleRemove(product.id)} // Close (remove) button
+                      onClick={() => handleRemove(product.id)} // remove button
                       className="absolute top-2 right-2 p-2 rounded-full"
                     >
                       ✕
                     </button>
-                    <div className="flex justify-between w-full p-2 mt-3 bg-[#1d1d1d] rounded-2xl border-1 border-primary">
-                      <h2 className="text-sm font-light text-gray-300 text-center content-center">
+                    <div className="flex justify-between w-full  p-2 mt-3 bg-[#1d1d1d] rounded-2xl border-1 border-primary">
+                      <div className="text-sm font-light text-gray-300 text-center content-center">
                         {product.name}
-                      </h2>
+                      </div>
                       <span className="text-lg font-bold">{product.price.toLocaleString()} $</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Product Info (Right Side) */}
-                <div className="w-full lg:w-1/2 space-y-4">
+                <div className="w-full lg:w-1/2 space-y-8 mx-15">
                   <div className="flex justify-between mb-6">
                     <h2 className="text-2xl content-center  text-gray-300 font-light">{product.name}</h2>
                     <span className="text-lg font-bold">{product.price.toLocaleString()} $</span>
                   </div>
                   {/* Quantity Selector */}
-                  <div className=" flex justify-between mt-30">
+                  <div className=" flex justify-between mt-20">
                     <span className="text-md">Quantity</span>
                     <div className="flex items-center space-x-3 mt-2 px-2 bg-[#1d1d1d] rounded-3xl">
                       <button
@@ -124,7 +124,7 @@ const CartPage: React.FC = () => {
 
                   {/* Total Price */}
                   <div className="mt-4 flex justify-between">
-                    <span className="font-bold text-2xl">Total</span>
+                    <span className="font-bold text-xl">Total</span>
                     <div className="text-lg font-bold">{total.toLocaleString()} $</div>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ const CartPage: React.FC = () => {
         {/* Checkout Section */}
         <div className="w-full lg:w-1/3 md:w-1/2  text-white p-6">
           <div className="bg-[#292929] p-5 rounded-2xl">
-            <h2 className="text-center mb-10 text-2xl">Order Summary</h2>
+            <h2 className="text-center mb-5 text-xl">Order Summary</h2>
             <div className="flex justify-between">
               <div className="text-start space-y-1">
                 <div>Item subtotal</div>
@@ -156,7 +156,7 @@ const CartPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center mt-10">
+            <div className="flex justify-center mt-5">
               <button className="bg-brown text-white text-center p-2 rounded-md font-bold px-6">
                 Checkout
               </button>
