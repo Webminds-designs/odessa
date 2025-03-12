@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PasswordResetModal from './passwordResetModal';
 
 const Account = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -8,8 +9,7 @@ const Account = () => {
     email: '',
     contactNumber: '',
     address: '',
-    postalCode: '',
-    password: ''
+    postalCode: ''
   });
 
   const [errors, setErrors] = useState({
@@ -18,9 +18,10 @@ const Account = () => {
     email: '',
     contactNumber: '',
     address: '',
-    postalCode: '',
-    password: ''
+    postalCode: ''
   });
+
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -58,8 +59,7 @@ const Account = () => {
       email: '',
       contactNumber: '',
       address: '',
-      postalCode: '',
-      password: ''
+      postalCode: ''
     });
     setErrors({
       firstName: '',
@@ -67,15 +67,14 @@ const Account = () => {
       email: '',
       contactNumber: '',
       address: '',
-      postalCode: '',
-      password: ''
+      postalCode: ''
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = {} as typeof errors;
-    
+
     // Validate all fields
     Object.keys(formData).forEach(key => {
       const error = validateField(key, formData[key as keyof typeof formData]);
@@ -96,12 +95,15 @@ const Account = () => {
   return (
     <div className='mb-20'>
       <form onSubmit={handleSubmit} className='flex flex-col gap-6 font-aeonikregular'>
+
+        <h1 className='text-2xl mb-10'>Personal Details</h1>
+
         <div className='flex'>
           <div className='w-1/3'>
             <p>First Name</p>
           </div>
           <div className='w-2/3'>
-            <input 
+            <input
               type='text'
               name='firstName'
               className={`bg-[#181818] p-2 w-full ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -119,7 +121,7 @@ const Account = () => {
             <p>Last Name</p>
           </div>
           <div className='w-2/3'>
-            <input 
+            <input
               type='text'
               name='lastName'
               className={`bg-[#181818] p-2 w-full ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -137,7 +139,7 @@ const Account = () => {
             <p>Email Address</p>
           </div>
           <div className='w-2/3'>
-            <input 
+            <input
               type='email'
               name='email'
               className={`bg-[#181818] p-2 w-full ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -155,7 +157,7 @@ const Account = () => {
             <p>Contact Number</p>
           </div>
           <div className='w-2/3'>
-            <input 
+            <input
               type='text'
               name='contactNumber'
               className={`bg-[#181818] p-2 w-full ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -173,7 +175,7 @@ const Account = () => {
             <p>Address</p>
           </div>
           <div className='w-2/3'>
-            <input 
+            <input
               type='text'
               name='address'
               className={`bg-[#181818] p-2 w-full ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -191,7 +193,7 @@ const Account = () => {
             <p>Postal Code</p>
           </div>
           <div className='w-2/3'>
-            <input 
+            <input
               type='text'
               name='postalCode'
               className={`bg-[#181818] p-2 w-full ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -204,35 +206,17 @@ const Account = () => {
           </div>
         </div>
 
-        <div className='flex'>
-          <div className='w-1/3'>
-            <p>Password</p>
-          </div>
-          <div className='w-2/3'>
-            <input 
-              type='password'
-              name='password'
-              className={`bg-[#181818] p-2 w-full ${!isEditing ? 'opacity-50 cursor-not-allowed' : ''}`}
-              placeholder="* * * * *"
-              value={formData.password}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-            {errors.password && <span className='text-red-500 text-sm'>{errors.password}</span>}
-          </div>
-        </div>
-
         <div className='flex justify-end gap-4'>
           {isEditing ? (
             <>
-              <button 
+              <button
                 type='button'
                 onClick={handleCancel}
                 className='bg-[#181818] text-white font-aeonikregular px-4 py-2 rounded-md'
               >
                 Cancel
               </button>
-              <button 
+              <button
                 type='submit'
                 className='bg-brown text-white font-aeonikregular px-4 py-2 rounded-md'
               >
@@ -240,15 +224,53 @@ const Account = () => {
               </button>
             </>
           ) : (
-            <button 
+            <button
               type='button'
               onClick={handleEdit}
-              className='bg-brown text-white font-aeonikregular px-4 py-2 rounded-md'
+              className='bg-brown text-white font-aeonikregular px-4 py-2 rounded-md hover:cursor-pointer'
             >
               Edit Details
             </button>
           )}
         </div>
+
+        <h1 className='text-2xl mb-10'>Personal Details</h1>
+
+        <div className='flex'>
+          <div className='w-1/3'>
+            <p>Old Password</p>
+          </div>
+          <div className='w-2/3'>
+            <input
+              type='password'
+              name='password'
+              className={`bg-[#181818] p-2 w-full`}
+              placeholder="* * * * *"
+            />
+          </div>
+        </div>
+
+        <div className='flex justify-end gap-4'>
+          <button
+            type='button'
+            className='bg-[#181818] text-white font-aeonikregular px-4 py-2 rounded-md hover:cursor-pointer'
+          >
+            Cancel
+          </button>
+          <button
+            type='button'
+            className='bg-brown text-white font-aeonikregular px-4 py-2 rounded-md hover:cursor-pointer'
+            onClick={() => setIsPasswordModalOpen(true)}
+          >
+            Change Password
+          </button>
+        </div>
+
+        <PasswordResetModal 
+          isOpen={isPasswordModalOpen}
+          onClose={() => setIsPasswordModalOpen(false)}
+        />
+
       </form>
     </div>
   );
