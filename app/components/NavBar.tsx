@@ -4,6 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -11,7 +12,15 @@ export default function Header() {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
+  const pathname = usePathname();
+  // If the pathname starts with /admin, /login, or /signup, don't render the NavBar
+  if (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup")
+  ) {
+    return null;
+  }
   return (
     <nav className="w-full relative md:p-4 cursor-pointer z-20">
       <div className="w-full bg-[#181818] flex items-center justify-between px-4 py-3 text-white rounded-full">
