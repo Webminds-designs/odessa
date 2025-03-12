@@ -98,7 +98,7 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
           {diamond.name}
         </span>
         <span className="text-sm sm:text-base font-medium text-amber-400">
-          {diamond.price}
+          {diamond.price} £
         </span>
       </div>
 

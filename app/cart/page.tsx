@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
+
 import diomondimg from "../../public/images/diamond2.png"
+
 import diamonds from "@/public/images/diamonds";
 
 // Sample products array (you can replace this with dynamic data)
@@ -37,7 +39,13 @@ const CartPage: React.FC = () => {
   const handleIncrement = (id: number) => {
     setCart((prevCart) =>
       prevCart.map((product) =>
+
         product.id === id ? { ...product, quantity: product.quantity + 1 } : product
+
+        product.id === id
+          ? { ...product, quantity: product.quantity + 1 }
+          : product
+
       )
     );
   };
@@ -66,7 +74,12 @@ const CartPage: React.FC = () => {
           {cart.map((product) => {
             const total = product.price * product.quantity;
             return (
-              <div key={product.id} className="flex flex-col lg:flex-row gap-6 mb-6">
+
+              <div
+                key={product.id}
+                className="flex flex-col lg:flex-row gap-6 mb-6"
+              >
+
                 {/* Image Section (Left Side) */}
                 <div className="w-full lg:w-1/2  relative">
                   <div className="relative bg-[#292929] p-4 rounded-2xl w-full ">
@@ -91,7 +104,9 @@ const CartPage: React.FC = () => {
                       <div className="text-sm font-light text-gray-300 text-center content-center">
                         {product.name}
                       </div>
+
                       <span className="text-lg font-bold">{product.price.toLocaleString()} $</span>
+
                     </div>
                   </div>
                 </div>
@@ -99,8 +114,14 @@ const CartPage: React.FC = () => {
                 {/* Product Info (Right Side) */}
                 <div className="w-full lg:w-1/2 space-y-8 mx-15">
                   <div className="flex justify-between mb-6">
-                    <h2 className="text-2xl content-center  text-gray-300 font-light">{product.name}</h2>
-                    <span className="text-lg font-bold">{product.price.toLocaleString()} $</span>
+
+                    <h2 className="text-2xl content-center  text-gray-300 font-light">
+                      {product.name}
+                    </h2>
+                    <span className="text-lg font-bold">
+                      {product.price.toLocaleString()} £
+                    </span>
+
                   </div>
                   {/* Quantity Selector */}
                   <div className=" flex justify-between mt-20">
@@ -125,7 +146,9 @@ const CartPage: React.FC = () => {
                   {/* Total Price */}
                   <div className="mt-4 flex justify-between">
                     <span className="font-bold text-xl">Total</span>
+
                     <div className="text-lg font-bold">{total.toLocaleString()} $</div>
+
                   </div>
                 </div>
               </div>
@@ -147,12 +170,26 @@ const CartPage: React.FC = () => {
               <div className="text-end space-y-1">
                 {/* Calculate total for all products */}
                 <div>
-                  {cart.reduce((acc, product) => acc + product.price * product.quantity, 0).toLocaleString()} $
+
+                  {cart
+                    .reduce(
+                      (acc, product) => acc + product.price * product.quantity,
+                      0
+                    )
+                    .toLocaleString()}{" "}
+                  £
                 </div>
-                <div>0 $</div>
-                <div>0 $</div>
+                <div>0 £</div>
+                <div>0 £</div>
                 <div className="font-bold">
-                  {cart.reduce((acc, product) => acc + product.price * product.quantity, 0).toLocaleString()} $
+                  {cart
+                    .reduce(
+                      (acc, product) => acc + product.price * product.quantity,
+                      0
+                    )
+                    .toLocaleString()}{" "}
+                  £
+
                 </div>
               </div>
             </div>

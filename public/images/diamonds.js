@@ -2,7 +2,7 @@ const diamonds = [
   {
     id: "1",
     name: "Cushion Brilliant Cut Diamond",
-    price: "648.00 $",
+    price: "648.00",
     cut: "Cushion Brilliant",
     shape: "Cushion",
     shortDescription:
@@ -21,7 +21,7 @@ const diamonds = [
   {
     id: "2",
     name: "Asscher Cut Diamond",
-    price: "1,776.00 $",
+    price: "1,776.00",
     cut: "Asscher",
     shape: "Asscher",
     shortDescription: "Lab-grown Asscher cut diamond with excellent clarity.",
@@ -39,7 +39,7 @@ const diamonds = [
   {
     id: "3",
     name: "Emerald Cut Diamond",
-    price: "6,232.00 $",
+    price: "6,232.00",
     cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with stunning clarity.",
@@ -57,7 +57,7 @@ const diamonds = [
   {
     id: "4",
     name: "Cushion Brilliant Cut Diamond",
-    price: "2,472.00 $",
+    price: "2,472.00",
     cut: "Cushion Brilliant",
     shape: "Cushion",
     shortDescription:
@@ -76,7 +76,7 @@ const diamonds = [
   {
     id: "5",
     name: "Emerald Cut Diamond",
-    price: "6,144.00 $",
+    price: "6,144.00",
     cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with fancy blue color.",
@@ -94,7 +94,7 @@ const diamonds = [
   {
     id: "6",
     name: "Emerald Cut Diamond",
-    price: "632.00 $",
+    price: "632.00",
     cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with excellent clarity.",
@@ -112,7 +112,7 @@ const diamonds = [
   {
     id: "7",
     name: "Heart Brilliant Cut Diamond",
-    price: "2,192.00 $",
+    price: "2,192.00",
     cut: "Heart Brilliant",
     shape: "Heart",
     shortDescription:
@@ -131,7 +131,7 @@ const diamonds = [
   {
     id: "8",
     name: "Round Brilliant Cut Diamond",
-    price: "1,632.00 $",
+    price: "1,632.00",
     cut: "Round Brilliant",
     shape: "Round",
     shortDescription:
@@ -150,7 +150,7 @@ const diamonds = [
   {
     id: "9",
     name: "Emerald Cut Diamond",
-    price: "1,912.00 $",
+    price: "1,912.00",
     cut: "Emerald",
     shape: "Emerald",
     shortDescription: "Lab-grown emerald cut diamond with excellent clarity.",
@@ -168,7 +168,7 @@ const diamonds = [
   {
     id: "10",
     name: "Round Brilliant Cut Diamond",
-    price: "1,608.00 $",
+    price: "1,608.00",
     cut: "Round Brilliant",
     shape: "Round",
     shortDescription:
@@ -187,7 +187,7 @@ const diamonds = [
   {
     id: "11",
     name: "Princess Cut Diamond",
-    price: "2,080.00 $",
+    price: "2,080.00",
     cut: "Princess",
     shape: "Princess",
     shortDescription: "Lab-grown princess cut diamond with fancy blue color.",
@@ -205,7 +205,7 @@ const diamonds = [
   {
     id: "12",
     name: "Square Emerald Cut Diamond",
-    price: "3,344.00 $",
+    price: "3,344.00",
     cut: "Square Emerald",
     shape: "Emerald",
     shortDescription:
