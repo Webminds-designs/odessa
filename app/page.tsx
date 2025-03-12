@@ -1,11 +1,36 @@
-import Image from "next/image";
+"use client";
+
+import Highlight from "./components/Highlight";
+import ShopByShape from "./components/ShopByShape";
+import HeroContent from "./components/HeroContent";
+import Footer from "./components/Footer";
+import Contact from "./components/Contanct";
+import NewCollection from "./components/NewCollection";
+import AfterHero from "./components/AfterHero";
+import dynamic from "next/dynamic";
+
+const Hero = dynamic(() => import("./components/Hero"), { ssr: false });
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <div className="flex flex-col items-center justify-center gap-4 bg-amber-200 text-7xl text-amber-800">
-        Let's build a Next.js app with Tailwind CSS and TypeScript!
+    <div>
+      <Hero />
+      <HeroContent />
+      <div className="w-full h-screen"></div>
+
+      <div className="w-full h-[400px] lg:h-[800px]">
+        <AfterHero />
       </div>
+
+      {/* <div className="grid items-center justify-items-center min-h-screen w-screen p-8 pb-20 gap-30 lg:p-20 bg-red-300"> */}
+      <Highlight />
+
+      <NewCollection />
+      <ShopByShape />
+      {/* <div className="w-full h-0.5 "></div> */}
+      <Contact />
+      <Footer />
+      {/* </div> */}
     </div>
   );
 }
