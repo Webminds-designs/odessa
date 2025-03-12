@@ -106,12 +106,16 @@ export default function BillPage() {
             {/* Payment Method */}
             <div>
               <span className="block mb-2 font-medium">Pay With:</span>
+
+              {/* Use "defaultChecked" so it’s selected by default,
+                  and Tailwind's "accent-..." to change the check color */}
               <div className="flex items-center mb-2">
                 <input
                   type="radio"
                   id="card"
                   name="paymentMethod"
-                  className="mr-2"
+                  defaultChecked
+                  className="mr-2 accent-brown" // or "accent-yellow-500", etc.
                 />
                 <label htmlFor="card">PayPal</label>
               </div>
@@ -150,7 +154,6 @@ export default function BillPage() {
               <span>Total</span>
               <span>1,750.00 $</span>
             </div>
-
           </div>
         </div>
       </div>
