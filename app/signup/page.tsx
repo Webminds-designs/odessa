@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { FcGoogle } from 'react-icons/fc';
+import { useState } from "react";
+import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
 
 interface LoginFormValues {
   email: string;
@@ -21,7 +21,7 @@ export default function LoginPage() {
   const [formValues, setFormValues] = useState<LoginFormValues>({
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -34,16 +34,16 @@ export default function LoginPage() {
   // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormValues(prev => ({
+    setFormValues((prev) => ({
       ...prev,
-      [id]: value
+      [id]: value,
     }));
-    
+
     // Clear errors when user starts typing
     if (errors[id as keyof FormErrors]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [id]: undefined
+        [id]: undefined,
       }));
     }
   };
@@ -51,28 +51,28 @@ export default function LoginPage() {
   // Form validation
   const validateForm = () => {
     const newErrors: FormErrors = {};
-    
+
     // Validate email
     if (!formValues.email) {
       newErrors.email = "Email is required";
     } else if (!validateEmail(formValues.email)) {
       newErrors.email = "Please enter a valid email address";
     }
-    
+
     // Validate password
     if (!formValues.password) {
       newErrors.password = "Password is required";
     } else if (formValues.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-    
+
     // Validate confirm password
     if (!formValues.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (formValues.confirmPassword !== formValues.password) {
       newErrors.confirmPassword = "Passwords don't match";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -88,31 +88,47 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex w-full min-h-screen bg-no-repeat bg-center bg-cover" style={{ backgroundImage: 'url("/images/login-background.png")' }}>
+    <div
+      className="flex w-full min-h-screen bg-no-repeat bg-center bg-cover"
+      style={{ backgroundImage: 'url("/images/login-background.png")' }}
+    >
       <div className="hidden lg:block lg:w-1/2 h-[900px] bg-center bg-cover relative"></div>
       <div className="flex justify-center items-center w-full lg:w-1/2 h-auto lg:h-[900px]">
         <div className="flex flex-col items-center justify-center w-11/12 max-w-sm md:max-w-md lg:max-w-[500px] h-auto bg-[#252525] rounded-2xl p-8 md:p-11 shadow-2xl">
-          <div className="font-aeonikregular text-2xl mb-4">Your Journey to Elegance Here!</div>
-          <div className="text-center font-aeonikregular text-gray-400 mb-6">Log in to explore stunning Diamond, manage your orders, and discover timeless beauty</div>
-          
+          <div className="font-aeonikregular text-2xl mb-4">
+            Your Journey to Elegance Here!
+          </div>
+          <div className="text-center font-aeonikregular text-gray-400 mb-6">
+            Log in to explore stunning Diamond, manage your orders, and discover
+            timeless beauty
+          </div>
+
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
             <div className="flex flex-col">
-              <label htmlFor="email" className="mb-1">Email</label>
+              <label htmlFor="email" className="mb-1">
+                Email
+              </label>
               <div className="relative">
-                <input 
-                  id="email" 
-                  type="email" 
-                  placeholder="Enter Email" 
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Enter Email"
                   className="bg-white text-black rounded-md px-4 py-2 outline-none w-full"
                   value={formValues.email}
                   onChange={handleChange}
                 />
               </div>
-              {errors.email && <span className="text-red-500 text-sm mt-1">{errors.email}</span>}
+              {errors.email && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.email}
+                </span>
+              )}
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="password" className="mb-1">Password</label>
+              <label htmlFor="password" className="mb-1">
+                Password
+              </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -128,23 +144,47 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
                       <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                      <path
+                        fillRule="evenodd"
+                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clipRule="evenodd" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z"
+                        clipRule="evenodd"
+                      />
                       <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
                     </svg>
                   )}
                 </button>
               </div>
-              {errors.password && <span className="text-red-500 text-sm mt-1">{errors.password}</span>}
+              {errors.password && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.password}
+                </span>
+              )}
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="confirmPassword" className="mb-1">Confirm Password</label>
+              <label htmlFor="confirmPassword" className="mb-1">
+                Confirm Password
+              </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -160,22 +200,44 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
                       <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                      <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                      <path
+                        fillRule="evenodd"
+                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clipRule="evenodd" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z"
+                        clipRule="evenodd"
+                      />
                       <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
                     </svg>
                   )}
                 </button>
               </div>
-              {errors.confirmPassword && <span className="text-red-500 text-sm mt-1">{errors.confirmPassword}</span>}
+              {errors.confirmPassword && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.confirmPassword}
+                </span>
+              )}
             </div>
 
-            <button 
+            <button
               type="submit"
               className="cursor-pointer mt-6 w-full bg-brown text-center rounded-lg p-2"
             >
