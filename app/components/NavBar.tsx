@@ -13,8 +13,12 @@ export default function Header() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
   const pathname = usePathname();
-  // If the pathname starts with /admin, don't render the NavBar
-  if (pathname.startsWith("/admin")) {
+  // If the pathname starts with /admin, /login, or /signup, don't render the NavBar
+  if (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup")
+  ) {
     return null;
   }
   return (
