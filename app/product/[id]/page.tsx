@@ -23,6 +23,11 @@ type Diamond = {
 function DiamondDisplay() {
   const { id } = useParams();
 
+  //get user from local storage
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  console.log(user);
+
   // State for selected diamond (fetched via API)
   const [selectedDiamond, setSelectedDiamond] = useState<Diamond | undefined>(
     undefined
@@ -94,7 +99,7 @@ function DiamondDisplay() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: "67d15ba3d12ba9bc35027815", // fixed userID
+          user: user.id,
           product: selectedDiamond._id,
           quantity: 1,
         }),
