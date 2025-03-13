@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FiMenu } from "react-icons/fi";
 import {
@@ -9,10 +9,18 @@ import {
   FaBox,
 } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-
+import { useRouter } from "next/navigation";
 // const pathname = usePathname();
 
 const AdminSidebar = () => {
+  const router = useRouter();
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  //   if (user.role !== "admin") {
+  //     router.push("/login");
+  //   }
+  // }, [router]);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
