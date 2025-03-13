@@ -75,6 +75,7 @@ export default function LoginPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formValues),
+          credentials: "include", // ✅ Corrected: Send cookies with the request
         });
         const data = await res.json();
 
@@ -87,7 +88,7 @@ export default function LoginPage() {
             JSON.stringify({
               email: data.user.email,
               id: data.user.id, // Assuming your API returns _id
-              role: data.user.role || "user", // Default to 'user' if role isn't provided
+              role: data.user.role,
 
               token: data.token,
             })
