@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
-import { FaFacebookF } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { IoCall } from "react-icons/io5";
+import { FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Contact: React.FC = () => {
@@ -164,12 +162,18 @@ const Contact: React.FC = () => {
             <div className=" bg-brown rounded-full w-12 h-12 text-white justify-center items-center flex cursor-pointer transition-colors duration-800 hover:bg-white hover:text-brown">
               <FaFacebookF className=" text-3xl" />
             </div>
-            <div className="font-aeonikregularitalic flex gap-2 items-center px-4 py-2 border-2 border-white text-white rounded-full cursor-pointer hover:bg-white hover:text-black transform-fill transition-colors duration-800">
+            <div 
+              onClick={() => window.open("https://www.instagram.com/invites/contact/?igsh=y47nkm0pz3o0&utm_content=xhwyu14", "_blank")}
+              className="font-aeonikregularitalic flex gap-2 items-center px-4 py-2 border-2 border-white text-white rounded-full cursor-pointer hover:bg-white hover:text-black transform-fill transition-colors duration-800"
+            >
               <FaInstagram className=" text-3xl" />
               Instagram
             </div>
-            <div className=" bg-transparent border-2 border-white text-white rounded-full w-12 h-12 justify-center items-center flex cursor-pointer hover:bg-white hover:text-black transition-colors duration-800">
-              <IoCall className=" text-3xl" />
+            <div 
+              onClick={() => window.open("https://wa.me/+447983637117", "_blank")}
+              className=" bg-transparent border-2 border-white text-white rounded-full w-12 h-12 justify-center items-center flex cursor-pointer hover:bg-white hover:text-black transition-colors duration-800"
+            >
+              <FaWhatsapp className=" text-3xl" />
             </div>
           </div>
         </div>
