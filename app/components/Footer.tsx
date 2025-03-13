@@ -1,9 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoArrowRight } from "react-icons/go";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleSubscribe = async () => {
+    if (!email) return;
+    setStatus("sending");
+
+    try {
+      const response = await fetch('/api/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: email,
+          to: "navodchathushka@gmail.com",
+          subject: "New Newsletter Subscription",
+          text: `New subscription request from: ${email}`,
+        }),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setEmail("");
+        setTimeout(() => setStatus("idle"), 3000);
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      setStatus("error");
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -69,12 +102,32 @@ const Footer = () => {
         <div className="flex w-full md:w-1/2 relative">
           <input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Your Email here"
             className="bg-[#202020] px-4 py-3 h-10 md:h-16 w-full rounded-full"
           />
-          <div className="absolute right-0 -translate-y-[0.5vw] flex items-center justify-center rounded-full h-12 w-12 lg:h-20 lg:w-20 bg-white text-primary text-2xl lg:text-6xl hover:bg-brown hover:text-white transition-colors duration-300 cursor-pointer">
+          <button
+            onClick={handleSubscribe}
+            disabled={status === "sending"}
+            className={`absolute right-0 -translate-y-[0.5vw] flex items-center justify-center rounded-full h-12 w-12 lg:h-20 lg:w-20 
+              ${status === "sending" 
+                ? "bg-gray-400 cursor-not-allowed" 
+                : "bg-white hover:bg-brown hover:text-white"} 
+              text-primary text-2xl lg:text-6xl transition-colors duration-300`}
+          >
             <GoArrowRight />
-          </div>
+          </button>
+          {status === "success" && (
+            <div className="absolute -bottom-8 left-4 text-green-500">
+              Successfully subscribed!
+            </div>
+          )}
+          {status === "error" && (
+            <div className="absolute -bottom-8 left-4 text-red-500">
+              Failed to subscribe. Please try again.
+            </div>
+          )}
         </div>
         <div className="text-wrap w-full md:w-1/3 text-xl font-aeonikregularitalic">
           Experience timeless brilliance with{" "}
