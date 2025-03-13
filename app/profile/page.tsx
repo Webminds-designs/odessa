@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ComingSoon from "../components/ComingSoonProps";
-import { FaUserAstronaut } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 import UserAccount from "./account";
 import UserFavourites from "./favourites";
 import UserOrderHistory from "./orderhistory";
@@ -17,8 +16,39 @@ const person = {
 const tabs = ['Account Settings', 'Order History', 'My Favourites'];
 
 const ProfilePage: React.FC = () => {
-
+  const router = useRouter();
   const [selected, setSelected] = React.useState(0);
+  const userId = JSON.parse(localStorage.getItem("user") || "{}").id;
+  
+  interface User {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    contactNumber?: string;
+    address?: string;
+    postalCode?: string;
+  }
+  
+  const [currentUser, setCurrentUser] = useState<User>({});
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !localStorage.getItem("user")) {
+      router.push("/login");
+    }
+  }, [router]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await fetch(`/api/users/${userId}`);
+      const data = await response.json();
+      if (response.ok) {
+        setCurrentUser(data.user);
+      } else {
+        console.error("Error: ",data);
+      }
+    };
+    fetchUser();
+  }, [userId]);
 
   return (
     <div className="md:px-24">
@@ -36,19 +66,19 @@ const ProfilePage: React.FC = () => {
       <div className="flex items-center gap-7 md:gap-10 mt-20">
         <div className="flex rounded-full h-32 w-32 md:h-40 md:w-40 lg:h-52 lg:w-52 bg-white/50">
           <img
-            src={person.image}
+            src="/images/person1.png"
             alt="person"
             className="rounded-full h-32 w-32 md:h-40 md:w-40 lg:h-52 lg:w-52"
           />
         </div>
         <div className="flex flex-col">
-          <p className="font-vasion text-2xl md:text-5xl lg:text-7xl">{person.firstname}</p>
-          <p className="font-vasion text-2xl md:text-5xl lg:text-7xl">{person.lastname}</p>
-          <p className="font-aeonikregular text-xs md:text-sm text-gray-400">{person.email}</p>
+          <p className="font-vasion text-2xl md:text-5xl lg:text-7xl">{currentUser.firstName || 'Update Your'}</p>
+          <p className="font-vasion text-2xl md:text-5xl lg:text-7xl">{currentUser.lastName || 'Personal Details'}</p>
+          <p className="font-aeonikregular text-xs md:text-sm text-gray-400">{currentUser.email}</p>
         </div>
-      </div>
+     </div>
 
-      {/* user info */}
+      {/* user info en*/}
       <div>
 
         {/* toggle buttons */}
@@ -91,7 +121,7 @@ const ProfilePage: React.FC = () => {
                 transition={{ duration: 0.3 }}
                 className="absolute w-full"
               >
-                <UserAccount />
+                <UserAccount user={currentUser} />
               </motion.div>
             )}
             {selected === 1 && (
