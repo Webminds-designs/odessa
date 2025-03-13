@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     if (!validatePassword) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
-    
+
     //create token data
     const tokenData = {
       id: user._id,
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     // Create response
     const response = NextResponse.json(
-      { message: "Login successful",token: token, user: tokenData },
+      { message: "Login successful", token: token, user: tokenData },
       { status: 200 }
     );
 
@@ -49,7 +49,6 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-
   } catch (error) {
     console.error("Error logging in user:", error);
     return NextResponse.json(

@@ -1,142 +1,249 @@
 "use client";
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import diomondimg from "../../public/images/diamond2.png";
-import diamonds from "@/public/images/diamonds";
 
-// Sample products array (you can replace this with dynamic data)
-const products = [
-  {
-    id: 1,
-    name: "Round Diamond",
-    image: diamonds[1].images[0],
-    price: 175000,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Emerald Cut Diamond",
-    image: diamonds[3].images[0],
-    price: 200000,
-    quantity: 1,
-  },
-  {
-    id: 3,
-    name: "Emerald Cut Diamond",
-    image: diamonds[6].images[0],
-    price: 150000,
-    quantity: 1,
-  },
-];
+// Define types for the product and cart item
+type Product = {
+  _id: string;
+  id: string;
+  name: string;
+  price: number | string; // API may return a string; we'll parse it
+  images?: string[]; // images is optional to handle missing data
+};
+
+type CartItem = {
+  product: Product;
+  quantity: number;
+};
+
+type Cart = {
+  _id: string;
+  user: string;
+  items: CartItem[];
+};
 
 const CartPage: React.FC = () => {
-  const [cart, setCart] = useState(products);
+  const [cart, setCart] = useState<Cart | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Increment and Decrement functions
-  const handleIncrement = (id: number) => {
-    setCart((prevCart) =>
-      prevCart.map((product) =>
-        product.id === id
-          ? { ...product, quantity: product.quantity + 1 }
-          : product
-      )
+  // Fetch the cart for a fixed user from your API
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res = await fetch(
+          "http://localhost:3000/api/cart?userId=67d15ba3d12ba9bc35027815"
+        );
+        const data = await res.json();
+        // Assuming your API returns an object with a "cart" property
+        if (data.cart) {
+          setCart(data.cart);
+          console.log("Fetched cart:", data.cart);
+        } else {
+          setError("Cart not found");
+        }
+      } catch (err) {
+        console.error("Error fetching cart:", err);
+        setError("Failed to fetch cart");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
+  // Local functions to update the cart state
+  const handleIncrement = (productId: string): void => {
+    if (!cart) return;
+    const updatedItems = cart.items.map((item) =>
+      item.product._id === productId
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
     );
+    setCart({ ...cart, items: updatedItems });
+
+    const increase = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/cart/increase", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user: "67d15ba3d12ba9bc35027815",
+            product: productId,
+          }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          setError(data.error);
+        }
+      } catch (err) {
+        console.error("Error increment", err);
+        setError("Failed to increment");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    increase();
   };
 
-  const handleDecrement = (id: number) => {
-    setCart((prevCart) =>
-      prevCart.map((product) =>
-        product.id === id && product.quantity > 1
-          ? { ...product, quantity: product.quantity - 1 }
-          : product
-      )
+  const handleDecrement = (productId: string): void => {
+    if (!cart) return;
+    const updatedItems = cart.items.map((item) =>
+      item.product._id === productId && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
     );
+    setCart({ ...cart, items: updatedItems });
+
+    const decrease = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/cart/decrease", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user: "67d15ba3d12ba9bc35027815",
+            product: productId,
+          }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          setError(data.error);
+        }
+      } catch (err) {
+        console.error("Error decrement", err);
+        setError("Failed to decrement");
+      } finally {
+        setLoading(false);
+      }
+    };
+    decrease();
   };
 
-  // Handle remove product (close function)
-  const handleRemove = (id: number) => {
-    setCart((prevCart) => prevCart.filter((product) => product.id !== id));
+  const handleRemove = (productId: string): void => {
+    if (!cart) return;
+    const updatedItems = cart.items.filter(
+      (item) => item.product._id !== productId
+    );
+    setCart({ ...cart, items: updatedItems });
+
+    const remove = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/cart/remove", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user: "67d15ba3d12ba9bc35027815",
+            product: productId,
+          }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          setError(data.error);
+        }
+      } catch (err) {
+        console.error("Error remove", err);
+        setError("Failed to remove");
+      } finally {
+        setLoading(false);
+      }
+    };
+    remove();
   };
+
+  if (loading) return <div className="p-4 text-center">Loading cart...</div>;
+  if (error || !cart)
+    return <div className="p-4 text-center">{error || "Cart not found"}</div>;
+
+  // Helper to parse price with a fallback to 0
+  const parsePrice = (price: number | string | undefined): number => {
+    if (price === undefined || price === null) return 0;
+    if (typeof price === "string") {
+      const parsed = parseFloat(price.replace(/,/g, ""));
+      return isNaN(parsed) ? 0 : parsed;
+    }
+    return price;
+  };
+
+  // Calculate overall subtotal
+  const subtotal = cart.items.reduce(
+    (acc, item) => acc + parsePrice(item.product.price) * item.quantity,
+    0
+  );
 
   return (
-    <div className="mx-30">
-      <h2 className="font-vasion text-3xl ml-6">Shopping Cart</h2>
-      <div className="flex flex-col md:flex-row  justify-between gap-6">
+    <div className="container mx-auto px-4 py-6">
+      <h2 className="font-vasion text-3xl md:text-4xl mb-6 text-center">
+        Shopping Cart
+      </h2>
+      <div className="flex flex-col md:flex-row justify-between gap-6">
         {/* Products Section */}
-        <div className="w-full lg:w-2/3  text-white p-6 AeonikRegular ">
-          {cart.map((product) => {
-            const total = product.price * product.quantity;
+        <div className="w-full md:w-2/3 bg-dark p-4 rounded-lg shadow-md">
+          {cart.items.map((item) => {
+            const priceNum = parsePrice(item.product.price);
+            const total = priceNum * item.quantity;
             return (
               <div
-                key={product.id}
-                className="flex flex-col lg:flex-row gap-6 mb-6"
+                key={item.product._id}
+                className="flex flex-col lg:flex-row gap-4 mb-6 border-b border-gray-700 pb-4"
               >
                 {/* Image Section (Left Side) */}
-                <div className="w-full lg:w-1/2  relative">
-                  <div className="relative bg-[#292929] p-4 rounded-2xl w-full ">
+                <div className="w-full lg:w-1/3">
+                  <div className="relative bg-[#292929] p-4 rounded-2xl">
                     <div className="text-center">
-                      <Image
-                        src={diomondimg}
-                        alt={product.name}
-                        className="w-[150px] h-[150px] object-cover mx-auto"
-                        width={600}
-                        height={600}
-                        priority
-                      />
+                      {item.product.images && item.product.images.length > 0 ? (
+                        <Image
+                          src={item.product.images[0]}
+                          alt={item.product.name}
+                          className="mx-auto object-cover rounded"
+                          width={150}
+                          height={150}
+                          priority
+                        />
+                      ) : (
+                        <div className="w-[150px] h-[150px] bg-gray-300 mx-auto" />
+                      )}
                     </div>
-
                     <button
-                      onClick={() => handleRemove(product.id)} // remove button
-                      className="absolute top-2 right-2 p-2 rounded-full"
+                      onClick={() => handleRemove(item.product._id)}
+                      className="absolute top-2 right-2 p-2 rounded-full text-white"
                     >
                       ✕
                     </button>
-                    <div className="flex justify-between w-full  p-2 mt-3 bg-[#1d1d1d] rounded-2xl border-1 border-primary">
-                      <div className="text-sm font-light text-gray-300 text-center content-center">
-                        {product.name}
-                      </div>
-                      <span className="text-lg font-bold">
-                        {product.price.toLocaleString()} $
-                      </span>
-                    </div>
                   </div>
                 </div>
-
                 {/* Product Info (Right Side) */}
-                <div className="w-full lg:w-1/2 space-y-8 mx-15">
-                  <div className="flex justify-between mb-6">
-                    <h2 className="text-2xl content-center  text-gray-300 font-light">
-                      {product.name}
+                <div className="w-full lg:w-2/3 flex flex-col justify-between">
+                  <div className="flex justify-between mb-2">
+                    <h2 className="text-xl text-gray-200 font-medium">
+                      {item.product.name}
                     </h2>
-                    <span className="text-lg font-bold">
-                      {product.price.toLocaleString()} $
+                    <span className="text-lg font-bold text-amber-400">
+                      {priceNum.toLocaleString()} $
                     </span>
                   </div>
-                  {/* Quantity Selector */}
-                  <div className=" flex justify-between mt-20">
-                    <span className="text-md">Quantity</span>
-                    <div className="flex items-center space-x-3 mt-2 px-2 bg-[#1d1d1d] rounded-3xl">
+                  <div className="flex justify-between items-center mt-4">
+                    <div className="flex items-center space-x-2  px-3 py-1 rounded-full">
                       <button
-                        onClick={() => handleDecrement(product.id)}
-                        className="p-1 rounded-lg cursor-pointer"
+                        onClick={() => handleDecrement(item.product._id)}
+                        className="px-2 py-1 bg-gray-700 text-white rounded"
                       >
                         -
                       </button>
-                      <span className="text-lg p-1">{product.quantity}</span>
+                      <span className="text-lg">{item.quantity}</span>
                       <button
-                        onClick={() => handleIncrement(product.id)}
-                        className="p-1 rounded-lg cursor-pointer"
+                        onClick={() => handleIncrement(item.product._id)}
+                        className="px-2 py-1 bg-gray-700 text-white rounded"
                       >
                         +
                       </button>
                     </div>
-                  </div>
-
-                  {/* Total Price */}
-                  <div className="mt-4 flex justify-between">
-                    <span className="font-bold text-xl">Total</span>
-                    <div className="text-lg font-bold">
+                    <div className="text-lg font-bold text-gray-300">
                       {total.toLocaleString()} $
                     </div>
                   </div>
@@ -145,48 +252,31 @@ const CartPage: React.FC = () => {
             );
           })}
         </div>
-
         {/* Checkout Section */}
-        <div className="w-full lg:w-1/3 md:w-1/2  text-white p-6">
-          <div className="bg-[#292929] p-5 rounded-2xl">
-            <h2 className="text-center mb-5 text-xl">Order Summary</h2>
-            <div className="flex justify-between">
-              <div className="text-start space-y-1">
+        <div className="w-full md:w-1/3 h-fit p-6 rounded-lg shadow-md flex flex-col justify-between">
+          <div>
+            <h2 className="text-center mb-5 text-2xl font-bold">
+              Order Summary
+            </h2>
+            <div className="flex justify-between text-lg mb-6">
+              <div className="space-y-1 text-gray-300">
                 <div>Item subtotal</div>
                 <div>Shipping fee</div>
                 <div>Tax</div>
                 <div className="font-bold">Total</div>
               </div>
-              <div className="text-end space-y-1">
-                {/* Calculate total for all products */}
-                <div>
-                  {cart
-                    .reduce(
-                      (acc, product) => acc + product.price * product.quantity,
-                      0
-                    )
-                    .toLocaleString()}{" "}
-                  $
-                </div>
+              <div className="space-y-1 text-right text-gray-300">
+                <div>{subtotal.toLocaleString()} $</div>
                 <div>0 $</div>
                 <div>0 $</div>
-                <div className="font-bold">
-                  {cart
-                    .reduce(
-                      (acc, product) => acc + product.price * product.quantity,
-                      0
-                    )
-                    .toLocaleString()}{" "}
-                  $
-                </div>
+                <div className="font-bold">{subtotal.toLocaleString()} $</div>
               </div>
             </div>
-            <div className="flex justify-center mt-5">
-              <button className="bg-brown text-white text-center p-2 rounded-md font-bold px-6">
-                Checkout
-              </button>
-            </div>
           </div>
+
+          <button className="bg-brown text-white py-3 px-6 rounded-md font-bold transition-all duration-300 hover:scale-105 w-full mt-auto">
+            Checkout
+          </button>
         </div>
       </div>
     </div>
