@@ -5,7 +5,7 @@ import Favourite from "@/app/models/favourite";
 connectDB();
 
 // GET request to retrieve all favourites
-export default async function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     const favourites = await Favourite.find({});
     return NextResponse.json({ favourites }, { status: 200 });
@@ -21,47 +21,88 @@ export default async function GET(request: NextRequest) {
 // POST request to create a new favourite
 export async function POST(request: NextRequest) {
   try {
-    const { userId, products } = await request.json();
+    const { user: userId, product: productId } = await request.json();
 
-    const newFavourite = new Favourite({
-      userId,
-      products,
-    });
+    if (!userId || !productId) {
+      return NextResponse.json(
+        { error: "User ID and product ID are required" },
+        { status: 400 }
+      );
+    }
 
-    await newFavourite.save();
+    // Check if user already has favorites
+    let userFavorites = await Favourite.findOne({ userId });
+
+    if (userFavorites) {
+      // User already has favorites, add new product if not already there
+      if (!userFavorites.products.includes(productId)) {
+        userFavorites.products.push(productId);
+        await userFavorites.save();
+      }
+    } else {
+      // Create new favorites document for user
+      userFavorites = new Favourite({
+        userId,
+        products: [productId],
+      });
+      await userFavorites.save();
+    }
+
     return NextResponse.json(
-      { message: "Favourite created", favourite: newFavourite },
-      { status: 201 }
+      { message: "Product added to favorites", products: userFavorites.products },
+      { status: 200 }
     );
   } catch (error) {
-    console.error("Error creating favourite:", error);
+    console.error("Error adding favorite:", error);
     return NextResponse.json(
-      { error: "Failed to create favourite" },
+      { error: "Failed to add favorite" },
       { status: 500 }
     );
   }
 }
 
-// PUT request to update an existing favourite
-export async function PUT(request: NextRequest) {
-  try {
-    const { userId, products } = await request.json();
+export async function DELETE(request: NextRequest) {
+    try {
+        // Extract user and product IDs from the request body
+        const { user: userId, product: productId } = await request.json();
+        
+        if (!userId || !productId) {
+            return NextResponse.json(
+                { error: "User ID and product ID are required" },
+                { status: 400 }
+            );
+        }
 
-    const updatedFavourite = await Favourite.findOneAndUpdate(
-      { userId, products },
-      { userId, products },
-      { new: true }
-    );
-
-    return NextResponse.json(
-      { message: "Favourite updated", favourite: updatedFavourite },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Error updating favourite:", error);
-    return NextResponse.json(
-      { error: "Failed to update favourite" },
-      { status: 500 }
-    );
-  }
+        // Find the user's favorites document
+        const userFavorites = await Favourite.findOne({ userId });
+        
+        if (!userFavorites) {
+            return NextResponse.json(
+                { error: "No favorites found for this user" },
+                { status: 404 }
+            );
+        }
+        
+        // Remove the product ID from the products array
+        userFavorites.products = userFavorites.products.filter(
+            (id) => id.toString() !== productId
+        );
+        
+        // Save the updated document
+        await userFavorites.save();
+        
+        return NextResponse.json(
+            { 
+                message: "Product removed from favorites",
+                products: userFavorites.products 
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error("Error removing favorite:", error);
+        return NextResponse.json(
+            { error: "Failed to remove favorite" },
+            { status: 500 }
+        );
+    }
 }
