@@ -64,7 +64,6 @@ export default function OrderHistory() {
   return (
     <div className="min-h-screen font-aeonikregular text-white py-10 px-4">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl mb-8">Order history</h1>
 
         {/* Table Container */}
         <div className="w-full overflow-x-auto">
