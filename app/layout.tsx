@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   description: "Odessa diamond jewelry seller",
   icons: {
     icon: "/images/odessa.png",
-    // Optionally add more:
     shortcut: "/images/odessa.png",
     apple: "/images/odessa.png",
   },
@@ -35,6 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavBar />
+
         {children}
       </body>
     </html>
