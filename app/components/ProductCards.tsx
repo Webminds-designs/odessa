@@ -20,43 +20,16 @@ interface ProductCardsProps {
     measurements: string;
     images: string[];
   };
+  isFavourited?: boolean;
+  onFavouriteToggle?: (productId: string) => Promise<void>;
 }
 
-const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
-  const [favourites, setFavourites] = React.useState<string[]>([]);
-
+const ProductCards: React.FC<ProductCardsProps> = ({ 
+  diamond, 
+  isFavourited = false,
+  onFavouriteToggle 
+}) => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const res = await fetch("/api/favorites", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch favorites");
-        }
-
-        const data = await res.json();
-        setFavourites(data.products || []);
-      } catch (error) {
-        console.error("Error fetching favorites: ", error);
-        toast.error("Error fetching favorites");
-      }
-    };
-
-    if (user._id) {
-      fetchFavorites();
-    }
-  }, [user._id]);
-
-  const isFavourite = (productId: string) => {
-    return favourites.includes(productId);
-  }
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -74,16 +47,12 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
         }),
       });
 
-      console.log("Response status:", res.status);
-
       if (!res.ok) {
         const errorData = await res.json();
         console.error("Error response from API:", errorData);
         throw new Error("Failed to add to cart");
       }
 
-      const data = await res.json();
-      console.log("Added to cart:", data);
       toast.success("Product added to cart!");
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -94,46 +63,13 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
   const handleToggleFavorite = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     
-    if (!user._id) {
+    if (!user.id) {
       toast.error("Please log in to manage favorites");
       return;
     }
 
-    const isCurrentlyFavorite = isFavourite(diamond._id);
-    const method = isCurrentlyFavorite ? "DELETE" : "POST";
-
-    try {
-      const res = await fetch("/api/favorites", {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user: user._id,
-          product: diamond._id,
-        }),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        console.error("Error response from API:", errorData);
-        throw new Error(`Failed to ${isCurrentlyFavorite ? "remove from" : "add to"} favorites`);
-      }
-
-      const data = await res.json();
-      
-      // Update local state based on action
-      if (isCurrentlyFavorite) {
-        setFavourites(prev => prev.filter(id => id !== diamond._id));
-        toast.success("Removed from favorites!");
-      } else {
-        setFavourites(prev => [...prev, diamond._id]);
-        toast.success("Added to favorites!");
-      }
-      
-    } catch (error) {
-      console.error("Error managing favorites:", error);
-      toast.error("Error managing favorites");
+    if (onFavouriteToggle) {
+      await onFavouriteToggle(diamond._id);
     }
   };
 
@@ -150,7 +86,7 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
           className="absolute right-4 top-4 hover:cursor-pointer"
           onClick={handleToggleFavorite}
         >
-          {isFavourite(diamond._id) ? (
+          {isFavourited ? (
             <FaHeart size={20} color="#ff4f4f" />
           ) : (
             <FaRegHeart size={20} />

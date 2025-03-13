@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import ProductCards from "../components/ProductCards";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import Link from "next/link";
+import { toast } from "react-toastify";
 import { AnimatePresence } from "framer-motion";
 
 // Define an interface for the diamond object
@@ -37,8 +38,10 @@ const ProductCardSkeleton: React.FC = () => {
 
 const CollectionPage: React.FC = () => {
   const [diamonds, setDiamonds] = useState<Diamond[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -61,6 +64,63 @@ const CollectionPage: React.FC = () => {
 
     fetchDiamonds();
   }, []);
+
+  // Fetch user's favorites
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const res = await fetch("/api/favorites", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch favorites");
+
+        const data = await res.json();
+        console.log("data", data);
+        // Update this line to correctly access the favorites data
+        const userFavorite = data.favourites.find((fav: { userId: any; }) => fav.userId === user.id);
+        setFavorites(userFavorite?.products || []);
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+        toast.error("Error fetching favorites");
+      }
+    };
+
+    if (user.id) {
+      fetchFavorites();
+    }
+  }, [user.id]);
+
+  // Handle favorite toggle
+  const handleFavoriteToggle = async (productId: string) => {
+    const isCurrentlyFavorite = favorites.includes(productId);
+    const method = isCurrentlyFavorite ? "DELETE" : "POST";
+
+    try {
+      const res = await fetch("/api/favorites", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user: user.id,
+          product: productId,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update favorites");
+
+      if (isCurrentlyFavorite) {
+        setFavorites(prev => prev.filter(id => id !== productId));
+        toast.success("Removed from favorites!");
+      } else {
+        setFavorites(prev => [...prev, productId]);
+        toast.success("Added to favorites!");
+      }
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+      toast.error("Error updating favorites");
+    }
+  };
 
   // Calculate total pages and current page items
   const totalItems = diamonds.length;
@@ -117,7 +177,11 @@ const CollectionPage: React.FC = () => {
         <div className="flex flex-wrap justify-center gap-5">
           {currentData.map((diamond: Diamond) => (
             <div key={diamond.id}>
-              <ProductCards diamond={diamond} />
+              <ProductCards
+                diamond={diamond}
+                isFavourited={favorites.includes(diamond._id)}
+                onFavouriteToggle={handleFavoriteToggle}
+              />
             </div>
           ))}
         </div>
