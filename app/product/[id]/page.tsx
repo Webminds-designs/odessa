@@ -109,7 +109,7 @@ function DiamondDisplay() {
             <div className="flex justify-between items-center mb-6 p-4 rounded-lg shadow-inner">
               <span className="font-medium">Price</span>
               <span className="text-xl font-light text-brown">
-                {selectedDiamond.price}
+                {selectedDiamond.price} £
               </span>
             </div>
 
