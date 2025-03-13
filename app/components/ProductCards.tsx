@@ -22,6 +22,11 @@ interface ProductCardsProps {
 }
 
 const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
+  //get user from local storage
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  // console.log(user);
+
   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // Prevent the click from bubbling to parent elements (like Link)
     e.stopPropagation();
@@ -33,7 +38,7 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: "67d15ba3d12ba9bc35027815", // fixed userID
+          user: user.id,
           product: diamond._id,
           quantity: 1,
         }),
