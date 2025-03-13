@@ -8,10 +8,10 @@ connectDB();
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
     const product = await Product.findOne({ _id: id });
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
