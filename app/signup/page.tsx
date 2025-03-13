@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
+import { toast, Toaster } from 'react-hot-toast';
 
-interface LoginFormValues {
+interface SignupFormValues {
   email: string;
   password: string;
-  confirmPassword: string; // Add confirm password to the interface
+  confirmPassword: string;
 }
 
 interface FormErrors {
@@ -16,14 +18,17 @@ interface FormErrors {
   confirmPassword?: string;
 }
 
-export default function LoginPage() {
+export default function SignupPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [formValues, setFormValues] = useState<LoginFormValues>({
+  const [formValues, setFormValues] = useState<SignupFormValues>({
     email: "",
     password: "",
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [serverError, setServerError] = useState("");
+  const [serverSuccess, setServerSuccess] = useState("");
 
   // Email validation function
   const validateEmail = (email: string) => {
@@ -46,6 +51,7 @@ export default function LoginPage() {
         [id]: undefined,
       }));
     }
+    setServerError("");
   };
 
   // Form validation
@@ -78,12 +84,46 @@ export default function LoginPage() {
   };
 
   // Form submission handler
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // Proceed with signup
-      console.log("Form is valid, submitting:", formValues);
-      // Add your signup API call or logic here
+      try {
+        const res = await fetch("http://localhost:3000/api/users/signup/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formValues),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          // Success toast message
+          toast.success("User created successfully. Redirecting to login...");
+          
+          // Store user data in localStorage
+          localStorage.setItem('user', JSON.stringify({
+            email: data.user.email,
+            id: data.user._id,
+            role: data.user.role || 'user'
+          }));
+          
+          setServerSuccess("User created successfully. Redirecting to login...");
+          
+          // Redirect to login after a short delay
+          setTimeout(() => {
+            router.push("/login");
+          }, 1500);
+        } else {
+          // Error toast message
+          toast.error(data.error || "Failed to create user");
+          setServerError(data.error || "Failed to create user");
+        }
+      } catch (error) {
+        console.error("Error creating user:", error);
+        // Unexpected error toast
+        toast.error("An unexpected error occurred.");
+        setServerError("An unexpected error occurred.");
+      }
     }
   };
 
@@ -99,9 +139,15 @@ export default function LoginPage() {
             Your Journey to Elegance Here!
           </div>
           <div className="text-center font-aeonikregular text-gray-400 mb-6">
-            Log in to explore stunning Diamond, manage your orders, and discover
-            timeless beauty
+            Sign up to explore stunning Diamond, manage your orders, and discover timeless beauty
           </div>
+
+          {serverError && (
+            <div className="mb-4 text-red-500 text-center">{serverError}</div>
+          )}
+          {serverSuccess && (
+            <div className="mb-4 text-green-500 text-center">{serverSuccess}</div>
+          )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
             <div className="flex flex-col">
@@ -119,9 +165,7 @@ export default function LoginPage() {
                 />
               </div>
               {errors.email && (
-                <span className="text-red-500 text-sm mt-1">
-                  {errors.email}
-                </span>
+                <span className="text-red-500 text-sm mt-1">{errors.email}</span>
               )}
             </div>
 
@@ -175,9 +219,7 @@ export default function LoginPage() {
                 </button>
               </div>
               {errors.password && (
-                <span className="text-red-500 text-sm mt-1">
-                  {errors.password}
-                </span>
+                <span className="text-red-500 text-sm mt-1">{errors.password}</span>
               )}
             </div>
 
@@ -246,7 +288,7 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-5 text-center text-gray-300">
-            Already have an account ?
+            Already have an account?{" "}
             <Link href="/login">
               <span className="font-bold"> Sign In</span>
             </Link>
@@ -265,6 +307,7 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      <Toaster position="top-center" />
     </div>
   );
 }
