@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ComingSoon from "../components/ComingSoonProps";
-import { FaUserAstronaut } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 import UserAccount from "./account";
 import UserFavourites from "./favourites";
 import UserOrderHistory from "./orderhistory";
@@ -17,8 +16,14 @@ const person = {
 const tabs = ['Account Settings', 'Order History', 'My Favourites'];
 
 const ProfilePage: React.FC = () => {
-
+  const router = useRouter();
   const [selected, setSelected] = React.useState(0);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !localStorage.getItem("user")) {
+      router.push("/login");
+    }
+  }, [router]);
 
   return (
     <div className="md:px-24">
