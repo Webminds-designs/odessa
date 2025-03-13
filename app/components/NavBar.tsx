@@ -4,14 +4,26 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import ProfileDropdown from './ProfileDropdown';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
+  const pathname = usePathname();
+  // If the pathname starts with /admin, /login, or /signup, don't render the NavBar
+  if (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/unauthorized")
+  ) {
+    return null;
+  }
   return (
     <nav className="w-full relative md:p-4 cursor-pointer z-20">
       <div className="w-full bg-[#181818] flex items-center justify-between px-4 py-3 text-white rounded-full">
@@ -65,8 +77,11 @@ export default function Header() {
                 See Collection
               </Link>
             </li>
-            <li>
-              <Link href="/profile" className="cursor-pointer">
+            <li className="relative">
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="cursor-pointer focus:outline-none"
+              >
                 <div className="w-8 h-8 bg-white rounded-full">
                   <img
                     src="/images/person1.png"
@@ -74,7 +89,11 @@ export default function Header() {
                     className="w-8 h-8 rounded-full"
                   />
                 </div>
-              </Link>
+              </button>
+              <ProfileDropdown
+                isOpen={isProfileOpen}
+                onClose={() => setIsProfileOpen(false)}
+              />
             </li>
             <li>
               <Link href="/cart" className="cursor-pointer">
