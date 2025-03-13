@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -61,6 +60,8 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
       toast.error("Error adding product to cart");
     }
   };
+
+  const handleAddFavorite = async (e: React.MouseEvent<HTMLButtonElement>) => {}
 
   return (
     <>
