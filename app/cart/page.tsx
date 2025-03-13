@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+import { useRouter } from "next/navigation";
+
 // Define types for the product and cart item
 type Product = {
   _id: string;
@@ -27,6 +29,8 @@ const CartPage: React.FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
@@ -178,6 +182,25 @@ const CartPage: React.FC = () => {
     0
   );
 
+  const handleCheckout = () => {
+    if (!cart) return;
+
+    // Extract relevant cart data
+    const checkoutData = cart.items.map((item) => ({
+      productId: item.product._id,
+      name: item.product.name,
+      quantity: item.quantity,
+      price: parsePrice(item.product.price),
+      total: parsePrice(item.product.price) * item.quantity,
+    }));
+
+    // Store checkout data in localStorage
+    localStorage.setItem("checkoutData", JSON.stringify(checkoutData));
+
+    // Navigate to the billing page
+    router.push("/bill");
+  };
+
   return (
     <div className="container mx-auto px-4 py-6">
       <h2 className="font-vasion text-3xl md:text-4xl mb-6 text-center">
@@ -226,7 +249,7 @@ const CartPage: React.FC = () => {
                       {item.product.name}
                     </h2>
                     <span className="text-lg font-bold text-amber-400">
-                      {priceNum.toLocaleString()} $
+                      {priceNum.toLocaleString()} £
                     </span>
                   </div>
                   <div className="flex justify-between items-center mt-4">
@@ -246,7 +269,7 @@ const CartPage: React.FC = () => {
                       </button>
                     </div>
                     <div className="text-lg font-bold text-gray-300">
-                      {total.toLocaleString()} $
+                      {total.toLocaleString()} £
                     </div>
                   </div>
                 </div>
@@ -268,15 +291,18 @@ const CartPage: React.FC = () => {
                 <div className="font-bold">Total</div>
               </div>
               <div className="space-y-1 text-right text-gray-300">
-                <div>{subtotal.toLocaleString()} $</div>
-                <div>0 $</div>
-                <div>0 $</div>
-                <div className="font-bold">{subtotal.toLocaleString()} $</div>
+                <div>{subtotal.toLocaleString()} £</div>
+                <div>0 £</div>
+                <div>0 £</div>
+                <div className="font-bold">{subtotal.toLocaleString()} £</div>
               </div>
             </div>
           </div>
 
-          <button className="bg-brown text-white py-3 px-6 rounded-md font-bold transition-all duration-300 hover:scale-105 w-full mt-auto">
+          <button
+            className="bg-brown text-white py-3 px-6 rounded-md font-bold transition-all duration-300 hover:scale-105 w-full mt-auto"
+            onClick={handleCheckout}
+          >
             Checkout
           </button>
         </div>

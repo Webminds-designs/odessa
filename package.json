@@ -10,7 +10,12 @@
   },
   "dependencies": {
     "@motionone/utils": "^10.18.0",
+
+    "@paypal/checkout-server-sdk": "^1.0.3",
+    "@paypal/react-paypal-js": "^8.8.2",
+
     "@types/jsonwebtoken": "^9.0.9",
+
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "chart.js": "^4.4.8",
@@ -27,7 +32,8 @@
     "react-dom": "^19.0.0",
     "react-toastify": "^11.0.5",
     "react-hot-toast": "^2.5.2",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
