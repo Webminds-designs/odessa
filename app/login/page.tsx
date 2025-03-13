@@ -68,7 +68,7 @@ export default function LoginPage() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const res = await fetch("http://localhost:3000/api/users/login/", {
+        const res = await fetch("/api/users/login/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -92,7 +92,7 @@ export default function LoginPage() {
           
           // Redirect to a dashboard or home page after successful login
           setTimeout(() => {
-            router.push("/dashboard");
+            router.push("/");
           }, 1500);
         } else {
           console.error("Login failed", data);
