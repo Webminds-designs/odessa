@@ -1,11 +1,10 @@
-"use client"; // for Next.js 13 app router if you need client-side form handling
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc"; // Import Google icon
+import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
-import toast, { Toaster } from "react-hot-toast";
-import { TokenExpiredError } from "jsonwebtoken";
+import toast, { Toaster } from 'react-hot-toast';
 
 interface LoginFormValues {
   email: string;
@@ -34,7 +33,6 @@ export default function LoginPage() {
       [id]: value,
     }));
 
-    // Clear errors when user starts typing
     if (errors[id as keyof LoginFormValues]) {
       setErrors((prev) => ({
         ...prev,
@@ -65,24 +63,27 @@ export default function LoginPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (validateForm()) {
       try {
         const res = await fetch("/api/users/login/", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
+
           body: JSON.stringify(formValues),
           credentials: "include", // ✅ Corrected: Send cookies with the request
+
         });
         const data = await res.json();
-
+        
         if (res.ok) {
-          console.log("Login successful", data.user);
+          console.log("Login successful", data);
+          
+          
 
-          // Store user data in localStorage
           localStorage.setItem(
             "user",
             JSON.stringify({
@@ -94,10 +95,9 @@ export default function LoginPage() {
             })
           );
 
-          // Show success toast
-          toast.success("Login successful! Redirecting...");
 
-          // Redirect to a dashboard or home page after successful login
+          toast.success("Login successful! Redirecting...");
+          
           setTimeout(() => {
             router.push("/");
           }, 1500);
@@ -129,24 +129,21 @@ export default function LoginPage() {
         <div className="flex justify-center items-center w-full lg:w-1/2 h-auto lg:h-[900px]">
           <div className="flex flex-col items-center justify-center w-11/12 max-w-sm md:max-w-md lg:max-w-[500px] h-auto bg-[#252525] rounded-2xl p-8 md:p-11 shadow-2xl my-auto">
             {/* Title */}
-            <div className="font-aeonikregular text-2xl mb-4">
-              Welcome Back!
-            </div>
+            <div className="font-aeonikregular text-2xl mb-4">Welcome Back!</div>
             <div className="text-center font-aeonikregular text-gray-400 mb-6">
-              Log in to explore stunning Diamond, manage your orders, and
-              discover timeless beauty
+              Log in to explore stunning Diamond, manage your orders, and discover
+              timeless beauty
             </div>
 
             {/* Display server error if exists */}
             {serverError && (
-              <div className="mb-4 text-red-500 text-center">{serverError}</div>
+              <div className="mb-4 text-red-500 text-center">
+                {serverError}
+              </div>
             )}
 
             {/* Form fields */}
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-4 w-full"
-            >
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
               <div className="flex flex-col">
                 <label htmlFor="email" className="mb-1">
                   Email
@@ -255,21 +252,21 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-
+      
       {/* Toast container */}
-      <Toaster
+      <Toaster 
         position="top-center"
         toastOptions={{
           success: {
             style: {
-              background: "#4CAF50",
-              color: "white",
+              background: '#4CAF50',
+              color: 'white',
             },
           },
           error: {
             style: {
-              background: "#F44336",
-              color: "white",
+              background: '#F44336',
+              color: 'white',
             },
           },
         }}

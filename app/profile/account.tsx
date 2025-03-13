@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PasswordResetModal from './passwordResetModal';
+import { toast } from 'react-hot-toast';
 
 const Account = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,6 +24,51 @@ const Account = () => {
   });
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = localStorage.getItem('user');
+        
+        if (!userData) {
+          toast.error("You need to be logged in to view this page");
+          return;
+        }
+        
+        const { id } = JSON.parse(userData);
+        
+        const response = await fetch(`/api/users/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to fetch user data");
+        }
+        
+        setFormData({
+          firstName: data.user.firstName || '',
+          lastName: data.user.lastName || '',
+          email: data.user.email || '',
+          contactNumber: data.user.contactNumber || '',
+          address: data.user.address || '',
+          postalCode: data.user.postalCode || ''
+        });
+
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error("Failed to load your profile information");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -43,8 +90,18 @@ const Account = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    
+    const errorMessage = validateField(name, value);
+    
+    setErrors(prev => ({
+      ...prev,
+      [name]: errorMessage
+    }));
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleEdit = () => {
@@ -71,7 +128,7 @@ const Account = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = {} as typeof errors;
 
@@ -85,12 +142,67 @@ const Account = () => {
 
     setErrors(newErrors);
 
+    // In the validateField function or before submitting form
+    if (Object.keys(newErrors).length > 0) {
+      toast.error("Please fix the errors before submitting", {
+        duration: 3000
+      });
+      return;
+    }
+
+    // If no validation errors, proceed with update
     if (Object.keys(newErrors).length === 0) {
-      // Submit form
-      console.log('Form is valid:', formData);
-      setIsEditing(false);
+      // In handleSubmit before the try block
+      const toastId = toast.loading("Updating your profile...");
+
+      try {
+        // Get user ID from localStorage
+        const userData = localStorage.getItem('user');
+        if (!userData) {
+          toast.dismiss(toastId);
+          toast.error("You need to be logged in to update your profile");
+          return;
+        }
+        
+        const { id } = JSON.parse(userData);
+        
+        // Send PUT request to update user data
+        const response = await fetch(`/api/users/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          toast.dismiss(toastId);
+          throw new Error(data.error || "Failed to update profile");
+        }
+        
+        toast.dismiss(toastId);
+        toast.success("Profile updated successfully!", { 
+          duration: 3000, 
+          icon: '👍' 
+        });
+        setIsEditing(false);
+        
+      } catch (error) {
+        toast.dismiss(toastId);
+        console.error("Error updating profile:", error);
+        toast.error("Failed to update profile. Please try again.", {
+          duration: 4000,
+          icon: '❌'
+        });
+      }
     }
   };
+
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-64">Loading user profile...</div>;
+  }
 
   return (
     <div className='mb-20'>
