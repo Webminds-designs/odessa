@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface ProfileDropdownProps {
   isOpen: boolean;
@@ -33,6 +34,8 @@ const itemVariants = {
 };
 
 export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProps) {
+  const user = localStorage.getItem("user");
+  const router = useRouter();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -61,11 +64,12 @@ export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProp
               <button
                 onClick={() => {
                   onClose();
-                  // Add logout logic here
+                  user ? localStorage.removeItem("user") : null;
+                  user ? router.push("/") : router.push("/login");
                 }}
                 className="w-full text-left px-4 py-3 text-white hover:bg-[#292929] transition-colors"
               >
-                Logout
+                {user ? "Logout" : "Login"}
               </button>
             </motion.div>
           </motion.div>
