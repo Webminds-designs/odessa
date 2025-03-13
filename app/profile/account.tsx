@@ -128,10 +128,11 @@ const Account = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = {} as typeof errors;
 
+    // Validate all fields
     Object.keys(formData).forEach(key => {
       const error = validateField(key, formData[key as keyof typeof formData]);
       if (error) {
@@ -141,9 +142,61 @@ const Account = () => {
 
     setErrors(newErrors);
 
+    // In the validateField function or before submitting form
+    if (Object.keys(newErrors).length > 0) {
+      toast.error("Please fix the errors before submitting", {
+        duration: 3000
+      });
+      return;
+    }
+
+    // If no validation errors, proceed with update
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form is valid:', formData);
-      setIsEditing(false);
+      // In handleSubmit before the try block
+      const toastId = toast.loading("Updating your profile...");
+
+      try {
+        // Get user ID from localStorage
+        const userData = localStorage.getItem('user');
+        if (!userData) {
+          toast.dismiss(toastId);
+          toast.error("You need to be logged in to update your profile");
+          return;
+        }
+        
+        const { id } = JSON.parse(userData);
+        
+        // Send PUT request to update user data
+        const response = await fetch(`/api/users/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          toast.dismiss(toastId);
+          throw new Error(data.error || "Failed to update profile");
+        }
+        
+        toast.dismiss(toastId);
+        toast.success("Profile updated successfully!", { 
+          duration: 3000, 
+          icon: '👍' 
+        });
+        setIsEditing(false);
+        
+      } catch (error) {
+        toast.dismiss(toastId);
+        console.error("Error updating profile:", error);
+        toast.error("Failed to update profile. Please try again.", {
+          duration: 4000,
+          icon: '❌'
+        });
+      }
     }
   };
 
