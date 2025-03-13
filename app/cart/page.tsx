@@ -28,18 +28,20 @@ const CartPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
   // Fetch the cart for a fixed user from your API
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const res = await fetch(
-          "http://localhost:3000/api/cart?userId=67d15ba3d12ba9bc35027815"
+          `http://localhost:3000/api/cart?userId=${user.id}`
         );
         const data = await res.json();
         // Assuming your API returns an object with a "cart" property
         if (data.cart) {
           setCart(data.cart);
-          console.log("Fetched cart:", data.cart);
+          // console.log("Fetched cart:", data.cart);
         } else {
           setError("Cart not found");
         }
@@ -70,7 +72,7 @@ const CartPage: React.FC = () => {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            user: "67d15ba3d12ba9bc35027815",
+            user: user.id,
             product: productId,
           }),
         });
@@ -105,7 +107,7 @@ const CartPage: React.FC = () => {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            user: "67d15ba3d12ba9bc35027815",
+            user: user.id,
             product: productId,
           }),
         });
@@ -137,7 +139,7 @@ const CartPage: React.FC = () => {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            user: "67d15ba3d12ba9bc35027815",
+            user: user.id,
             product: productId,
           }),
         });
