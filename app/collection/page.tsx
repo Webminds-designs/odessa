@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import ProductCards from "../components/ProductCards";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import Link from "next/link";
+import { AnimatePresence } from "framer-motion";
 
 // Define an interface for the diamond object
 interface Diamond {
@@ -112,16 +113,15 @@ const CollectionPage: React.FC = () => {
       </h2>
 
       {/* Responsive grid */}
-      <div
-        className="grid gap-6"
-        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
-      >
-        {currentData.map((diamond: Diamond) => (
-          <div key={diamond.id}>
-            <ProductCards diamond={diamond} />
-          </div>
-        ))}
-      </div>
+      <AnimatePresence>
+        <div className="flex flex-wrap justify-center gap-5">
+          {currentData.map((diamond: Diamond) => (
+            <div key={diamond.id}>
+              <ProductCards diamond={diamond} />
+            </div>
+          ))}
+        </div>
+      </AnimatePresence>
 
       {/* Pagination controls */}
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">

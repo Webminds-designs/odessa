@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import ProductCards from "../../components/ProductCards";
 import { toast, ToastContainer } from "react-toastify";
+import { AnimatePresence } from "framer-motion";
 
 type Diamond = {
   _id: string;
@@ -216,17 +217,19 @@ function DiamondDisplay() {
               <div className="w-12 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mt-2"></div>
             </h2>
             <div className="w-full flex justify-center">
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12 items-center justify-items-center">
-                {allDiamonds
-                  .filter(
-                    (diamond: Diamond) =>
-                      diamond.shape === selectedDiamond.shape &&
-                      diamond.id !== selectedDiamond.id
-                  )
-                  .slice(0, 3)
-                  .map((diamond: Diamond) => (
-                    <ProductCards key={diamond.id} diamond={diamond} />
-                  ))}
+              <div className="flex flex-wrap justify-center gap-5">
+                <AnimatePresence>
+                  {allDiamonds
+                    .filter(
+                      (diamond: Diamond) =>
+                        diamond.shape === selectedDiamond.shape &&
+                        diamond.id !== selectedDiamond.id
+                    )
+                    .slice(0, 3)
+                    .map((diamond: Diamond) => (
+                      <ProductCards key={diamond.id} diamond={diamond} />
+                    ))}
+                </AnimatePresence>
               </div>
             </div>
           </div>
