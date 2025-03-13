@@ -17,7 +17,8 @@ export default function Header() {
   if (
     pathname.startsWith("/admin") ||
     pathname.startsWith("/login") ||
-    pathname.startsWith("/signup")
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/unauthorized")
   ) {
     return null;
   }
