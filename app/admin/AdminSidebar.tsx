@@ -8,19 +8,29 @@ import {
   FaShoppingCart,
   FaBox,
 } from "react-icons/fa";
-import { usePathname } from "next/navigation";
+
 import { useRouter } from "next/navigation";
 // const pathname = usePathname();
 
 const AdminSidebar = () => {
   const router = useRouter();
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  //   if (user.role !== "admin") {
-  //     router.push("/login");
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/auth/verify");
+        const data = await res.json();
+
+        if (res.status !== 200 || data.user.role !== "admin") {
+          router.push("/login");
+        }
+      } catch (error) {
+        router.push("/login");
+      }
+    };
+
+    checkAuth();
+  }, [router]);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);

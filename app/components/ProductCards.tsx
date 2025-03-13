@@ -30,6 +30,11 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
     // Prevent the click from bubbling to parent elements (like Link)
     e.stopPropagation();
 
+    if (!user.id) {
+      toast.error("Please login to add product to cart");
+      return;
+    }
+
     try {
       const res = await fetch("/api/cart", {
         method: "POST",
@@ -61,7 +66,9 @@ const ProductCards: React.FC<ProductCardsProps> = ({ diamond }) => {
     }
   };
 
-  const handleAddFavorite = async (e: React.MouseEvent<HTMLButtonElement>) => {}
+  const handleAddFavorite = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {};
 
   return (
     <>

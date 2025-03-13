@@ -72,7 +72,10 @@ export default function LoginPage() {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(formValues)
+
+          body: JSON.stringify(formValues),
+          credentials: "include", // ✅ Corrected: Send cookies with the request
+
         });
         const data = await res.json();
         
@@ -80,13 +83,19 @@ export default function LoginPage() {
           console.log("Login successful", data);
           
           
-          // Store user data in localStorage
-          localStorage.setItem('user', JSON.stringify({
-            email: data.user.email,
-            id: data.user._id || data.user.id,
-            role: data.user.role || 'user'
-          }));
-          
+
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              email: data.user.email,
+              id: data.user.id, // Assuming your API returns _id
+              role: data.user.role,
+
+              token: data.token,
+            })
+          );
+
+
           toast.success("Login successful! Redirecting...");
           
           setTimeout(() => {

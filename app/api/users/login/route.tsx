@@ -8,10 +8,13 @@ connectDB();
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { email, password } = body;
+    const { email, password } = await request.json();
 
-    console.log("Login request body:", body);
+
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET is not defined in environment variables.");
+    }
+
 
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
@@ -22,16 +25,16 @@ export async function POST(request: NextRequest) {
     if (!validatePassword) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
-    
-    //create token data
+
     const tokenData = {
-      id: user._id,
+      id: user._id.toString(),
       email: user.email,
       role: user.role,
     };
 
-    // Generate token
+
     const token = jwt.sign(tokenData, process.env.JWT_SECRET!, {
+
       expiresIn: "24h",
     });
 
@@ -43,8 +46,13 @@ export async function POST(request: NextRequest) {
 
     response.cookies.set("token", token, {
       httpOnly: true,
-    });
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax", // ← Change from 'strict' to 'lax'
+      path: "/",
+      maxAge: 24 * 60 * 60,
 
+    });
+    console.log("Set-Cookie header:", response.headers.get("Set-Cookie"));
     return response;
 
   } catch (error) {
