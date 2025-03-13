@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProductCards from '../components/ProductCards';
 import { AnimatePresence } from 'framer-motion';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
 
 const Favourites = () => {
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -66,7 +65,13 @@ const Favourites = () => {
         setFavorites(validProducts);
       } catch (error) {
         console.error("Error fetching favorites:", error);
-        toast.error("Error fetching favorites");
+        toast.error("Error fetching favorites", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
       } finally {
         setIsLoading(false);
       }
@@ -98,7 +103,13 @@ const Favourites = () => {
         if (isCurrentlyFavorite) {
             // Filter out the removed product using _id
             setFavorites(prev => prev.filter(product => product._id !== productId));
-            toast.success("Removed from favorites!");
+            toast.success("Removed from favorites!", {
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            });
         } else {
             // Need to fetch the new product details before adding
             const productRes = await fetch(`/api/product/${productId}`, {
@@ -110,11 +121,23 @@ const Favourites = () => {
             
             const productData = await productRes.json();
             setFavorites(prev => [...prev, productData.product]);
-            toast.success("Added to favorites!");
+            toast.success("Added to favorites!", {
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            });
         }
     } catch (error) {
         console.error("Error updating favorites:", error);
-        toast.error("Error updating favorites");
+        toast.error("Error updating favorites", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
     }
 };
 
@@ -143,8 +166,6 @@ const Favourites = () => {
           <p className="text-xl">You don&apos;t have any favorites yet.</p>
         </div>
       )}
-
-      <ToastContainer position="bottom-center" theme="dark" />
     </div>
   );
 };

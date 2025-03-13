@@ -83,7 +83,13 @@ const CollectionPage: React.FC = () => {
         setFavorites(userFavorite?.products || []);
       } catch (error) {
         console.error("Error fetching favorites:", error);
-        toast.error("Error fetching favorites");
+        toast.error("Error fetching favorites", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
       }
     };
 
@@ -111,14 +117,32 @@ const CollectionPage: React.FC = () => {
 
       if (isCurrentlyFavorite) {
         setFavorites(prev => prev.filter(id => id !== productId));
-        toast.success("Removed from favorites!");
+        toast.success("Removed from favorites!", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
       } else {
         setFavorites(prev => [...prev, productId]);
-        toast.success("Added to favorites!");
+        toast.success("Added to favorites!", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
       }
     } catch (error) {
       console.error("Error updating favorites:", error);
-      toast.error("Error updating favorites");
+      toast.error("Error updating favorites", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     }
   };
 

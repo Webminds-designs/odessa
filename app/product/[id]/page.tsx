@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import ProductCards from "../../components/ProductCards";
-import { toast, ToastContainer } from "react-toastify";
+import toast from "react-hot-toast";
 import { AnimatePresence } from "framer-motion";
 
 type Diamond = {
@@ -105,7 +105,13 @@ function DiamondDisplay() {
         setIsFavorited(userFavorite?.products.includes(selectedDiamond._id) || false);
       } catch (error) {
         console.error("Error fetching favorites:", error);
-        toast.error("Error fetching favorites");
+        toast.error("Error fetching favorites", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
       }
     };
 
@@ -144,10 +150,22 @@ function DiamondDisplay() {
 
       const data = await res.json();
       console.log("Added to cart:", data);
-      toast.success("Product added to cart!");
+      toast.success("Product added to cart!", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     } catch (error) {
       console.error("Error adding to cart:", error);
-      toast.error("Error adding product to cart");
+      toast.error("Error adding product to cart", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     }
   };
 
@@ -170,10 +188,22 @@ function DiamondDisplay() {
       if (!res.ok) throw new Error("Failed to update favorites");
 
       setIsFavorited(!isFavorited);
-      toast.success(isFavorited ? "Removed from favorites!" : "Added to favorites!");
+      toast.success(isFavorited ? "Removed from favorites!" : "Added to favorites!", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     } catch (error) {
       console.error("Error updating favorites:", error);
-      toast.error("Error updating favorites");
+      toast.error("Error updating favorites", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     }
   };
 
@@ -295,7 +325,6 @@ function DiamondDisplay() {
           </div>
         </div>
       </div>
-      <ToastContainer position="bottom-center" theme="dark" />
     </>
   );
 }

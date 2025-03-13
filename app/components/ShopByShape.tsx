@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from "react-hot-toast";
 
 type Diamond = {
   _id: string;
@@ -262,8 +261,6 @@ const ShopByShape = () => {
           </div>
         </div>
       </motion.div>
-
-      <ToastContainer position="bottom-center" theme="dark" />
     </div>
   );
 };

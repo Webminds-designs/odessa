@@ -2,8 +2,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
 interface ProductCardsProps {
@@ -35,7 +34,13 @@ const ProductCards: React.FC<ProductCardsProps> = ({
     e.stopPropagation();
 
     if (!user.id) {
-      toast.error("Please login to add product to cart");
+      toast.error("Please login to add product to cart", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
       return;
     }
 
@@ -58,10 +63,22 @@ const ProductCards: React.FC<ProductCardsProps> = ({
         throw new Error("Failed to add to cart");
       }
 
-      toast.success("Product added to cart!");
+      toast.success("Product added to cart!", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     } catch (error) {
       console.error("Error adding to cart:", error);
-      toast.error("Error adding product to cart");
+      toast.error("Error adding product to cart", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     }
   };
 
@@ -69,7 +86,13 @@ const ProductCards: React.FC<ProductCardsProps> = ({
     e.stopPropagation();
     
     if (!user.id) {
-      toast.error("Please log in to manage favorites");
+      toast.error("Please log in to manage favorites", {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
       return;
     }
 
@@ -122,7 +145,6 @@ const ProductCards: React.FC<ProductCardsProps> = ({
           <div className="text-white">{diamond.price} £</div>
         </div>
       </motion.div>
-      <ToastContainer position="bottom-center" theme="dark" />
     </>
   );
 };
