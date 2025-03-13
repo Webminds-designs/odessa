@@ -11,10 +11,8 @@ export async function GET(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Await the params before destructuring
     const { id: userId } = await context.params;
 
-    // Validate ID format
     if (!userId || !userId.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json(
         { error: "Invalid user ID format" },
@@ -50,7 +48,6 @@ export async function PUT(
     const { id: userId } = await context.params;
     const body = await request.json();
 
-    // Validate ID format
     if (!userId || !userId.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json(
         { error: "Invalid user ID format" },
@@ -58,12 +55,10 @@ export async function PUT(
       );
     }
 
-    // Don't allow password update through this endpoint for security
     if (body.password) {
       delete body.password;
     }
 
-    // Find and update user
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $set: body },
@@ -95,7 +90,6 @@ export async function DELETE(
   try {
     const { id: userId } = await context.params;
 
-    // Validate ID format
     if (!userId || !userId.match(/^[0-9a-fA-F]{24}$/)) {
       return NextResponse.json(
         { error: "Invalid user ID format" },

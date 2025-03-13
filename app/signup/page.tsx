@@ -30,13 +30,11 @@ export default function SignupPage() {
   const [serverError, setServerError] = useState("");
   const [serverSuccess, setServerSuccess] = useState("");
 
-  // Email validation function
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormValues((prev) => ({
@@ -44,7 +42,6 @@ export default function SignupPage() {
       [id]: value,
     }));
 
-    // Clear errors when user starts typing
     if (errors[id as keyof FormErrors]) {
       setErrors((prev) => ({
         ...prev,
@@ -54,25 +51,21 @@ export default function SignupPage() {
     setServerError("");
   };
 
-  // Form validation
   const validateForm = () => {
     const newErrors: FormErrors = {};
 
-    // Validate email
     if (!formValues.email) {
       newErrors.email = "Email is required";
     } else if (!validateEmail(formValues.email)) {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // Validate password
     if (!formValues.password) {
       newErrors.password = "Password is required";
     } else if (formValues.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
 
-    // Validate confirm password
     if (!formValues.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (formValues.confirmPassword !== formValues.password) {
@@ -83,7 +76,6 @@ export default function SignupPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Form submission handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
@@ -97,10 +89,8 @@ export default function SignupPage() {
         });
         const data = await res.json();
         if (res.ok) {
-          // Success toast message
           toast.success("User created successfully. Redirecting to login...");
           
-          // Store user data in localStorage
           localStorage.setItem('user', JSON.stringify({
             email: data.user.email,
             id: data.user._id,
@@ -109,18 +99,15 @@ export default function SignupPage() {
           
           setServerSuccess("User created successfully. Redirecting to login...");
           
-          // Redirect to login after a short delay
           setTimeout(() => {
             router.push("/login");
           }, 1500);
         } else {
-          // Error toast message
           toast.error(data.error || "Failed to create user");
           setServerError(data.error || "Failed to create user");
         }
       } catch (error) {
         console.error("Error creating user:", error);
-        // Unexpected error toast
         toast.error("An unexpected error occurred.");
         setServerError("An unexpected error occurred.");
       }

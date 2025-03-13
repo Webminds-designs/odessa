@@ -1,8 +1,8 @@
-"use client"; // for Next.js 13 app router if you need client-side form handling
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc"; // Import Google icon
+import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -33,7 +33,6 @@ export default function LoginPage() {
       [id]: value,
     }));
 
-    // Clear errors when user starts typing
     if (errors[id as keyof LoginFormValues]) {
       setErrors((prev) => ({
         ...prev,
@@ -80,17 +79,16 @@ export default function LoginPage() {
         if (res.ok) {
           console.log("Login successful", data);
           
+          
           // Store user data in localStorage
           localStorage.setItem('user', JSON.stringify({
             email: data.user.email,
-            id: data.user._id, // Assuming your API returns _id
-            role: data.user.role || 'user' // Default to 'user' if role isn't provided
+            id: data.user._id || data.user.id,
+            role: data.user.role || 'user'
           }));
           
-          // Show success toast
           toast.success("Login successful! Redirecting...");
           
-          // Redirect to a dashboard or home page after successful login
           setTimeout(() => {
             router.push("/");
           }, 1500);

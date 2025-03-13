@@ -9,7 +9,6 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { email, password, confirmPassword } = body;
 
-    // Validate that password and confirmPassword match
     if (password !== confirmPassword) {
       return NextResponse.json(
         { error: "Passwords don't match" },
@@ -17,7 +16,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
@@ -35,7 +33,6 @@ export async function POST(request: Request) {
     // Save user to the database
     const savedUser = await newUser.save();
 
-    // Remove password from response
     const user = savedUser.toObject();
     delete user.password;
 

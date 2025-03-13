@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PasswordResetModal from './passwordResetModal';
+import { toast } from 'react-hot-toast';
 
 const Account = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,6 +24,51 @@ const Account = () => {
   });
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = localStorage.getItem('user');
+        
+        if (!userData) {
+          toast.error("You need to be logged in to view this page");
+          return;
+        }
+        
+        const { id } = JSON.parse(userData);
+        
+        const response = await fetch(`/api/users/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to fetch user data");
+        }
+        
+        setFormData({
+          firstName: data.user.firstName || '',
+          lastName: data.user.lastName || '',
+          email: data.user.email || '',
+          contactNumber: data.user.contactNumber || '',
+          address: data.user.address || '',
+          postalCode: data.user.postalCode || ''
+        });
+
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error("Failed to load your profile information");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -43,8 +90,18 @@ const Account = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    
+    const errorMessage = validateField(name, value);
+    
+    setErrors(prev => ({
+      ...prev,
+      [name]: errorMessage
+    }));
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleEdit = () => {
@@ -75,7 +132,6 @@ const Account = () => {
     e.preventDefault();
     const newErrors = {} as typeof errors;
 
-    // Validate all fields
     Object.keys(formData).forEach(key => {
       const error = validateField(key, formData[key as keyof typeof formData]);
       if (error) {
@@ -86,11 +142,14 @@ const Account = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Submit form
       console.log('Form is valid:', formData);
       setIsEditing(false);
     }
   };
+
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-64">Loading user profile...</div>;
+  }
 
   return (
     <div className='mb-20'>

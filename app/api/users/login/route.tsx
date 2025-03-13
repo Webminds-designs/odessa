@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "../../../utils/dbconnect";
 import User from "../../../models/user";
-import bcrypt from "bcrypt"; // Make sure this matches your schema import
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 connectDB();
@@ -13,13 +13,11 @@ export async function POST(request: NextRequest) {
 
     console.log("Login request body:", body);
 
-    // Validate email and password
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Check password
     const validatePassword = await bcrypt.compare(password, user.password);
     if (!validatePassword) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
@@ -43,7 +41,6 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    // Set token as cookie
     response.cookies.set("token", token, {
       httpOnly: true,
     });
