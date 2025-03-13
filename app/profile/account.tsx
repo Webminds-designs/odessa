@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react';
 import PasswordResetModal from './passwordResetModal';
 import { toast } from 'react-hot-toast';
 
-const Account = () => {
+interface User {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  contactNumber?: string;
+  address?: string;
+  postalCode?: string;
+}
+
+const Account = ({ user }: { user: User }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -25,50 +33,17 @@ const Account = () => {
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
-
+  // Update formData when user prop changes
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = localStorage.getItem('user');
-        
-        if (!userData) {
-          toast.error("You need to be logged in to view this page");
-          return;
-        }
-        
-        const { id } = JSON.parse(userData);
-        
-        const response = await fetch(`/api/users/${id}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        const data = await response.json();
-        
-        if (!response.ok) {
-          throw new Error(data.error || "Failed to fetch user data");
-        }
-        
-        setFormData({
-          firstName: data.user.firstName || '',
-          lastName: data.user.lastName || '',
-          email: data.user.email || '',
-          contactNumber: data.user.contactNumber || '',
-          address: data.user.address || '',
-          postalCode: data.user.postalCode || ''
-        });
-
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        toast.error("Failed to load your profile information");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+    setFormData({
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      email: user.email || '',
+      contactNumber: user.contactNumber || '',
+      address: user.address || '',
+      postalCode: user.postalCode || ''
+    });
+  }, [user]);
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -110,13 +85,14 @@ const Account = () => {
 
   const handleCancel = () => {
     setIsEditing(false);
+    // Reset form to user prop values
     setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      contactNumber: '',
-      address: '',
-      postalCode: ''
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      email: user.email || '',
+      contactNumber: user.contactNumber || '',
+      address: user.address || '',
+      postalCode: user.postalCode || ''
     });
     setErrors({
       firstName: '',
@@ -199,10 +175,6 @@ const Account = () => {
       }
     }
   };
-
-  if (isLoading) {
-    return <div className="flex justify-center items-center h-64">Loading user profile...</div>;
-  }
 
   return (
     <div className='mb-20'>
@@ -358,6 +330,7 @@ const Account = () => {
               name='password'
               className={`bg-[#181818] p-2 w-full`}
               placeholder="* * * * *"
+              disabled
             />
           </div>
         </div>
