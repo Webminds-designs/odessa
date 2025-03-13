@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import ProductCards from "../components/ProductCards";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import Link from "next/link";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { AnimatePresence } from "framer-motion";
 
 // Define an interface for the diamond object
