@@ -318,7 +318,7 @@ const Account = ({ user }: { user: User }) => {
           )}
         </div>
 
-        <h1 className='text-2xl mb-10'>Personal Details</h1>
+        {/* <h1 className='text-2xl mb-10'>Change Password</h1>
 
         <div className='flex'>
           <div className='w-1/3'>
@@ -354,7 +354,7 @@ const Account = ({ user }: { user: User }) => {
         <PasswordResetModal 
           isOpen={isPasswordModalOpen}
           onClose={() => setIsPasswordModalOpen(false)}
-        />
+        /> */}
 
       </form>
     </div>
