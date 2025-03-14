@@ -5,12 +5,14 @@ import React, { useState } from "react";
 
 interface PayPalButtonProps {
   amount: number;
+  currencyCode?: string;
   onSuccess: (details: any) => void;
   onError: (error: any) => void;
 }
 
 const PayPalButton: React.FC<PayPalButtonProps> = ({
   amount,
+  currencyCode = "EUR",
   onSuccess,
   onError,
 }) => {
@@ -27,10 +29,12 @@ const PayPalButton: React.FC<PayPalButtonProps> = ({
             purchase_units: [
               {
                 amount: {
+                  currency_code: currencyCode,
                   value: amount.toFixed(2),
                 },
               },
             ],
+            intent: "CAPTURE"
           });
         }}
         onApprove={async (data, actions) => {
