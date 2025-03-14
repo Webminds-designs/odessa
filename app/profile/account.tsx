@@ -132,8 +132,8 @@ const Account = ({ user }: { user: User }) => {
       const toastId = toast.loading("Updating your profile...");
 
       try {
-        // Get user ID from localStorage
-        const userData = localStorage.getItem('user');
+        // Get user ID from localStorage?
+        const userData = localStorage?.getItem('user');
         if (!userData) {
           toast.dismiss(toastId);
           toast.error("You need to be logged in to update your profile");

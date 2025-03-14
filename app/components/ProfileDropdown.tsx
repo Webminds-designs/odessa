@@ -64,7 +64,7 @@ export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProp
               <button
                 onClick={() => {
                   onClose();
-                  user ? localStorage.removeItem("user") : null;
+                  user ? localStorage?.removeItem("user") : null;
                   user ? router.push("/") : router.push("/login");
                 }}
                 className="w-full text-left px-4 py-3 text-white hover:bg-[#292929] transition-colors"

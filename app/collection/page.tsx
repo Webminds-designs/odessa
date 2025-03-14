@@ -41,7 +41,7 @@ const CollectionPage: React.FC = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = JSON.parse(localStorage?.getItem("user") || "{}");
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState<number>(1);

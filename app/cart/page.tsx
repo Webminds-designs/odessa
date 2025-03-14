@@ -32,7 +32,7 @@ const CartPage: React.FC = () => {
 
   const router = useRouter();
 
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = JSON.parse(localStorage?.getItem("user") || "{}");
 
   // Fetch the cart for a fixed user from your API
   useEffect(() => {
@@ -194,8 +194,8 @@ const CartPage: React.FC = () => {
       total: parsePrice(item.product.price) * item.quantity,
     }));
 
-    // Store checkout data in localStorage
-    localStorage.setItem("checkoutData", JSON.stringify(checkoutData));
+    // Store checkout data in localStorage?
+    localStorage?.setItem("checkoutData", JSON.stringify(checkoutData));
 
     // Navigate to the billing page
     router.push("/bill");

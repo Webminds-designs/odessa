@@ -84,7 +84,7 @@ export default function LoginPage() {
           
           
 
-          localStorage.setItem(
+          localStorage?.setItem(
             "user",
             JSON.stringify({
               email: data.user.email,

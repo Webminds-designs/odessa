@@ -91,7 +91,7 @@ export default function SignupPage() {
         if (res.ok) {
           toast.success("User created successfully. Redirecting to login...");
           
-          localStorage.setItem('user', JSON.stringify({
+          localStorage?.setItem('user', JSON.stringify({
             email: data.user.email,
             id: data.user._id,
             role: data.user.role || 'user'

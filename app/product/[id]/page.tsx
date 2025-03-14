@@ -25,7 +25,7 @@ function DiamondDisplay() {
   const { id } = useParams();
 
   //get user from local storage
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = JSON.parse(localStorage?.getItem("user") || "{}");
 
   console.log(user);
 

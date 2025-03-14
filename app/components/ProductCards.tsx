@@ -28,7 +28,7 @@ const ProductCards: React.FC<ProductCardsProps> = ({
   isFavourited = false,
   onFavouriteToggle 
 }) => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = JSON.parse(localStorage?.getItem("user") || "{}");
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();

@@ -38,11 +38,11 @@ export default function BillPage() {
   const [checkoutData, setCheckoutData] = useState<CheckoutItem[]>([]);
   const [success, setSuccess] = useState<boolean>(false);
 
-  // Fetch user and checkout data from localStorage
+  // Fetch user and checkout data from localStorage?
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const storedUser = JSON.parse(localStorage?.getItem("user") || "{}");
     const storedCheckoutData = JSON.parse(
-      localStorage.getItem("checkoutData") || "[]"
+      localStorage?.getItem("checkoutData") || "[]"
     );
 
     if (storedUser) {
@@ -110,14 +110,14 @@ export default function BillPage() {
 
       if (response.ok) {
         console.log("Order stored successfully");
-        localStorage.removeItem("checkoutData"); // Clear cart after purchase
+        localStorage?.removeItem("checkoutData"); // Clear cart after purchase
 
         setSuccess(true);
         //hot toast message
         toast.success("Order placed successfully");
 
         //clear cart
-        localStorage.removeItem("checkoutData");
+        localStorage?.removeItem("checkoutData");
 
         // Redirect to home page after 3 seconds
         setTimeout(() => {
