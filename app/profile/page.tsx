@@ -14,41 +14,59 @@ const person = {
 }
 
 const tabs = ['Account Settings', 'Order History', 'My Favourites'];
+interface User {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  contactNumber?: string;
+  address?: string;
+  postalCode?: string;
+  id?: string;
+}
 
 const ProfilePage: React.FC = () => {
   const router = useRouter();
   const [selected, setSelected] = React.useState(0);
-  const userId = JSON.parse(localStorage.getItem("user") || "{}").id;
-  
-  interface User {
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    contactNumber?: string;
-    address?: string;
-    postalCode?: string;
-  }
-  
   const [currentUser, setCurrentUser] = useState<User>({});
+  const [user, setUser] = useState<User>({});
+
+
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && !localStorage.getItem("user")) {
+    console.log("localStorage.getItem('user')", localStorage.getItem("user"));
+    if (typeof window !== 'undefined' && localStorage.getItem("user")) {
+      const userData = JSON.parse(localStorage.getItem("user") || "{}");
+      setUser(userData);
+
+      console.log("userData", userData);
+      
+    } else {
+      console.log("router.push('/login')", router);
       router.push("/login");
     }
   }, [router]);
 
+
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined' && !localStorage.getItem("user")) {
+  //     router.push("/login");
+  //   }
+  // }, []);
+  
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await fetch(`/api/users/${userId}`);
-      const data = await response.json();
-      if (response.ok) {
-        setCurrentUser(data.user);
-      } else {
-        console.error("Error: ",data);
+      if (user.id) {
+        const response = await fetch(`/api/users/${user.id}`);
+        const data = await response.json();
+        if (response.ok) {
+          setCurrentUser(data.user);
+        } else {
+          console.error("Error: ", data);
+        }
       }
     };
     fetchUser();
-  }, [userId]);
+  }, [user]);
 
   return (
     <div className="md:px-24">
