@@ -18,7 +18,11 @@ const tabs = ['Account Settings', 'Order History', 'My Favourites'];
 const ProfilePage: React.FC = () => {
   const router = useRouter();
   const [selected, setSelected] = React.useState(0);
-  const userId = JSON.parse(localStorage?.getItem("user") || "{}").id;
+  const [userId, setUserId] = useState('');
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const userId = JSON.parse(localStorage?.getItem('user') || '{}').id;
+    setUserId(userId);
+  }
   
   interface User {
     firstName?: string;

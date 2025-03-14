@@ -82,18 +82,19 @@ export default function LoginPage() {
         if (res.ok) {
           console.log("Login successful", data);
           
-          
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage?.setItem(
+              "user",
+              JSON.stringify({
+                email: data.user.email,
+                id: data.user.id, // Assuming your API returns _id
+                role: data.user.role,
+  
+                token: data.token,
+              })
+            );
+          }
 
-          localStorage?.setItem(
-            "user",
-            JSON.stringify({
-              email: data.user.email,
-              id: data.user.id, // Assuming your API returns _id
-              role: data.user.role,
-
-              token: data.token,
-            })
-          );
 
 
           toast.success("Login successful! Redirecting...");

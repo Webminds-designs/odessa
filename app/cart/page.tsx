@@ -37,8 +37,10 @@ const CartPage: React.FC = () => {
   useEffect(() => {
 
     // Get the user from localStorage
-    const user = JSON.parse(localStorage?.getItem("user") || "{}");
-    setUser(user);
+    if (typeof window !== 'undefined' && window.localStorage) {      
+      const user = JSON.parse(localStorage?.getItem("user") || "{}");
+      setUser(user);
+    }
     
     const fetchCart = async () => {
       try {        

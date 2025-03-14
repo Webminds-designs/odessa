@@ -6,10 +6,16 @@ import toast from 'react-hot-toast';
 const Favourites = () => {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<any>({});
 
-  const user = JSON.parse(localStorage?.getItem("user") || "{}");
-
+  
   useEffect(() => {
+    
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const user = JSON.parse(localStorage?.getItem("user") || "{}");
+      setUser(user);
+    }
+    
     const fetchFavorites = async () => {
       setIsLoading(true);
       try {

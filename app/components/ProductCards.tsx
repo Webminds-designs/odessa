@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import toast from "react-hot-toast";
@@ -28,7 +28,11 @@ const ProductCards: React.FC<ProductCardsProps> = ({
   isFavourited = false,
   onFavouriteToggle 
 }) => {
-  const user = JSON.parse(localStorage?.getItem("user") || "{}");
+  const [user, setUser] = useState<any>({});
+  
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const user = JSON.parse(localStorage?.getItem("user") || "{}");
+  }
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();

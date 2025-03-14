@@ -90,12 +90,17 @@ export default function SignupPage() {
         const data = await res.json();
         if (res.ok) {
           toast.success("User created successfully. Redirecting to login...");
+
+          if (typeof window !== 'undefined' && window.localStorage) {
+
+            localStorage?.setItem('user', JSON.stringify({
+              email: data.user.email,
+              id: data.user._id,
+              role: data.user.role || 'user'
+            }));
+            
+          }
           
-          localStorage?.setItem('user', JSON.stringify({
-            email: data.user.email,
-            id: data.user._id,
-            role: data.user.role || 'user'
-          }));
           
           setServerSuccess("User created successfully. Redirecting to login...");
           

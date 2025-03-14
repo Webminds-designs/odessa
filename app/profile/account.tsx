@@ -32,6 +32,7 @@ const Account = ({ user }: { user: User }) => {
   });
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [userData, setUserData] = useState<any>({});
 
   // Update formData when user prop changes
   useEffect(() => {
@@ -132,12 +133,14 @@ const Account = ({ user }: { user: User }) => {
       const toastId = toast.loading("Updating your profile...");
 
       try {
-        // Get user ID from localStorage?
-        const userData = localStorage?.getItem('user');
-        if (!userData) {
-          toast.dismiss(toastId);
-          toast.error("You need to be logged in to update your profile");
-          return;
+        // Get user ID from localStorage
+        if (typeof window !== 'undefined' && window.localStorage) {
+          setUserData(localStorage?.getItem('user'));
+          if (!userData) {
+            toast.dismiss(toastId);
+            toast.error("You need to be logged in to update your profile");
+            return;
+          } 
         }
         
         const { id } = JSON.parse(userData);

@@ -44,8 +44,10 @@ function DiamondDisplay() {
   useEffect(() => {
 
     // Get the user from localStorage
-    const user = JSON.parse(localStorage?.getItem("user") || "{}");
-    setUser(user);
+    if (typeof window !== 'undefined' && window.localStorage) {      
+      const user = JSON.parse(localStorage?.getItem("user") || "{}");
+      setUser(user);
+    }
     
     const fetchDiamond = async () => {
       if (id) {

@@ -14,7 +14,12 @@ const PasswordResetModal = ({ isOpen, onClose }: PasswordResetModalProps) => {
     confirmPassword: '',
   });
   const [isLoading, setIsLoading] = useState(false);
-  const userId = JSON.parse(localStorage?.getItem('user') || '{}').id;
+  const [userId, setUserId] = useState('');
+
+  if (typeof window !== 'undefined' && window.localStorage) {       
+    const userId = JSON.parse(localStorage?.getItem('user') || '{}').id;
+    setUserId(userId);
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

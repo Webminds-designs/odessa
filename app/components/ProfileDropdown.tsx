@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface ProfileDropdownProps {
   isOpen: boolean;
@@ -34,7 +35,13 @@ const itemVariants = {
 };
 
 export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProps) {
-  const user = localStorage?.getItem("user");
+  const [user, setUser] = useState<any>({});
+
+  if (typeof window !== "undefined" && window.localStorage) {
+    const user = JSON.parse(localStorage?.getItem("user") || "{}");
+    setUser(user);
+  }
+
   const router = useRouter();
   return (
     <AnimatePresence>
@@ -48,7 +55,7 @@ export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProp
             exit="closed"
             variants={menuVariants}
           >
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="border-b border-[#292929]"
             >

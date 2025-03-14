@@ -40,10 +40,15 @@ export default function BillPage() {
 
   // Fetch user and checkout data from localStorage?
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage?.getItem("user") || "{}");
-    const storedCheckoutData = JSON.parse(
-      localStorage?.getItem("checkoutData") || "[]"
-    );
+    let storedUser;
+    let storedCheckoutData;
+
+    if (typeof window !== 'undefined' && window.localStorage) {      
+      storedUser = JSON.parse(localStorage?.getItem("user") || "{}");
+      storedCheckoutData = JSON.parse(
+        localStorage?.getItem("checkoutData") || "[]"
+      );
+    }
 
     if (storedUser) {
       setFormData({
@@ -110,14 +115,19 @@ export default function BillPage() {
 
       if (response.ok) {
         console.log("Order stored successfully");
-        localStorage?.removeItem("checkoutData"); // Clear cart after purchase
+
+        if (typeof window !== 'undefined' && window.localStorage) { 
+          localStorage?.removeItem("checkoutData"); // Clear cart after purchase
+        }
 
         setSuccess(true);
         //hot toast message
         toast.success("Order placed successfully");
 
         //clear cart
-        localStorage?.removeItem("checkoutData");
+        if (typeof window !== 'undefined' && window.localStorage) { 
+          localStorage?.removeItem("checkoutData");
+        }
 
         // Redirect to home page after 3 seconds
         setTimeout(() => {
