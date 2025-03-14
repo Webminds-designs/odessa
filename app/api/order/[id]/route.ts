@@ -1,13 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "../../../utils/dbconnect"; // Adjust path as needed
 import Order from "../../../models/order"; // Adjust path as needed
 
+type tParams = Promise<{ id: string }>;
+
 export async function GET(
-  request: Request,
-  context: { params: { id: string } } | Promise<{ params: { id: string } }>
-): Promise<Response> {
-  const { params } = await context;
-  const { id } = params;
+  request: NextRequest,
+  { params }: { params: tParams }
+) {
+  const { id } : { id: string } = await params;
   try {
     await dbConnect();
     const order = await Order.findById(id);
