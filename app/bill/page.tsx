@@ -3,8 +3,10 @@ import React, { useState, useEffect, FormEvent, use } from "react";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PayPalButton from "./PayPalButton";
 import { toast } from "react-toastify";
+import { s } from "framer-motion/client";
 
 interface FormDataType {
+  id: string;
   firstName: string;
   lastName: string;
   contactNumber: string;
@@ -25,6 +27,7 @@ interface CheckoutItem {
 
 export default function BillPage() {
   const [formData, setFormData] = useState<FormDataType>({
+    id: "",
     firstName: "",
     lastName: "",
     contactNumber: "",
@@ -47,6 +50,7 @@ export default function BillPage() {
 
     if (storedUser) {
       setFormData({
+        id: storedUser.id || "",
         firstName: storedUser.firstName || "",
         lastName: storedUser.lastName || "",
         contactNumber: storedUser.contact || "",
@@ -75,6 +79,7 @@ export default function BillPage() {
 
     const orderData = {
       transactionId: details.id,
+      userid: formData.id,
       payerName: `${details.payer.name.given_name} ${details.payer.name.surname}`,
       payerEmail: details.payer.email_address,
       payerContact: formData.contactNumber,
