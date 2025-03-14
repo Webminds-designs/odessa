@@ -2,9 +2,25 @@
 
 import React, { useState, useEffect } from "react";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
-import { motion, AnimatePresence } from "framer-motion"
-import diamonds, { uniqueShapeDiamonds } from "../../public/images/diamonds.js";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+type Diamond = {
+  _id: string;
+  id: string;
+  name: string;
+  price: string;
+  cut: string;
+  shape: string;
+  shortDescription: string;
+  description: string;
+  diamondCutDesign: string;
+  carat: number;
+  measurements: string;
+  images: string[];
+};
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -37,20 +53,59 @@ const slideVariants = {
 const ShopByShape = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [direction, setDirection] = useState(0); // -1 for left, 1 for right
+  const [direction, setDirection] = useState(0);
+  const [allDiamonds, setAllDiamonds] = useState<Diamond[]>([]);
+  const [uniqueDiamonds, setUniqueDiamonds] = useState<Diamond[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
+  // Modified useEffect to filter unique diamonds by shape
+  useEffect(() => {
+    const fetchAllDiamonds = async () => {
+      try {
+        const res = await fetch("/api/product");
+        const data = await res.json();
+        if (data.products) {
+          setAllDiamonds(data.products);
+          
+          // Filter unique diamonds by shape
+          const uniqueByShape = Object.values(
+            data.products.reduce((acc: { [key: string]: Diamond }, diamond: Diamond) => {
+              if (!acc[diamond.shape]) {
+                acc[diamond.shape] = diamond;
+              }
+              return acc;
+            }, {})
+          ) as Diamond[];
+          
+          setUniqueDiamonds(uniqueByShape);
+        }
+      } catch (err) {
+        console.error("Error fetching all diamonds:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAllDiamonds();
+  }, []);
+
+  // Update getVisibleDiamonds to use uniqueDiamonds
   const getVisibleDiamonds = () => {
+    if (!uniqueDiamonds.length) return [];
+    
     const wrappedIndex = (index: number) => {
-      const wrapped = ((index % uniqueShapeDiamonds.length) + uniqueShapeDiamonds.length) % uniqueShapeDiamonds.length;
+      const wrapped = ((index % uniqueDiamonds.length) + uniqueDiamonds.length) % uniqueDiamonds.length;
       return wrapped;
     };
-    
+
     const items = [];
     for (let i = -2; i <= 2; i++) {
-      items.push({
-        ...uniqueShapeDiamonds[wrappedIndex(currentIndex + i)],
-        position: i
-      });
+      const diamond = uniqueDiamonds[wrappedIndex(currentIndex + i)];
+      if (diamond) {
+        items.push({
+          ...diamond,
+          position: i
+        });
+      }
     }
     return items;
   };
@@ -59,7 +114,7 @@ const ShopByShape = () => {
     if (isTransitioning) return;
     setDirection(1);
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev + 1) % uniqueShapeDiamonds.length);
+    setCurrentIndex((prev) => (prev + 1) % uniqueDiamonds.length);
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
@@ -67,21 +122,16 @@ const ShopByShape = () => {
     if (isTransitioning) return;
     setDirection(-1);
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev - 1 + uniqueShapeDiamonds.length) % uniqueShapeDiamonds.length);
+    setCurrentIndex((prev) => (prev - 1 + uniqueDiamonds.length) % uniqueDiamonds.length);
     setTimeout(() => setIsTransitioning(false), 500);
   };
-
-  useEffect(() => {
-    const interval = setInterval(handleNext, 5000);
-    return () => clearInterval(interval);
-  }, [currentIndex]);
 
   const visibleDiamonds = getVisibleDiamonds();
 
   return (
     <div className="flex flex-col gap-4 w-full min-h-screen p-4 md:p-26 bg-black">
       {/* First Title Section */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -103,7 +153,7 @@ const ShopByShape = () => {
       </motion.div>
 
       {/* Second Title Section */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -120,7 +170,7 @@ const ShopByShape = () => {
       </motion.div>
 
       {/* Enhanced Diamond Slider */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -148,11 +198,11 @@ const ShopByShape = () => {
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               {visibleDiamonds.map((diamond) => {
                 const isCenter = diamond.position === 0;
-                
+
                 return (
                   <motion.div
-                    key={`${diamond.id}-${diamond.position}`}
-                    onClick={() => (isCenter ? window.location.href = `/product/${diamond.id}` : null)}
+                    key={`${diamond._id}-${diamond.position}`}
+                    onClick={() => (isCenter ? window.location.href = `/product/${diamond._id}` : null)}
                     custom={diamond.position}
                     variants={slideVariants}
                     initial="enter"
@@ -196,8 +246,8 @@ const ShopByShape = () => {
                     </motion.div>
                     <motion.p
                       className={`font-eurostyle text-center mt-4
-                        ${isCenter 
-                          ? 'font-extrabold text-lg md:text-xl lg:text-2xl' 
+                        ${isCenter
+                          ? 'font-extrabold text-lg md:text-xl lg:text-2xl'
                           : 'font-bold text-sm md:text-base text-gray-500'}`}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -212,6 +262,8 @@ const ShopByShape = () => {
           </div>
         </div>
       </motion.div>
+
+      <ToastContainer position="bottom-center" theme="dark" />
     </div>
   );
 };
