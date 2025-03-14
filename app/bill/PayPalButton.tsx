@@ -1,7 +1,7 @@
+// components/PayPalButton.tsx
 "use client";
-
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import React, { useState } from "react";
+import React from "react";
 
 interface PayPalButtonProps {
   amount: number;
@@ -17,11 +17,10 @@ const PayPalButton: React.FC<PayPalButtonProps> = ({
   onError,
 }) => {
   const [{ isPending }] = usePayPalScriptReducer();
-  const [paidFor, setPaidFor] = useState(false);
 
   return (
     <>
-      {isPending && <div>Loading PayPal...</div>}
+      {isPending && <div className="text-center">Loading PayPal...</div>}
       <PayPalButtons
         style={{ layout: "vertical" }}
         createOrder={(data, actions) => {
@@ -37,11 +36,18 @@ const PayPalButton: React.FC<PayPalButtonProps> = ({
             intent: "CAPTURE"
           });
         }}
-        onApprove={async (data, actions) => {
+        onApprove={async (data) => {
           try {
-            const order = await actions.order?.capture();
-            setPaidFor(true);
-            onSuccess(order);
+            const response = await fetch("/api/paypal/captureOrder", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ orderID: data.orderID }),
+            });
+
+            if (!response.ok) throw new Error("Failed to capture order");
+
+            const details = await response.json();
+            onSuccess(details);
           } catch (error) {
             onError(error);
           }

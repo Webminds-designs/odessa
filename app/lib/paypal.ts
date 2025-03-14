@@ -1,15 +1,22 @@
-// lib/paypal.ts
-const checkoutNodeJssdk = require("@paypal/checkout-server-sdk");
+const paypal = require("@paypal/checkout-server-sdk");
 
-function environment() {
-  const clientId = process.env.PAYPAL_CLIENT_SECRET!; // Note: For the server, use the secret if needed
-  const clientSecret = process.env.PAYPAL_CLIENT_SECRET!;
-  // For sandbox use SandboxEnvironment; for live, use LiveEnvironment.
-  return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
-}
+const configureEnvironment = () => {
+  // For production, you might use environment variables for both values.
+  // const clientId = process.env.PAYPAL_CLIENT_ID;
+  const clientId =
+    "Ac6tcgR0TAYCx_L-WzYOieGQptL8YaJJVthzSrUNhNV_J8d-ioR5u0ITgVg70K0PY36cHpv3950wdSVI";
+  const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 
-function client() {
-  return new checkoutNodeJssdk.core.PayPalHttpClient(environment());
-}
+  console.log("paypal reere");
+  console.log("PayPal Client ID:", clientId);
+  console.log("PayPal Client Secret:", clientSecret);
+
+  if (process.env.NODE_ENV === "production") {
+    return new paypal.core.LiveEnvironment(clientId, clientSecret);
+  }
+  return new paypal.core.SandboxEnvironment(clientId, clientSecret);
+};
+
+const client = new paypal.core.PayPalHttpClient(configureEnvironment());
 
 export default client;
