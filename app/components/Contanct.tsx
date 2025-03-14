@@ -154,7 +154,7 @@ const Contact: React.FC = () => {
             Prepare for a quick response
             <br />
             <a href="mailto:info@odessa.com" className="text-brown">
-              info@odessa.com
+              damianguardiangs@gmail.com
             </a>
           </p>
 
