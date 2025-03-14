@@ -23,15 +23,22 @@ interface ProductCardsProps {
   onFavouriteToggle?: (productId: string) => Promise<void>;
 }
 
+  interface user {
+    id?: string;
+    name?: string;
+    email?: string;
+  }
+
 const ProductCards: React.FC<ProductCardsProps> = ({ 
   diamond, 
   isFavourited = false,
   onFavouriteToggle 
 }) => {
-  const [user, setUser] = useState<any>({});
+  // const [user, setUser] = useState<any>({});
+  let user: user = {};
   
   if (typeof window !== 'undefined' && window.localStorage) {
-    const user = JSON.parse(localStorage?.getItem("user") || "{}");
+     user = JSON.parse(localStorage?.getItem("user") || "{}");
   }
 
   const handleAddToCart = async (e: React.MouseEvent<HTMLDivElement>) => {

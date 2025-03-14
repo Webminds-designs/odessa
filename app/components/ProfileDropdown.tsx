@@ -1,11 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ProfileDropdownProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+interface user {
+  id?: string;
+  name?: string;
+  email?: string;
 }
 
 const menuVariants = {
@@ -35,14 +41,27 @@ const itemVariants = {
 };
 
 export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProps) {
-  const [user, setUser] = useState<any>({});
-
-  if (typeof window !== "undefined" && window.localStorage) {
-    const user = JSON.parse(localStorage?.getItem("user") || "{}");
-    setUser(user);
-  }
-
+  
   const router = useRouter();
+
+  let user: user = {};
+
+  if (typeof window !== 'undefined' && window.localStorage) {
+    user = JSON.parse(localStorage?.getItem("user") || "{}");
+ }
+
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    onClose();
+    router.push("/");
+  };
+
+  const handleLogin = () => {
+    onClose();
+    router.push("/login");
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -69,11 +88,7 @@ export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProp
             </motion.div>
             <motion.div variants={itemVariants}>
               <button
-                onClick={() => {
-                  onClose();
-                  user ? localStorage?.removeItem("user") : null;
-                  user ? router.push("/") : router.push("/login");
-                }}
+                onClick={user ? handleLogout : handleLogin}
                 className="w-full text-left px-4 py-3 text-white hover:bg-[#292929] transition-colors"
               >
                 {user ? "Logout" : "Login"}
