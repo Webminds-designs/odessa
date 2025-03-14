@@ -8,7 +8,7 @@ interface ProfileDropdownProps {
   onClose: () => void;
 }
 
-interface user {
+interface User {
   id?: string;
   name?: string;
   email?: string;
@@ -19,19 +19,13 @@ const menuVariants = {
     opacity: 0,
     y: -4,
     scale: 0.95,
-    transition: {
-      duration: 0.2
-    }
+    transition: { duration: 0.2 }
   },
   open: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 24
-    }
+    transition: { type: "spring", stiffness: 300, damping: 24 }
   }
 };
 
@@ -41,18 +35,23 @@ const itemVariants = {
 };
 
 export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProps) {
-  
   const router = useRouter();
+  // Initialize user state as null instead of an empty object.
+  const [user, setUser] = useState<User | null>(null);
 
-  let user: user = {};
-
-  if (typeof window !== 'undefined' && window.localStorage) {
-    user = JSON.parse(localStorage?.getItem("user") || "{}");
- }
-
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const userData = JSON.parse(storedUser);
+        setUser(userData);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    setUser(null);
     onClose();
     router.push("/");
   };
@@ -74,10 +73,7 @@ export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProp
             exit="closed"
             variants={menuVariants}
           >
-            <motion.div
-              variants={itemVariants}
-              className="border-b border-[#292929]"
-            >
+            <motion.div variants={itemVariants} className="border-b border-[#292929]">
               <Link
                 href="/profile"
                 className="block px-4 py-3 text-white hover:bg-[#292929] transition-colors"
