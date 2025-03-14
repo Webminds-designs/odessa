@@ -6,12 +6,14 @@ import Product from "../../../models/Product";
 
 connectDB();
 
+type tParams = Promise<{ id: string }>;
+
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: tParams }
 ) {
   try {
-    const { id } = context.params;
+    const { id } : { id: string } = await params;
     const product = await Product.findOne({ _id: id });
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
@@ -28,10 +30,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: tParams }
 ) {
   try {
-    const { id } = context.params;
+    const { id } : { id: string } = await params;
     const updateData = await request.json();
     const product = await Product.findOneAndUpdate({ _id: id }, updateData, {
       new: true,
@@ -54,10 +56,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: tParams }
 ) {
   try {
-    const { id } = context.params;
+    const { id } : { id: string } = await params;
     const product = await Product.findOneAndDelete({ _id: id });
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });

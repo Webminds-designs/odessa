@@ -34,7 +34,7 @@ const itemVariants = {
 };
 
 export default function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProps) {
-  const user = localStorage.getItem("user");
+  const user = localStorage?.getItem("user");
   const router = useRouter();
   return (
     <AnimatePresence>
