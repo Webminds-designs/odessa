@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 const paypal = require("@paypal/checkout-server-sdk");
 import paypalClient from "../../../lib/paypal";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const { orderID } = await request.json();
 
