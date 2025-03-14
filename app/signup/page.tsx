@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { toast, Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 interface SignupFormValues {
   email: string;
@@ -89,7 +89,13 @@ export default function SignupPage() {
         });
         const data = await res.json();
         if (res.ok) {
-          toast.success("User created successfully. Redirecting to login...");
+          toast.success("User created successfully. Redirecting to login...", {
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          });
 
           if (typeof window !== 'undefined' && window.localStorage) {
 
@@ -108,12 +114,24 @@ export default function SignupPage() {
             router.push("/login");
           }, 1500);
         } else {
-          toast.error(data.error || "Failed to create user");
+          toast.error(data.error || "Failed to create user", {
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          });
           setServerError(data.error || "Failed to create user");
         }
       } catch (error) {
         console.error("Error creating user:", error);
-        toast.error("An unexpected error occurred.");
+        toast.error("An unexpected error occurred.", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
         setServerError("An unexpected error occurred.");
       }
     }
@@ -299,7 +317,6 @@ export default function SignupPage() {
           </div>
         </div>
       </div>
-      <Toaster position="top-center" />
     </div>
   );
 }

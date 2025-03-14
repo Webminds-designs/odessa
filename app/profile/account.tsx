@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PasswordResetModal from './passwordResetModal';
-import { toast } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 interface User {
   firstName?: string;
@@ -122,7 +122,11 @@ const Account = ({ user }: { user: User }) => {
     // In the validateField function or before submitting form
     if (Object.keys(newErrors).length > 0) {
       toast.error("Please fix the errors before submitting", {
-        duration: 3000
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
       });
       return;
     }
@@ -138,7 +142,13 @@ const Account = ({ user }: { user: User }) => {
           setUserData(localStorage?.getItem('user'));
           if (!userData) {
             toast.dismiss(toastId);
-            toast.error("You need to be logged in to update your profile");
+            toast.error("You need to be logged in to update your profile", {
+              style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+              },
+            });
             return;
           } 
         }
@@ -162,9 +172,12 @@ const Account = ({ user }: { user: User }) => {
         }
         
         toast.dismiss(toastId);
-        toast.success("Profile updated successfully!", { 
-          duration: 3000, 
-          icon: '👍' 
+        toast.success("Profile updated successfully!", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
         });
         setIsEditing(false);
         
@@ -172,8 +185,11 @@ const Account = ({ user }: { user: User }) => {
         toast.dismiss(toastId);
         console.error("Error updating profile:", error);
         toast.error("Failed to update profile. Please try again.", {
-          duration: 4000,
-          icon: '❌'
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
         });
       }
     }

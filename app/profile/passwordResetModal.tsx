@@ -26,17 +26,35 @@ const PasswordResetModal = ({ isOpen, onClose }: PasswordResetModalProps) => {
     
     // Validation
     if (!formData.oldPassword || !formData.newPassword || !formData.confirmPassword) {
-      toast.error('All fields are required');
+      toast.error('All fields are required', {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
       return;
     }
 
     if (formData.newPassword !== formData.confirmPassword) {
-      toast.error('New passwords do not match');
+      toast.error('New passwords do not match', {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
       return;
     }
 
     if (formData.newPassword.length < 6) {
-      toast.error('New password must be at least 6 characters long');
+      toast.error('New password must be at least 6 characters long', {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
       return;
     }
 
@@ -59,7 +77,13 @@ const PasswordResetModal = ({ isOpen, onClose }: PasswordResetModalProps) => {
         throw new Error(data.error || 'Failed to update password');
       }
 
-      toast.success('Password updated successfully');
+      toast.success('Password updated successfully', {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
       onClose();
       setFormData({
         oldPassword: '',
@@ -67,7 +91,13 @@ const PasswordResetModal = ({ isOpen, onClose }: PasswordResetModalProps) => {
         confirmPassword: '',
       });
     } catch (error) {
-      toast.error('Failed to update password');
+      toast.error('Failed to update password', {
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
       console.error('Error updating password:', error);
     } finally {
       setIsLoading(false);

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface Diamond {
   _id: string;

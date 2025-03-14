@@ -8,6 +8,10 @@ const configureEnvironment = () => {
     throw new Error('PayPal credentials not found in environment variables');
   }
 
+  if(clientId){
+    console.log("PayPal Client ID is available");
+  }
+
   const mode = process.env.PAYPAL_MODE || 'sandbox';
   console.log("PayPal Mode:", mode);
 

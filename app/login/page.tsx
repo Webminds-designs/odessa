@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 interface LoginFormValues {
   email: string;
@@ -97,7 +97,13 @@ export default function LoginPage() {
 
 
 
-          toast.success("Login successful! Redirecting...");
+          toast.success("Login successful! Redirecting...", {
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          });
           
           setTimeout(() => {
             router.push("/");
@@ -105,11 +111,23 @@ export default function LoginPage() {
         } else {
           console.error("Login failed", data);
           setServerError(data.message || "Invalid email or password");
-          toast.error(data.message || "Invalid email or password");
+          toast.error(data.message || "Invalid email or password", {
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          });
         }
       } catch (error) {
         console.error("Login error", error);
-        toast.error("An unexpected error occurred. Please try again later.");
+        toast.error("An unexpected error occurred. Please try again later.", {
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
         setServerError("An unexpected error occurred.");
       }
     }
@@ -253,25 +271,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      
-      {/* Toast container */}
-      <Toaster 
-        position="top-center"
-        toastOptions={{
-          success: {
-            style: {
-              background: '#4CAF50',
-              color: 'white',
-            },
-          },
-          error: {
-            style: {
-              background: '#F44336',
-              color: 'white',
-            },
-          },
-        }}
-      />
     </>
   );
 }
