@@ -1,43 +1,57 @@
+// components/PayPalButton.tsx
 "use client";
-
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import React, { useState } from "react";
+import React from "react";
 
 interface PayPalButtonProps {
   amount: number;
+  currency?: string;
   onSuccess: (details: any) => void;
   onError: (error: any) => void;
 }
 
 const PayPalButton: React.FC<PayPalButtonProps> = ({
   amount,
+  currency = "GBP",
   onSuccess,
   onError,
 }) => {
   const [{ isPending }] = usePayPalScriptReducer();
-  const [paidFor, setPaidFor] = useState(false);
 
   return (
     <>
-      {isPending && <div>Loading PayPal...</div>}
+      {isPending && <div className="text-center">Loading PayPal...</div>}
       <PayPalButtons
         style={{ layout: "vertical" }}
-        createOrder={(data, actions) => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                amount: {
-                  value: amount.toFixed(2),
-                },
-              },
-            ],
-          });
-        }}
-        onApprove={async (data, actions) => {
+        createOrder={async (_, actions) => {
           try {
-            const order = await actions.order?.capture();
-            setPaidFor(true);
-            onSuccess(order);
+            const response = await fetch("/api/paypal/createOrder", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ amount: amount.toFixed(2) }),
+            });
+
+            if (!response.ok) throw new Error("Failed to create order");
+
+            const { orderID } = await response.json();
+            return orderID;
+          } catch (error) {
+            onError(error);
+            throw error;
+          }
+        }}
+        onApprove={async (data) => {
+          try {
+            const response = await fetch("/api/paypal/captureOrder", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ orderID: data.orderID }),
+            });
+
+            if (!response.ok) throw new Error("Failed to capture order");
+
+            const details = await response.json();
+            onSuccess(details);
           } catch (error) {
             onError(error);
           }
