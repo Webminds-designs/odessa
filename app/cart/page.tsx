@@ -29,15 +29,19 @@ const CartPage: React.FC = () => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
 
   const router = useRouter();
 
-  const user = JSON.parse(localStorage?.getItem("user") || "{}");
-
   // Fetch the cart for a fixed user from your API
   useEffect(() => {
+
+    // Get the user from localStorage
+    const user = JSON.parse(localStorage?.getItem("user") || "{}");
+    setUser(user);
+    
     const fetchCart = async () => {
-      try {
+      try {        
         const res = await fetch(
           `http://localhost:3000/api/cart?userId=${user.id}`
         );

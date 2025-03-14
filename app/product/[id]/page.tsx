@@ -24,8 +24,7 @@ type Diamond = {
 function DiamondDisplay() {
   const { id } = useParams();
 
-  //get user from local storage
-  const user = JSON.parse(localStorage?.getItem("user") || "{}");
+  const [user, setUser] = useState<any>({});
 
   console.log(user);
 
@@ -43,6 +42,11 @@ function DiamondDisplay() {
 
   // Fetch the single diamond based on the URL parameter
   useEffect(() => {
+
+    // Get the user from localStorage
+    const user = JSON.parse(localStorage?.getItem("user") || "{}");
+    setUser(user);
+    
     const fetchDiamond = async () => {
       if (id) {
         try {

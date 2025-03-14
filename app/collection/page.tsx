@@ -41,13 +41,18 @@ const CollectionPage: React.FC = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const user = JSON.parse(localStorage?.getItem("user") || "{}");
+  const [user, setUser] = useState<any>({});
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 8;
 
   useEffect(() => {
+
+    // Get the user from localStorage
+    const user = JSON.parse(localStorage?.getItem("user") || "{}");
+    setUser(user);
+    
     const fetchDiamonds = async () => {
       try {
         const res = await fetch("/api/product");
