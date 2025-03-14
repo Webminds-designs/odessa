@@ -38,6 +38,8 @@ function DiamondDisplay() {
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  // Add new state for favorites
+  const [isFavorited, setIsFavorited] = useState<boolean>(false);
 
   // Fetch the single diamond based on the URL parameter
   useEffect(() => {
@@ -85,6 +87,31 @@ function DiamondDisplay() {
     }
   }, [selectedDiamond]);
 
+  // Add useEffect to fetch favorite status
+  useEffect(() => {
+    const fetchFavoriteStatus = async () => {
+      if (!user.id || !selectedDiamond) return;
+
+      try {
+        const res = await fetch("/api/favorites", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch favorites");
+
+        const data = await res.json();
+        const userFavorite = data.favourites.find((fav: { userId: any; }) => fav.userId === user.id);
+        setIsFavorited(userFavorite?.products.includes(selectedDiamond._id) || false);
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+        toast.error("Error fetching favorites");
+      }
+    };
+
+    fetchFavoriteStatus();
+  }, [user.id, selectedDiamond]);
+
   if (loading) return <div>Loading...</div>;
   if (error || !selectedDiamond)
     return <div>{error || "Diamond not found"}</div>;
@@ -121,6 +148,32 @@ function DiamondDisplay() {
     } catch (error) {
       console.error("Error adding to cart:", error);
       toast.error("Error adding product to cart");
+    }
+  };
+
+  // Add handle favorite toggle function
+  const handleFavoriteToggle = async () => {
+    if (!user.id || !selectedDiamond) return;
+
+    const method = isFavorited ? "DELETE" : "POST";
+
+    try {
+      const res = await fetch("/api/favorites", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user: user.id,
+          product: selectedDiamond._id,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update favorites");
+
+      setIsFavorited(!isFavorited);
+      toast.success(isFavorited ? "Removed from favorites!" : "Added to favorites!");
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+      toast.error("Error updating favorites");
     }
   };
 
@@ -185,26 +238,28 @@ function DiamondDisplay() {
               </div>
 
               {/* Add to cart button */}
-              <button
-                className="w-full bg-brown hover:bg-white text-white hover:text-black py-3 text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-amber-80 flex items-center justify-center gap-2 group cursor-pointer"
-                onClick={handleAddToCart}
-              >
-                <span>Add to cart</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 transform group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              <div className="flex">
+                <button
+                  className="w-full bg-brown hover:bg-white text-white hover:text-black py-3 text-lg rounded-lg transition-all duration-300 shadow-lg hover:shadow-amber-80 flex items-center justify-center gap-2 group cursor-pointer"
+                  onClick={handleAddToCart}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </button>
+                  <span>Add to cart</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 transform group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -227,7 +282,12 @@ function DiamondDisplay() {
                     )
                     .slice(0, 3)
                     .map((diamond: Diamond) => (
-                      <ProductCards key={diamond.id} diamond={diamond} />
+                      <ProductCards 
+                        key={diamond.id} 
+                        diamond={diamond} 
+                        isFavourited={isFavorited}
+                        onFavouriteToggle={handleFavoriteToggle}
+                      />
                     ))}
                 </AnimatePresence>
               </div>

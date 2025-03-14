@@ -55,6 +55,34 @@ export async function PUT(
       );
     }
 
+    // Handle password update
+    if (body.oldPassword && body.newPassword) {
+      const user = await User.findById(userId).select("+password");
+      
+      if (!user) {
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+      }
+
+      // Verify old password
+      const isValidPassword = await user.comparePassword(body.oldPassword);
+      if (!isValidPassword) {
+        return NextResponse.json(
+          { error: "Current password is incorrect" },
+          { status: 400 }
+        );
+      }
+
+      // Update password
+      user.password = body.newPassword;
+      await user.save();
+
+      return NextResponse.json(
+        { message: "Password updated successfully" },
+        { status: 200 }
+      );
+    }
+
+    // Handle regular user update
     if (body.password) {
       delete body.password;
     }
