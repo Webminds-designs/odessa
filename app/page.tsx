@@ -18,7 +18,7 @@ export default function Home() {
 
   // Simulate progress until page load event fires.
   useEffect(() => {
-    let intervalId;
+    let intervalId: NodeJS.Timeout | undefined;
     if (!isLoaded) {
       intervalId = setInterval(() => {
         setProgress((prev) => {
