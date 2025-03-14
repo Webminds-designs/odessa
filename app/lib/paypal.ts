@@ -1,15 +1,15 @@
 const paypal = require("@paypal/checkout-server-sdk");
 
 const configureEnvironment = () => {
-  // For production, you might use environment variables for both values.
-  const clientId = process.env.PAYPAL_CLIENT_ID;
-  // const clientId =
-  //   "Ac6tcgR0TAYCx_L-WzYOieGQptL8YaJJVthzSrUNhNV_J8d-ioR5u0ITgVg70K0PY36cHpv3950wdSVI";
-  const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+  const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+  const clientSecret = process.env.PAYPAL_SECRET;
 
-  console.log("paypal reere");
-  console.log("PayPal Client ID:", clientId);
-  console.log("PayPal Client Secret:", clientSecret);
+  if (!clientId || !clientSecret) {
+    throw new Error('PayPal credentials not found in environment variables');
+  }
+
+  const mode = process.env.PAYPAL_MODE || 'sandbox';
+  console.log("PayPal Mode:", mode);
 
   if (process.env.NODE_ENV === "production") {
     return new paypal.core.LiveEnvironment(clientId, clientSecret);
