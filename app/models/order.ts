@@ -53,6 +53,7 @@ const OrderSchema: Schema = new Schema(
     total: { type: Number, required: true },
     paymentMethod: { type: String, required: true },
     paymentStatus: { type: String, required: true },
+    orderStatus: { type: String, default: "Pending" },
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

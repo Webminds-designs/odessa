@@ -1,30 +1,24 @@
 import { NextResponse } from "next/server";
-import dbConnect from "../../../utils/dbconnect"; // adjust the path as needed
-import Order from "../../../models/order"; // adjust the path as needed
+import dbConnect from "../../../utils/dbconnect"; // Adjust path as needed
+import Order from "../../../models/order"; // Adjust path as needed
 
-export async function GET(request: Request): Promise<Response> {
-  console.log("get orders");
-  // Parse the query parameters from the URL.
-  const { searchParams } = new URL(request.url);
-  const userId = searchParams.get("userId");
-
-  if (!userId) {
-    return NextResponse.json({ error: "Missing userId" }, { status: 400 });
-  }
-
+export async function GET(
+  request: Request,
+  context: { params: { id: string } } | Promise<{ params: { id: string } }>
+): Promise<Response> {
+  const { params } = await context;
+  const { id } = params;
   try {
-    // Connect to the database.
     await dbConnect();
-
-    // Fetch all orders for the provided userId.
-    // (Assuming your order model stores the user id in a field named "userid")
-    const orders = await Order.find({ userid: userId }).sort({ orderDate: -1 });
-
-    return NextResponse.json(orders, { status: 200 });
+    const order = await Order.findById(id);
+    if (!order) {
+      return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    }
+    return NextResponse.json(order, { status: 200 });
   } catch (error: any) {
-    console.error("Error fetching orders:", error);
+    console.error("Error fetching order details:", error);
     return NextResponse.json(
-      { error: "Error fetching orders" },
+      { error: "Error fetching order details" },
       { status: 500 }
     );
   }

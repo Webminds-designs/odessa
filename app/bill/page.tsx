@@ -102,6 +102,7 @@ export default function BillPage() {
       total: total.toFixed(2),
       paymentMethod: "PayPal",
       paymentStatus: details.status,
+      orderStatus: "Pending",
     };
 
     console.log("Order Data to be saved:", orderData);
