@@ -255,11 +255,11 @@ export default function LoginPage() {
             </div>
 
             {/* Divider */}
-            <div className="flex items-center w-full my-6">
+            {/* <div className="flex items-center w-full my-6">
               <hr className="flex-grow border-gray-600" />
               <span className="mx-3 text-gray-400">or continue with</span>
               <hr className="flex-grow border-gray-600" />
-            </div>
+            </div> */}
 
             {/* Google button */}
             {/* <div className="w-[150px] h-[50px] bg-[#202020] border border-gray-600 flex justify-center items-center rounded-lg cursor-pointer">
