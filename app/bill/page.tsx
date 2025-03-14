@@ -76,7 +76,7 @@ export default function BillPage() {
   const subtotal = checkoutData.reduce((acc, item) => acc + item.total, 0);
   const shipping = subtotal > 500 ? 0 : 20; // Free shipping for orders over 500
   const tax = subtotal * 0.05; // 5% Tax
-  const total = subtotal + shipping + tax;
+  const total = subtotal + shipping + 0;
 
   // Handle PayPal success
   const handlePaymentSuccess = async (details: any) => {
@@ -174,7 +174,7 @@ export default function BillPage() {
               </div>
               <div className="mb-2 flex justify-between">
                 <span>Tax</span>
-                <span>{tax.toFixed(2)} £</span>
+                <span>0 £</span>
               </div>
               <div className="flex justify-between text-lg text-brown">
                 <span>Total</span>
