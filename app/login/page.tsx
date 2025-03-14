@@ -262,12 +262,12 @@ export default function LoginPage() {
             </div>
 
             {/* Google button */}
-            <div className="w-[150px] h-[50px] bg-[#202020] border border-gray-600 flex justify-center items-center rounded-lg cursor-pointer">
+            {/* <div className="w-[150px] h-[50px] bg-[#202020] border border-gray-600 flex justify-center items-center rounded-lg cursor-pointer">
               <div className="flex items-center gap-2">
                 <FcGoogle className="text-xl" />
                 Google
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
