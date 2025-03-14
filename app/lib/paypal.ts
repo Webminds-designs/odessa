@@ -2,9 +2,9 @@ const paypal = require("@paypal/checkout-server-sdk");
 
 const configureEnvironment = () => {
   // For production, you might use environment variables for both values.
-  // const clientId = process.env.PAYPAL_CLIENT_ID;
-  const clientId =
-    "Ac6tcgR0TAYCx_L-WzYOieGQptL8YaJJVthzSrUNhNV_J8d-ioR5u0ITgVg70K0PY36cHpv3950wdSVI";
+  const clientId = process.env.PAYPAL_CLIENT_ID;
+  // const clientId =
+  //   "Ac6tcgR0TAYCx_L-WzYOieGQptL8YaJJVthzSrUNhNV_J8d-ioR5u0ITgVg70K0PY36cHpv3950wdSVI";
   const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 
   console.log("paypal reere");

@@ -5,14 +5,14 @@ import React from "react";
 
 interface PayPalButtonProps {
   amount: number;
-  currencyCode?: string;
+  currency?: string;
   onSuccess: (details: any) => void;
   onError: (error: any) => void;
 }
 
 const PayPalButton: React.FC<PayPalButtonProps> = ({
   amount,
-  currencyCode = "EUR",
+  currency = "GBP",
   onSuccess,
   onError,
 }) => {
@@ -23,18 +23,22 @@ const PayPalButton: React.FC<PayPalButtonProps> = ({
       {isPending && <div className="text-center">Loading PayPal...</div>}
       <PayPalButtons
         style={{ layout: "vertical" }}
-        createOrder={(data, actions) => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                amount: {
-                  currency_code: currencyCode,
-                  value: amount.toFixed(2),
-                },
-              },
-            ],
-            intent: "CAPTURE"
-          });
+        createOrder={async (_, actions) => {
+          try {
+            const response = await fetch("/api/paypal/createOrder", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ amount: amount.toFixed(2) }),
+            });
+
+            if (!response.ok) throw new Error("Failed to create order");
+
+            const { orderID } = await response.json();
+            return orderID;
+          } catch (error) {
+            onError(error);
+            throw error;
+          }
         }}
         onApprove={async (data) => {
           try {

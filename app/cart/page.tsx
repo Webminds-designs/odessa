@@ -35,17 +35,22 @@ const CartPage: React.FC = () => {
 
   // Fetch the cart for a fixed user from your API
   useEffect(() => {
-
     // Get the user from localStorage
     if (typeof window !== 'undefined' && window.localStorage) {      
-      const user = JSON.parse(localStorage?.getItem("user") || "{}");
-      setUser(user);
+      const userData = JSON.parse(localStorage?.getItem("user") || "{}");
+      setUser(userData);
+      console.log("user", userData);
     }
+  }, []);
+
+  // Fetch cart when user is available
+  useEffect(() => {
+    if (!user || !user.id) return;
     
     const fetchCart = async () => {
       try {        
         const res = await fetch(
-          `http://localhost:3000/api/cart?userId=${user.id}`
+          `/api/cart?userId=${user.id}`
         );
         const data = await res.json();
         // Assuming your API returns an object with a "cart" property
@@ -64,7 +69,7 @@ const CartPage: React.FC = () => {
     };
 
     fetchCart();
-  }, []);
+  }, [user]);
 
   // Local functions to update the cart state
   const handleIncrement = (productId: string): void => {
