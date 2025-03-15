@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Contact from "./components/Contanct";
 import NewCollection from "./components/NewCollection";
 import AfterHero from "./components/AfterHero";
+import Description from "./components/Description";
 
 const Hero = dynamic(() => import("./components/Hero"), { ssr: false });
 
@@ -94,6 +95,7 @@ export default function Home() {
           <AfterHero />
         </div>
         <Highlight />
+        <Description />
         <NewCollection />
         <ShopByShape />
         <Contact />
