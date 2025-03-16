@@ -85,6 +85,10 @@ export const metadata: Metadata = {
     "High-quality diamonds",
     "Certified diamonds",
     "Custom diamond jewelry",
+    "IGI-certified diamonds",
+    "Odessa",
+    "jewellery",
+    "diamonds",
   ],
 };
 
