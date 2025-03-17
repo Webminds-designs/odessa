@@ -139,7 +139,7 @@ export default function SignupPage() {
 
   return (
     <div
-      className="flex w-full min-h-screen bg-no-repeat bg-center bg-cover"
+      className="flex w-full min-h-screen bg-no-repeat bg-center bg-cover bg-primary text-white"
       style={{ backgroundImage: 'url("/images/login-background.png")' }}
     >
       <div className="hidden lg:block lg:w-1/2 h-[900px] bg-center bg-cover relative"></div>

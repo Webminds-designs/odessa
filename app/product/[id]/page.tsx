@@ -215,7 +215,7 @@ function DiamondDisplay() {
 
   return (
     <>
-      <div className="bg-primary text-white min-h-screen relative overflow-hidden font-aeonikregular">
+      <div className="bg-black text-white min-h-screen relative overflow-hidden font-aeonikregular">
         <div className="container mx-auto px-4 py-12 relative z-10">
           {/* Main product display */}
           <div className="flex flex-col lg:flex-row gap-8 mb-12 items-center">

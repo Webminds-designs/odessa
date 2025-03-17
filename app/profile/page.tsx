@@ -69,10 +69,10 @@ const ProfilePage: React.FC = () => {
   }, [user]);
 
   return (
-    <div className="md:px-24">
+    <div className="bg-black text-white">
 
       {/* main title */}
-      <div className="font-vasion">
+      <div className="font-vasion md:px-24">
         <p className="text-5xl md:text-7xl lg:text-9xl">Your Brilliance</p>
         <p>
           <span className="text-5xl md:text-7xl lg:text-9xl mr-5 md:mr-7 lg:mr-10">Begins</span>
@@ -81,7 +81,7 @@ const ProfilePage: React.FC = () => {
       </div>
 
       {/* profile pic | Name | Email */}
-      <div className="flex items-center gap-7 md:gap-10 mt-20">
+      <div className="flex items-center gap-7 md:gap-10 mt-20 md:px-24">
         <div className="flex rounded-full h-32 w-32 md:h-40 md:w-40 lg:h-52 lg:w-52 bg-white/50">
           <img
             src="/images/person1.png"

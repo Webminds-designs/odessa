@@ -196,7 +196,7 @@ const Account = ({ user }: { user: User }) => {
   };
 
   return (
-    <div className='mb-20'>
+    <div className='md:px-24 pb-20 bg-black text-white'>
       <form onSubmit={handleSubmit} className='flex flex-col gap-6 font-aeonikregular'>
 
         <h1 className='text-2xl mb-10'>Personal Details</h1>

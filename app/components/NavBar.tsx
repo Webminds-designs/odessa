@@ -25,7 +25,7 @@ export default function Header() {
     return null;
   }
   return (
-    <nav className="w-full relative md:p-4 cursor-pointer z-20">
+    <nav className="w-full relative md:p-4 z-20 bg-black">
       <div className="w-full bg-[#181818] flex items-center justify-between px-4 py-3 text-white rounded-full">
         {/* Left side */}
         <div className="flex items-center space-x-2">

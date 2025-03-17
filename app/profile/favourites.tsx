@@ -148,7 +148,7 @@ const Favourites = () => {
 };
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center bg-primary text-white md:px-24'>
 
       {isLoading ? (
         <div className="flex justify-center items-center h-64">

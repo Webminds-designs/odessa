@@ -136,7 +136,7 @@ export default function LoginPage() {
   return (
     <>
       <div
-        className="flex w-full min-h-screen bg-no-repeat bg-center bg-cover"
+        className="flex w-full min-h-screen bg-no-repeat bg-center bg-cover bg-primary text-white"
         style={{ backgroundImage: 'url("/images/login-background.png")' }}
       >
         {/* Left side: Visible only on laptop (lg) and above */}

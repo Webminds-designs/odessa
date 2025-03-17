@@ -196,7 +196,7 @@ const CollectionPage: React.FC = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="min-h-screen bg-primary px-2 py-6 sm:px-2 md:px-6 lg:px-16 font-aeonikregular">
+    <div className="min-h-screen bg-black text-white px-2 py-6 sm:px-2 md:px-6 lg:px-16 font-aeonikregular">
       {/* Page Title */}
       <h2 className="font-vasion text-4xl lg:text-9xl mb-10 px-4">
         Your Brilliance

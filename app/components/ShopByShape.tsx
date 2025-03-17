@@ -128,7 +128,7 @@ const ShopByShape = () => {
   const visibleDiamonds = getVisibleDiamonds();
 
   return (
-    <div className="flex flex-col gap-4 w-full min-h-screen p-4 md:p-26 bg-black">
+    <div className="flex flex-col gap-4 w-full min-h-screen p-4 md:p-26 bg-black text-white">
       {/* First Title Section */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}

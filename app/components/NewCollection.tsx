@@ -93,7 +93,7 @@ const NewCollection: React.FC = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="flex flex-col w-full gap-4 md:gap-10 bg-black h-fit py-4 px-4 md:px-16">
+    <div className="flex flex-col w-full gap-4 md:gap-10 bg-black h-fit py-4 px-4 md:px-16 text-white">
       {/* Title 1 */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}

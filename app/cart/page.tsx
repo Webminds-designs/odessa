@@ -213,7 +213,7 @@ const CartPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6 h-screen bg-primary text-white">
       <h2 className="font-vasion text-3xl md:text-4xl mb-6 text-center">
         Shopping Cart
       </h2>

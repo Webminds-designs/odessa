@@ -24,7 +24,7 @@ const AboutUs: React.FC = () => {
   }, []);
 
   return (
-    <div className=" py-8 px-4 sm:px-6 md:px-10">
+    <div className=" py-8 px-4 sm:px-6 md:px-10 bg-black text-white">
       <div className="flex md:flex-row justify-between items-center">
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-vasion text-center md:text-left">
           ABOUT US

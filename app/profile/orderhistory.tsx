@@ -101,7 +101,7 @@ export default function OrderHistory() {
   };
 
   return (
-    <div className="min-h-screen font-sans text-white bg-primary py-10 px-4">
+    <div className="min-h-screen font-sans text-white bg-black py-10 px-4 md:px-24">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl mb-8">Order History</h1>
 
