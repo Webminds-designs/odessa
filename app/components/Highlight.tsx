@@ -47,7 +47,7 @@ const Highlight = () => {
           <h2 className="font-aeonikbolditalic text-gray-400 text-sm sm:text-md md:text-xl">
             Discover brilliance in every facet
           </h2>
-          <p className="flex flex-col font-vasion text-xl sm:text-2xl md:text-3xl lg:text-5xl leading-tight">
+          <p className="flex flex-col text-white font-vasion text-xl sm:text-2xl md:text-3xl lg:text-5xl leading-tight">
             <span>Shop exquisitely </span>
             <span>finished and finely cut </span>
             <span>diamonds</span>

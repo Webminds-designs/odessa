@@ -11,7 +11,7 @@ const Description: React.FC = () => {
   const text1 = "“Industry-Leading Pricing Transparency”";
 
   return (
-    <div className="w-full py-24 px-4 bg-black">
+    <div className="w-full py-24 px-4 bg-black text-white">
       <AnimatedTextGSAP text={text1} />
 
       <AnimatedTextGSAP text={text} />
