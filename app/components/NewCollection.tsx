@@ -103,7 +103,7 @@ const NewCollection: React.FC = () => {
         className="flex justify-between items-end"
       >
         <div className="flex gap-4 md:gap-10 items-end">
-          <p className="font-vasion text-4xl lg:text-9xl">NEW</p>
+          <p className="font-vasion text-6xl lg:text-9xl">NEW</p>
           <p className="hidden font-aeonikregularitalic text-sm lg:text-2xl text-gray-300 md:flex flex-col">
             <span>EXPLORE THE POSSIBILITIES OF </span>
             <span>TAILORED CRAFTMANSHIP AND </span>
@@ -145,7 +145,7 @@ const NewCollection: React.FC = () => {
         viewport={{ once: true }}
         className="flex justify-start lg:justify-end gap-4"
       >
-        <p className="font-vasion text-4xl lg:text-9xl">COLLECTION</p>
+        <p className="font-vasion text-5xl lg:text-9xl">COLLECTION</p>
       </motion.div>
 
       {/* Full-width carousel */}

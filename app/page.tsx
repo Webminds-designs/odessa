@@ -10,6 +10,7 @@ import Contact from "./components/Contanct";
 import NewCollection from "./components/NewCollection";
 import AfterHero from "./components/AfterHero";
 import Description from "./components/Description";
+import JewelleryDescription from "./components/jewellatyDes";
 
 const Hero = dynamic(() => import("./components/Hero"), { ssr: false });
 
@@ -94,6 +95,7 @@ export default function Home() {
         <div className="w-full h-[400px] lg:h-[800px]">
           <AfterHero />
         </div>
+        <JewelleryDescription />
         <Highlight />
         <Description />
         <NewCollection />
