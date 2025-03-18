@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaSearch,
   FaBell,
@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 
 type Product = {
+  _id?: string; // MongoDB ID
   id: number; // Internal numeric ID
   productId: string; // Display ID, e.g. "#0934"
   name: string; // Product name
@@ -20,51 +21,16 @@ type Product = {
   shortDescription: string; // short desc
   description: string; // longer desc
   image?: string; // image URL or path
+  cut?: string; // Added from API model
+  carat?: number; // Added from API model
+  images?: string[]; // Added from API model
 };
-
-// Sample data
-const mockProducts: Product[] = [
-  {
-    id: 1,
-    productId: "#0934",
-    name: "Round Diamond",
-    shape: "Round",
-    price: "1,750.00 $",
-    diamondCutDesign: "Brilliant cut",
-    measurements: "5.95 × 5.86 × 3.74",
-    shortDescription: "Lab-grown round brilliant diamond",
-    description:
-      "This 100-carat cushion brilliant cut diamond features an F color and VVS1 clarity, certified by IGI",
-  },
-  {
-    id: 2,
-    productId: "#0935",
-    name: "Princess Diamond",
-    shape: "Princess",
-    price: "2,100.00 $",
-    diamondCutDesign: "Princess cut",
-    measurements: "6.00 × 6.00 × 4.00",
-    shortDescription: "Lab-grown princess cut diamond",
-    description:
-      "A sparkling princess cut diamond with a color grade of G and SI1 clarity, IGI certified.",
-  },
-  {
-    id: 3,
-    productId: "#0936",
-    name: "Oval Diamond",
-    shape: "Oval",
-    price: "1,650.00 $",
-    diamondCutDesign: "Oval cut",
-    measurements: "7.00 × 5.00 × 3.00",
-    shortDescription: "Lab-grown oval cut diamond",
-    description:
-      "Elegant oval cut diamond with an E color grade, featuring excellent brilliance and fire.",
-  },
-];
 
 export default function ProductManagementPage() {
   // List of products
-  const [products, setProducts] = useState<Product[]>(mockProducts);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Track which row is expanded for "view"
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -74,24 +40,105 @@ export default function ProductManagementPage() {
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
 
+  // Search query
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("/api/product");
+        
+        if (!res.ok) {
+          throw new Error(`API responded with status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        
+        if (data.products && Array.isArray(data.products)) {
+          console.log("Products fetched successfully:", data.products);
+          // Detailed inspection of first product (if exists)
+          if (data.products.length > 0) {
+            console.log("First product details:", {
+              id: data.products[0].id,
+              _id: data.products[0]._id, 
+              name: data.products[0].name,
+              price: data.products[0].price,
+              shape: data.products[0].shape,
+              diamondCutDesign: data.products[0].diamondCutDesign,
+              measurements: data.products[0].measurements,
+              shortDescription: data.products[0].shortDescription,
+              description: data.products[0].description,
+              images: data.products[0].images,
+              cut: data.products[0].cut,
+              carat: data.products[0].carat
+            });
+          }
+          setProducts(data.products);
+        } else {
+          console.warn("API response doesn't contain products array:", data);
+          setProducts([]);
+        }
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setError("Failed to load products from the database.");
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   // Handle row expansion
   const handleRowClick = (id: number) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
   // Handle delete
-  const handleDelete = (e: React.MouseEvent, id: number) => {
+  const handleDelete = async (e: React.MouseEvent, id: number) => {
     e.stopPropagation(); // prevent row expand
     if (!confirm("Are you sure you want to delete this product?")) return;
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+    
+    try {
+      // Find the product with MongoDB _id to delete
+      const productToDelete = products.find(p => p.id === id);
+      if (!productToDelete || !productToDelete._id) {
+        throw new Error("Product not found or missing _id");
+      }
+
+      // API call to delete the product from database
+      const res = await fetch(`/api/product/${productToDelete._id}`, { 
+        method: 'DELETE' 
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to delete product");
+      }
+
+      // Update UI on success
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+    } catch (err) {
+      console.error("Error deleting product:", err);
+      setError("Failed to delete product: " + (err instanceof Error ? err.message : String(err)));
+    }
   };
 
-  // Open modal to add a new product
+  // Handle edit
+  const handleEdit = (e: React.MouseEvent, product: Product) => {
+    e.stopPropagation(); // prevent row expand
+    setModalProduct(product);
+    setModalMode("edit");
+    setIsModalOpen(true);
+  };
+
+  // Handle add new
   const handleAddNew = () => {
-    setModalMode("add");
     setModalProduct({
-      id: Date.now(), // temporary ID
-      productId: "",
+      id: Math.max(0, ...products.map((p) => p.id || 0)) + 1,
+      productId: `#${Math.floor(1000 + Math.random() * 9000)}`,
       name: "",
       shape: "",
       price: "",
@@ -100,84 +147,132 @@ export default function ProductManagementPage() {
       shortDescription: "",
       description: "",
     });
+    setModalMode("add");
     setIsModalOpen(true);
   };
 
-  // Open modal to edit existing product
-  const handleEdit = (e: React.MouseEvent, product: Product) => {
-    e.stopPropagation(); // prevent row expand
-    setModalMode("edit");
-    setModalProduct({ ...product });
-    setIsModalOpen(true);
-  };
+  // Handle modal save
+  const handleModalSave = async (product: Product) => {
+    try {
+      if (modalMode === "add") {
+        // Make sure we have all required fields with proper types
+        const productToSend = {
+          ...product,
+          // Convert id to string if it's not already
+          id: String(product.id),
+          // Ensure these required fields are present
+          cut: product.cut || product.shape, // Fallback to shape if cut isn't provided
+          carat: product.carat || 1.0, // Default carat value if not provided
+          // Ensure images is an array
+          images: product.images || product.image ? [product.image] : ["/images/default-diamond.png"],
+        };
 
-  // Close modal
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setModalProduct(null);
-  };
+        console.log("Sending product data:", productToSend);
+        
+        // API call to add a new product
+        const res = await fetch("/api/product", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(productToSend),
+        });
+        
+        // Log response for debugging
+        const responseText = await res.text();
+        console.log("API response status:", res.status);
+        console.log("API response text:", responseText);
+        
+        if (!res.ok) {
+          throw new Error(`Failed to create product: ${responseText}`);
+        }
+        
+        // Parse the response as JSON (after we've already read it as text)
+        const data = JSON.parse(responseText);
+        setProducts([...products, data.product]);
+      } else {
+        // Get the existing product with MongoDB _id
+        const existingProduct = products.find(p => p.id === product.id);
+        if (!existingProduct || !existingProduct._id) {
+          throw new Error("Product not found or missing _id");
+        }
+        
+        // API call to update an existing product
+        const res = await fetch(`/api/product/${existingProduct._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(product),
+        });
+        
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Failed to update product");
+        }
 
-  // Save product (both add/edit)
-  const handleSave = () => {
-    if (!modalProduct) return;
-
-    if (modalMode === "add") {
-      // Add new product
-      setProducts((prev) => [...prev, modalProduct]);
-    } else {
-      // Edit existing product
-      setProducts((prev) =>
-        prev.map((p) => (p.id === modalProduct.id ? modalProduct : p))
-      );
+        const data = await res.json();
+        console.log("Product updated:", data);
+        
+        // Update the UI
+        setProducts(products.map((p) => (p.id === product.id ? {...p, ...product} : p)));
+      }
+      
+      // Close the modal on success
+      setIsModalOpen(false);
+    } catch (err) {
+      console.error("Error saving product:", err);
+      setError("Failed to save product: " + (err instanceof Error ? err.message : String(err)));
     }
-    handleModalClose();
   };
 
-  // Update modal product fields
-  const updateField = (field: keyof Product, value: string) => {
-    if (!modalProduct) return;
-    setModalProduct({ ...modalProduct, [field]: value });
-  };
+  // Filter products based on search query
+  const filteredProducts = products.filter(
+    (product) =>
+      (product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (product.productId && product.productId.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (product.shape && product.shape.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  if (loading) {
+    return <div className="min-h-screen bg-black text-white p-4 md:p-8 flex items-center justify-center">
+      <div className="text-xl">Loading products...</div>
+    </div>;
+  }
 
   return (
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
+      {/* Display error if any */}
+      {error && <div className="bg-red-800 p-2 mb-4 rounded">{error}</div>}
+      
       {/* Top Bar */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl md:text-3xl font-bold">Product Management</h1>
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-          {/* Add new product button */}
-          <button
-            onClick={handleAddNew}
-            className="flex items-center gap-2 bg-brown text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors"
-          >
-            <FaPlus />
-            <span>Add new product</span>
-          </button>
-
-          {/* Search Bar */}
-          <div className="relative text-gray-400 focus-within:text-gray-600">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <FaSearch />
-            </span>
+        <div className="flex items-center gap-3">
+          {/* Search */}
+          <div className="relative">
             <input
-              type="search"
-              className="bg-[#1a1a1a] text-white rounded-md pl-10 pr-4 py-2 focus:outline-none"
-              placeholder="Search..."
+              type="text"
+              placeholder="Search products..."
+              className="bg-gray-900 text-white pl-10 pr-4 py-2 rounded-lg w-full md:w-64"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
-
-          {/* Notification Icon */}
-          <button className="relative p-2 rounded-full hover:bg-[#1a1a1a] transition-colors">
+          
+          {/* Notification */}
+          <button className="rounded-full bg-gray-800 p-2">
             <FaBell />
           </button>
-
-          {/* Admin Avatar / Name */}
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-full bg-gray-700 flex items-center justify-center">
-              <span className="font-bold">A</span>
-            </div>
-            <span className="hidden md:inline">Admin</span>
-          </div>
+          
+          {/* Add Product */}
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition"
+            onClick={handleAddNew}
+          >
+            <FaPlus /> Add Product
+          </button>
         </div>
       </div>
 
@@ -194,213 +289,251 @@ export default function ProductManagementPage() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <React.Fragment key={product.id}>
-                {/* Main Row */}
-                <tr
-                  className="border-b border-gray-800 hover:bg-[#1a1a1a] cursor-pointer"
-                  onClick={() => handleRowClick(product.id)}
-                >
-                  {/* Product image (placeholder) */}
-                  <td className="py-3 px-2">
-                    <div className="h-10 w-10 bg-gray-600 rounded-full flex items-center justify-center overflow-hidden">
-                      {/* Replace with <img src={product.image} /> if you have a real image */}
-                      <span>💎</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-2">{product.productId}</td>
-                  <td className="py-3 px-2">{product.name}</td>
-                  <td className="py-3 px-2">{product.price}</td>
-                  <td className="py-3 px-2">
-                    <div className="flex items-center gap-4">
-                      {/* Edit */}
-                      <button
-                        onClick={(e) => handleEdit(e, product)}
-                        className="p-1 hover:text-green-400 transition-colors"
-                      >
-                        <FaEdit />
-                      </button>
-                      {/* Delete */}
-                      <button
-                        onClick={(e) => handleDelete(e, product.id)}
-                        className="p-1 hover:text-red-400 transition-colors"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                {/* Expanded Row */}
-                {expandedId === product.id && (
-                  <tr className="bg-[#1a1a1a]">
-                    <td colSpan={5} className="py-4 px-4">
-                      <div className="flex flex-col md:flex-row gap-4">
-                        {/* Left column: Basic Info */}
-                        <div className="flex-1 space-y-2">
-                          <p>
-                            <span className="font-semibold">Shape:</span>{" "}
-                            {product.shape}
-                          </p>
-                          <p>
-                            <span className="font-semibold">
-                              Diamond Cut Design:
-                            </span>{" "}
-                            {product.diamondCutDesign}
-                          </p>
-                          <p>
-                            <span className="font-semibold">Measurements:</span>{" "}
-                            {product.measurements}
-                          </p>
-                        </div>
-                        {/* Right column: Descriptions */}
-                        <div className="flex-1 space-y-2">
-                          <p>
-                            <span className="font-semibold">
-                              Short Description:
-                            </span>{" "}
-                            {product.shortDescription}
-                          </p>
-                          <p>
-                            <span className="font-semibold">Description:</span>{" "}
-                            {product.description}
-                          </p>
-                        </div>
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <React.Fragment key={product._id || product.id}>
+                  <tr
+                    className={`border-b border-gray-700 hover:bg-gray-900 cursor-pointer transition ${
+                      expandedId === product.id ? "bg-gray-900" : ""
+                    }`}
+                    onClick={() => handleRowClick(product.id)}
+                  >
+                    <td className="py-3 px-2">
+                      <div className="h-10 w-10 rounded-lg bg-gray-700 flex items-center justify-center">
+                        {product.image ? (
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="h-10 w-10 object-cover rounded-lg"
+                          />
+                        ) : product.images && product.images.length > 0 ? (
+                          <img
+                            src={product.images[0]}
+                            alt={product.name}
+                            className="h-10 w-10 object-cover rounded-lg"
+                          />
+                        ) : (
+                          <FaCamera className="text-gray-500" />
+                        )}
+                      </div>
+                    </td>
+                    <td className="py-3 px-2">{product.id}</td>
+                    <td className="py-3 px-2">{product.name}</td>
+                    <td className="py-3 px-2">{product.price}</td>
+                    <td className="py-3 px-2">
+                      <div className="flex gap-2">
+                        <button
+                          className="p-2 bg-blue-600 rounded hover:bg-blue-700 transition"
+                          onClick={(e) => handleEdit(e, product)}
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          className="p-2 bg-red-600 rounded hover:bg-red-700 transition"
+                          onClick={(e) => handleDelete(e, product.id)}
+                        >
+                          <FaTrash />
+                        </button>
                       </div>
                     </td>
                   </tr>
-                )}
-              </React.Fragment>
-            ))}
+                  {expandedId === product.id && (
+                    <tr className="bg-gray-900">
+                      <td colSpan={5} className="py-4 px-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <h3 className="font-semibold mb-2">Shape</h3>
+                            <p>{product.shape}</p>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold mb-2">Diamond Cut Design</h3>
+                            <p>{product.diamondCutDesign}</p>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold mb-2">Measurements</h3>
+                            <p>{product.measurements}</p>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold mb-2">Short Description</h3>
+                            <p>{product.shortDescription}</p>
+                          </div>
+                          <div className="md:col-span-2">
+                            <h3 className="font-semibold mb-2">Description</h3>
+                            <p>{product.description}</p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="py-4 text-center">
+                  {searchQuery 
+                    ? "No products found matching your search." 
+                    : "No products available in the database."}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* Modal for Add/Edit */}
+      {/* Product Modal */}
       {isModalOpen && modalProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-[#1a1a1a] text-white p-6 rounded-md w-full max-w-3xl relative">
-            <button
-              onClick={handleModalClose}
-              className="absolute top-2 right-2 text-gray-400 hover:text-gray-200"
-            >
-              ✕
-            </button>
-            <h2 className="text-2xl font-bold mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-4">
               {modalMode === "add" ? "Add New Product" : "Edit Product"}
             </h2>
-            {/* Image Upload Placeholder */}
-            <div className="flex items-center justify-center mb-4">
-              <div className="rounded-full h-24 w-24 bg-gray-700 flex items-center justify-center text-2xl text-gray-300 cursor-pointer">
-                <FaCamera />
-              </div>
-            </div>
-            {/* Form Fields */}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* ID */}
-              <div>
-                <label className="block mb-1">ID</label>
-                <input
-                  type="text"
-                  disabled
-                  value={modalProduct.id}
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2"
-                />
-              </div>
-              {/* Product ID */}
               <div>
                 <label className="block mb-1">Product ID</label>
                 <input
                   type="text"
-                  value={modalProduct.productId}
-                  onChange={(e) => updateField("productId", e.target.value)}
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2"
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                  value={modalProduct.id}
+                  onChange={(e) =>
+                    setModalProduct({
+                      ...modalProduct,
+                      productId: e.target.value,
+                    })
+                  }
                 />
               </div>
-              {/* Price */}
+              
               <div>
-                <label className="block mb-1">Price</label>
+                <label className="block mb-1">Product Name</label>
                 <input
                   type="text"
-                  value={modalProduct.price}
-                  onChange={(e) => updateField("price", e.target.value)}
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2"
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                  value={modalProduct.name}
+                  onChange={(e) =>
+                    setModalProduct({
+                      ...modalProduct,
+                      name: e.target.value,
+                    })
+                  }
                 />
               </div>
-              {/* Shape */}
+              
               <div>
                 <label className="block mb-1">Shape</label>
                 <input
                   type="text"
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full"
                   value={modalProduct.shape}
-                  onChange={(e) => updateField("shape", e.target.value)}
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2"
+                  onChange={(e) =>
+                    setModalProduct({
+                      ...modalProduct,
+                      shape: e.target.value,
+                    })
+                  }
                 />
               </div>
-              {/* Diamond Cut Design */}
+              
               <div>
-                <label className="block mb-1">Diamond cut design</label>
+                <label className="block mb-1">Price</label>
                 <input
                   type="text"
-                  value={modalProduct.diamondCutDesign}
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                  value={modalProduct.price}
                   onChange={(e) =>
-                    updateField("diamondCutDesign", e.target.value)
+                    setModalProduct({
+                      ...modalProduct,
+                      price: e.target.value,
+                    })
                   }
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2"
                 />
               </div>
-              {/* Measurements */}
+              
+              <div>
+                <label className="block mb-1">Diamond Cut Design</label>
+                <input
+                  type="text"
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                  value={modalProduct.diamondCutDesign}
+                  onChange={(e) =>
+                    setModalProduct({
+                      ...modalProduct,
+                      diamondCutDesign: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              
               <div>
                 <label className="block mb-1">Measurements</label>
                 <input
                   type="text"
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full"
                   value={modalProduct.measurements}
-                  onChange={(e) => updateField("measurements", e.target.value)}
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2"
+                  onChange={(e) =>
+                    setModalProduct({
+                      ...modalProduct,
+                      measurements: e.target.value,
+                    })
+                  }
                 />
               </div>
-              {/* Name */}
-              <div>
-                <label className="block mb-1">Name</label>
+              
+              <div className="md:col-span-2">
+                <label className="block mb-1">Short Description</label>
                 <input
                   type="text"
-                  value={modalProduct.name}
-                  onChange={(e) => updateField("name", e.target.value)}
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2"
-                />
-              </div>
-              {/* Short Description */}
-              <div>
-                <label className="block mb-1">Short description</label>
-                <input
-                  type="text"
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full"
                   value={modalProduct.shortDescription}
                   onChange={(e) =>
-                    updateField("shortDescription", e.target.value)
+                    setModalProduct({
+                      ...modalProduct,
+                      shortDescription: e.target.value,
+                    })
                   }
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2"
                 />
               </div>
-              {/* Full Description */}
-              <div className="col-span-1 md:col-span-2">
+              
+              <div className="md:col-span-2">
                 <label className="block mb-1">Description</label>
                 <textarea
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full h-32"
                   value={modalProduct.description}
-                  onChange={(e) => updateField("description", e.target.value)}
-                  className="bg-[#2a2a2a] w-full rounded px-3 py-2 h-20"
+                  onChange={(e) =>
+                    setModalProduct({
+                      ...modalProduct,
+                      description: e.target.value,
+                    })
+                  }
+                ></textarea>
+              </div>
+              
+              <div className="md:col-span-2">
+                <label className="block mb-1">Image URL</label>
+                <input
+                  type="text"
+                  className="bg-gray-700 text-white px-3 py-2 rounded w-full"
+                  value={modalProduct.images || ""}
+                  onChange={(e) =>
+                    setModalProduct({
+                      ...modalProduct,
+                      image: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
-            {/* Modal Buttons */}
-            <div className="mt-6 flex justify-end gap-3">
+            
+            <div className="flex justify-end gap-3 mt-6">
               <button
-                onClick={handleModalClose}
-                className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+                className="px-4 py-2 bg-gray-600 rounded hover:bg-gray-700 transition"
+                onClick={() => setIsModalOpen(false)}
               >
                 Cancel
               </button>
               <button
-                onClick={handleSave}
-                className="bg-brown px-4 py-2 rounded hover:bg-opacity-90 transition-colors"
+                className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition"
+                onClick={() => handleModalSave(modalProduct)}
               >
                 Save
               </button>
