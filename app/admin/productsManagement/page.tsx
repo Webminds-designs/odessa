@@ -267,7 +267,7 @@ export default function ProductManagementPage() {
         <div className="flex items-center gap-3">
           {/* Add Product */}
           <button
-            className="bg-brown text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition"
+            className="bg-brown text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-yellow-900 transition"
             onClick={handleAddNew}
           >
             <FaPlus /> Add Product
@@ -346,7 +346,7 @@ export default function ProductManagementPage() {
                     <td className="py-3 px-2">
                       <div className="flex gap-2">
                         <button
-                          className="p-2 bg-blue-600 rounded hover:bg-blue-700 transition"
+                          className="p-2 bg-none rounded cursor-pointer transition"
                           onClick={(e) => handleEdit(e, product)}
                         >
                           <FaEdit />
@@ -559,7 +559,7 @@ export default function ProductManagementPage() {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition"
+                className="px-4 py-2 bg-brown rounded hover:bg-yellow-900 transition"
                 onClick={() => handleModalSave(modalProduct)}
               >
                 Save

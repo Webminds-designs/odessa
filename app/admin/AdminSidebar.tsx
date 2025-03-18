@@ -64,7 +64,7 @@ const AdminSidebar = () => {
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-brown">
-            <Link href="/admin/users" className="flex items-center gap-4">
+            <Link href="/admin/userManagement" className="flex items-center gap-4">
               <FaUsers size={20} />
               {!isCollapsed && <span>User Management</span>}
             </Link>
