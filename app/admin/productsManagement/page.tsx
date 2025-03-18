@@ -48,20 +48,20 @@ export default function ProductManagementPage() {
     const fetchProducts = async () => {
       try {
         const res = await fetch("/api/product");
-        
+
         if (!res.ok) {
           throw new Error(`API responded with status: ${res.status}`);
         }
-        
+
         const data = await res.json();
-        
+
         if (data.products && Array.isArray(data.products)) {
           console.log("Products fetched successfully:", data.products);
           // Detailed inspection of first product (if exists)
           if (data.products.length > 0) {
             console.log("First product details:", {
               id: data.products[0].id,
-              _id: data.products[0]._id, 
+              _id: data.products[0]._id,
               name: data.products[0].name,
               price: data.products[0].price,
               shape: data.products[0].shape,
@@ -71,7 +71,7 @@ export default function ProductManagementPage() {
               description: data.products[0].description,
               images: data.products[0].images,
               cut: data.products[0].cut,
-              carat: data.products[0].carat
+              carat: data.products[0].carat,
             });
           }
           setProducts(data.products);
@@ -100,19 +100,19 @@ export default function ProductManagementPage() {
   const handleDelete = async (e: React.MouseEvent, id: number) => {
     e.stopPropagation(); // prevent row expand
     if (!confirm("Are you sure you want to delete this product?")) return;
-    
+
     try {
       // Find the product with MongoDB _id to delete
-      const productToDelete = products.find(p => p.id === id);
+      const productToDelete = products.find((p) => p.id === id);
       if (!productToDelete || !productToDelete._id) {
         throw new Error("Product not found or missing _id");
       }
 
       // API call to delete the product from database
-      const res = await fetch(`/api/product/${productToDelete._id}`, { 
-        method: 'DELETE' 
+      const res = await fetch(`/api/product/${productToDelete._id}`, {
+        method: "DELETE",
       });
-      
+
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.error || "Failed to delete product");
@@ -122,7 +122,10 @@ export default function ProductManagementPage() {
       setProducts((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
       console.error("Error deleting product:", err);
-      setError("Failed to delete product: " + (err instanceof Error ? err.message : String(err)));
+      setError(
+        "Failed to delete product: " +
+          (err instanceof Error ? err.message : String(err))
+      );
     }
   };
 
@@ -164,11 +167,14 @@ export default function ProductManagementPage() {
           cut: product.cut || product.shape, // Fallback to shape if cut isn't provided
           carat: product.carat || 1.0, // Default carat value if not provided
           // Ensure images is an array
-          images: product.images || product.image ? [product.image] : ["/images/default-diamond.png"],
+          images:
+            product.images || product.image
+              ? [product.image]
+              : ["/images/default-diamond.png"],
         };
 
         console.log("Sending product data:", productToSend);
-        
+
         // API call to add a new product
         const res = await fetch("/api/product", {
           method: "POST",
@@ -177,26 +183,26 @@ export default function ProductManagementPage() {
           },
           body: JSON.stringify(productToSend),
         });
-        
+
         // Log response for debugging
         const responseText = await res.text();
         console.log("API response status:", res.status);
         console.log("API response text:", responseText);
-        
+
         if (!res.ok) {
           throw new Error(`Failed to create product: ${responseText}`);
         }
-        
+
         // Parse the response as JSON (after we've already read it as text)
         const data = JSON.parse(responseText);
         setProducts([...products, data.product]);
       } else {
         // Get the existing product with MongoDB _id
-        const existingProduct = products.find(p => p.id === product.id);
+        const existingProduct = products.find((p) => p.id === product.id);
         if (!existingProduct || !existingProduct._id) {
           throw new Error("Product not found or missing _id");
         }
-        
+
         // API call to update an existing product
         const res = await fetch(`/api/product/${existingProduct._id}`, {
           method: "PUT",
@@ -205,7 +211,7 @@ export default function ProductManagementPage() {
           },
           body: JSON.stringify(product),
         });
-        
+
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.error || "Failed to update product");
@@ -213,66 +219,83 @@ export default function ProductManagementPage() {
 
         const data = await res.json();
         console.log("Product updated:", data);
-        
+
         // Update the UI
-        setProducts(products.map((p) => (p.id === product.id ? {...p, ...product} : p)));
+        setProducts(
+          products.map((p) => (p.id === product.id ? { ...p, ...product } : p))
+        );
       }
-      
+
       // Close the modal on success
       setIsModalOpen(false);
     } catch (err) {
       console.error("Error saving product:", err);
-      setError("Failed to save product: " + (err instanceof Error ? err.message : String(err)));
+      setError(
+        "Failed to save product: " +
+          (err instanceof Error ? err.message : String(err))
+      );
     }
   };
 
   // Filter products based on search query
   const filteredProducts = products.filter(
     (product) =>
-      (product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (product.productId && product.productId.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (product.shape && product.shape.toLowerCase().includes(searchQuery.toLowerCase()))
+      (product.name &&
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (product.productId &&
+        product.productId.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (product.shape &&
+        product.shape.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   if (loading) {
-    return <div className="min-h-screen bg-black text-white p-4 md:p-8 flex items-center justify-center">
-      <div className="text-xl">Loading products...</div>
-    </div>;
+    return (
+      <div className="min-h-screen bg-black text-white p-4 md:p-8 flex items-center justify-center">
+        <div className="text-xl">Loading products...</div>
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
       {/* Display error if any */}
       {error && <div className="bg-red-800 p-2 mb-4 rounded">{error}</div>}
-      
+
       {/* Top Bar */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl md:text-3xl font-bold">Product Management</h1>
         <div className="flex items-center gap-3">
-          {/* Search */}
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="bg-gray-900 text-white pl-10 pr-4 py-2 rounded-lg w-full md:w-64"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          </div>
-          
-          {/* Notification */}
-          <button className="rounded-full bg-gray-800 p-2">
-            <FaBell />
-          </button>
-          
           {/* Add Product */}
           <button
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition"
+            className="bg-brown text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition"
             onClick={handleAddNew}
           >
             <FaPlus /> Add Product
           </button>
+          {/* Search Bar */}
+          <div className="relative text-gray-400 focus-within:text-gray-600">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <FaSearch />
+            </span>
+            <input
+              type="search"
+              className="bg-[#1a1a1a] text-white rounded-md pl-10 pr-4 py-2 focus:outline-none"
+              placeholder="Search..."
+            />
+          </div>
+
+          {/* Notification Icon */}
+          <button className="relative p-2 rounded-full hover:bg-[#1a1a1a] transition-colors">
+            <FaBell />
+          </button>
+
+          {/* Admin Avatar / Name */}
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-full bg-gray-700 flex items-center justify-center">
+              <span className="font-bold">A</span>
+            </div>
+            <span className="hidden md:inline">Admin</span>
+          </div>
         </div>
       </div>
 
@@ -346,7 +369,9 @@ export default function ProductManagementPage() {
                             <p>{product.shape}</p>
                           </div>
                           <div>
-                            <h3 className="font-semibold mb-2">Diamond Cut Design</h3>
+                            <h3 className="font-semibold mb-2">
+                              Diamond Cut Design
+                            </h3>
                             <p>{product.diamondCutDesign}</p>
                           </div>
                           <div>
@@ -354,7 +379,9 @@ export default function ProductManagementPage() {
                             <p>{product.measurements}</p>
                           </div>
                           <div>
-                            <h3 className="font-semibold mb-2">Short Description</h3>
+                            <h3 className="font-semibold mb-2">
+                              Short Description
+                            </h3>
                             <p>{product.shortDescription}</p>
                           </div>
                           <div className="md:col-span-2">
@@ -370,8 +397,8 @@ export default function ProductManagementPage() {
             ) : (
               <tr>
                 <td colSpan={5} className="py-4 text-center">
-                  {searchQuery 
-                    ? "No products found matching your search." 
+                  {searchQuery
+                    ? "No products found matching your search."
                     : "No products available in the database."}
                 </td>
               </tr>
@@ -387,7 +414,7 @@ export default function ProductManagementPage() {
             <h2 className="text-xl font-bold mb-4">
               {modalMode === "add" ? "Add New Product" : "Edit Product"}
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block mb-1">Product ID</label>
@@ -403,7 +430,7 @@ export default function ProductManagementPage() {
                   }
                 />
               </div>
-              
+
               <div>
                 <label className="block mb-1">Product Name</label>
                 <input
@@ -418,7 +445,7 @@ export default function ProductManagementPage() {
                   }
                 />
               </div>
-              
+
               <div>
                 <label className="block mb-1">Shape</label>
                 <input
@@ -433,7 +460,7 @@ export default function ProductManagementPage() {
                   }
                 />
               </div>
-              
+
               <div>
                 <label className="block mb-1">Price</label>
                 <input
@@ -448,7 +475,7 @@ export default function ProductManagementPage() {
                   }
                 />
               </div>
-              
+
               <div>
                 <label className="block mb-1">Diamond Cut Design</label>
                 <input
@@ -463,7 +490,7 @@ export default function ProductManagementPage() {
                   }
                 />
               </div>
-              
+
               <div>
                 <label className="block mb-1">Measurements</label>
                 <input
@@ -478,7 +505,7 @@ export default function ProductManagementPage() {
                   }
                 />
               </div>
-              
+
               <div className="md:col-span-2">
                 <label className="block mb-1">Short Description</label>
                 <input
@@ -493,7 +520,7 @@ export default function ProductManagementPage() {
                   }
                 />
               </div>
-              
+
               <div className="md:col-span-2">
                 <label className="block mb-1">Description</label>
                 <textarea
@@ -507,7 +534,7 @@ export default function ProductManagementPage() {
                   }
                 ></textarea>
               </div>
-              
+
               <div className="md:col-span-2">
                 <label className="block mb-1">Image URL</label>
                 <input
@@ -523,7 +550,7 @@ export default function ProductManagementPage() {
                 />
               </div>
             </div>
-            
+
             <div className="flex justify-end gap-3 mt-6">
               <button
                 className="px-4 py-2 bg-gray-600 rounded hover:bg-gray-700 transition"
