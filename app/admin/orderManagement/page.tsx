@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrash, FaEdit, FaPlus, FaSearch, FaBell } from "react-icons/fa";
 
 type OrderStatus = "Complete" | "Delivered" | "Pending" | "Cancelled";
@@ -12,91 +12,136 @@ interface DiamondDetail {
 }
 
 interface Order {
-  id: string;
-  date: string;
-  customer: string;
-  price: string;
-  status: OrderStatus;
-  address: string;
-  email: string;
-  contact: string;
-  diamondDetails: DiamondDetail[];
+  _id: string;
+  transactionId: string;
+  userid: string;
+  payerName: string;
+  payerEmail: string;
+  payerContact: string;
+  payerCountry: string;
+  checkoutItems: Array<{
+    productId: string;
+    name: string;
+    quantity: number;
+    price: number;
+    total: number;
+  }>;
+  subtotal: number;
+  shipping: number;
+  tax: number;
+  total: number;
+  paymentMethod: string;
+  paymentStatus: string;
+  orderStatus: string;
+  createdAt: string;
 }
-
-// Extended mock orders with additional details
-const mockOrders: Order[] = [
-  {
-    id: "#000001",
-    date: "02/02/2002",
-    customer: "Emma",
-    price: "1700$",
-    status: "Complete",
-    address: "123 Diamond Ave, New York, NY",
-    email: "emma@example.com",
-    contact: "+1 555-1234",
-    diamondDetails: [
-      { name: "Brilliant Cut", carat: 1.2, cut: "Round" },
-      { name: "Princess Cut", carat: 1.5, cut: "Square" },
-    ],
-  },
-  {
-    id: "#000002",
-    date: "02/02/2002",
-    customer: "Alexander",
-    price: "1700$",
-    status: "Delivered",
-    address: "456 Gemstone Rd, Los Angeles, CA",
-    email: "alex@example.com",
-    contact: "+1 555-5678",
-    diamondDetails: [{ name: "Emerald Cut", carat: 2.0, cut: "Rectangle" }],
-  },
-  {
-    id: "#000003",
-    date: "02/02/2002",
-    customer: "Amelia",
-    price: "1700$",
-    status: "Pending",
-    address: "789 Sparkle Ln, Miami, FL",
-    email: "amelia@example.com",
-    contact: "+1 555-9012",
-    diamondDetails: [{ name: "Oval Cut", carat: 1.0, cut: "Oval" }],
-  },
-  {
-    id: "#000004",
-    date: "02/02/2002",
-    customer: "Harrison",
-    price: "1700$",
-    status: "Complete",
-    address: "1011 Shine Blvd, Seattle, WA",
-    email: "harrison@example.com",
-    contact: "+1 555-3456",
-    diamondDetails: [{ name: "Pear Cut", carat: 1.8, cut: "Pear" }],
-  },
-];
 
 export default function OrderManagementPage() {
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
-  const [orders, setOrders] = useState<Order[]>(mockOrders);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [orderDetails, setOrderDetails] = useState<{ [key: string]: Order }>({});
 
-  // Toggle expansion when a row is clicked
-  const handleRowClick = (orderId: string) => {
-    setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
+  // Fetch all orders on component mount
+  useEffect(() => {
+    async function fetchAllOrders() {
+      try {
+        // You may need to change this to fetch all orders, not just by userId
+        const res = await fetch('/api/order?userId=admin');
+        
+        if (!res.ok) {
+          throw new Error('Failed to fetch orders');
+        }
+        
+        const data = await res.json();
+        setOrders(data);
+      } catch (err) {
+        console.error('Error fetching orders:', err);
+        setError('Could not load orders');
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchAllOrders();
+  }, []);
+
+  // Toggle expansion when a row is clicked and fetch order details
+  const handleRowClick = async (orderId: string) => {
+    // If already expanded, collapse
+    if (expandedOrderId === orderId) {
+      setExpandedOrderId(null);
+      return;
+    }
+    
+    // If we already have details, just expand
+    if (orderDetails[orderId]) {
+      setExpandedOrderId(orderId);
+      return;
+    }
+    
+    // Otherwise, fetch order details
+    try {
+      const res = await fetch(`/api/order/${orderId}`);
+      
+      if (!res.ok) {
+        throw new Error('Failed to fetch order details');
+      }
+      
+      const details = await res.json();
+      
+      // Cache the details in state, then expand
+      setOrderDetails((prev) => ({ ...prev, [orderId]: details }));
+      setExpandedOrderId(orderId);
+    } catch (err) {
+      console.error('Error fetching order details:', err);
+    }
   };
 
-  // Update status inline
-  const handleStatusChange = (orderId: string, newStatus: OrderStatus) => {
+  // Update status
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
+    // Here you would implement the API call to update the order status
+    // For now, we'll just update the local state
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
-        order.id === orderId ? { ...order, status: newStatus } : order
+        order._id === orderId ? { ...order, orderStatus: newStatus } : order
       )
     );
+    
+    // If the details are expanded, update those too
+    if (orderDetails[orderId]) {
+      setOrderDetails((prev) => ({
+        ...prev,
+        [orderId]: { ...prev[orderId], orderStatus: newStatus }
+      }));
+    }
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white p-8 flex justify-center items-center">
+        <p>Loading orders...</p>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-black text-white p-8 flex justify-center items-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl md:text-3xl font-bold">Order Management</h1>
+
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
           {/* Add new order button */}
           <button className="flex items-center gap-2 bg-brown text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-colors">
@@ -139,33 +184,33 @@ export default function OrderManagementPage() {
               <th className="py-3 px-2 font-semibold">Order ID</th>
               <th className="py-3 px-2 font-semibold">Date</th>
               <th className="py-3 px-2 font-semibold">Customer</th>
-              <th className="py-3 px-2 font-semibold">Price</th>
+              <th className="py-3 px-2 font-semibold">Total</th>
               <th className="py-3 px-2 font-semibold">Status</th>
               <th className="py-3 px-2 font-semibold">Action</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
-              <React.Fragment key={order.id}>
+              <React.Fragment key={order._id}>
                 {/* Main row */}
                 <tr
                   className="border-b border-gray-800 hover:bg-[#1a1a1a] cursor-pointer"
-                  onClick={() => handleRowClick(order.id)}
+                  onClick={() => handleRowClick(order._id)}
                 >
-                  <td className="py-3 px-2">{order.id}</td>
-                  <td className="py-3 px-2">{order.date}</td>
-                  <td className="py-3 px-2">{order.customer}</td>
-                  <td className="py-3 px-2">{order.price}</td>
+                  <td className="py-3 px-2">{order.transactionId}</td>
+                  <td className="py-3 px-2">{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td className="py-3 px-2">{order.payerName}</td>
+                  <td className="py-3 px-2">{order.total} £</td>
                   <td className="py-3 px-2">
                     <span
                       className={`
                         font-semibold 
-                        ${order.status === "Complete" ? "text-green-400" : ""}
-                        ${order.status === "Delivered" ? "text-yellow-400" : ""}
-                        ${order.status === "Pending" ? "text-red-400" : ""}
+                        ${order.orderStatus === "Complete" ? "text-green-400" : ""}
+                        ${order.orderStatus === "Delivered" ? "text-yellow-400" : ""}
+                        ${order.orderStatus === "Pending" ? "text-red-400" : ""}
                       `}
                     >
-                      {order.status}
+                      {order.orderStatus}
                     </span>
                   </td>
                   <td className="py-3 px-2">
@@ -193,7 +238,7 @@ export default function OrderManagementPage() {
                   </td>
                 </tr>
                 {/* Expanded row for additional details */}
-                {expandedOrderId === order.id && (
+                {expandedOrderId === order._id && orderDetails[order._id] && (
                   <tr className="bg-[#1a1a1a]">
                     <td colSpan={6} className="py-4 px-4">
                       <div className="flex flex-col md:flex-row gap-4">
@@ -201,49 +246,70 @@ export default function OrderManagementPage() {
                         <div className="flex-1 space-y-2">
                           <p>
                             <span className="font-semibold">Customer:</span>{" "}
-                            {order.customer}
+                            {orderDetails[order._id].payerName}
                           </p>
                           <p>
                             <span className="font-semibold">Email:</span>{" "}
-                            {order.email}
+                            {orderDetails[order._id].payerEmail}
                           </p>
                           <p>
                             <span className="font-semibold">Contact:</span>{" "}
-                            {order.contact}
+                            {orderDetails[order._id].payerContact}
                           </p>
                           <p>
-                            <span className="font-semibold">Address:</span>{" "}
-                            {order.address}
+                            <span className="font-semibold">Country:</span>{" "}
+                            {orderDetails[order._id].payerCountry}
+                          </p>
+                          <p>
+                            <span className="font-semibold">Transaction ID:</span>{" "}
+                            {orderDetails[order._id].transactionId}
+                          </p>
+                          <p>
+                            <span className="font-semibold">Payment Method:</span>{" "}
+                            {orderDetails[order._id].paymentMethod}
+                          </p>
+                          <p>
+                            <span className="font-semibold">Payment Status:</span>{" "}
+                            {orderDetails[order._id].paymentStatus}
                           </p>
                         </div>
-                        {/* Right column: Diamond Details & Status Update */}
+                        {/* Right column: Order Items & Status Update */}
                         <div className="flex-1 space-y-2">
-                          <h3 className="font-semibold">Diamond Details</h3>
-                          <ul className="list-disc list-inside space-y-1">
-                            {order.diamondDetails.map((diamond, i) => (
-                              <li key={i}>
-                                {diamond.name} - {diamond.carat}ct (
-                                {diamond.cut})
+                          <h3 className="font-semibold">Order Items</h3>
+                          <ul className="space-y-2">
+                            {orderDetails[order._id].checkoutItems.map((item, i) => (
+                              <li key={i} className="bg-[#2a2a2a] p-2 rounded-md">
+                                <div className="flex justify-between">
+                                  <span>{item.name}</span>
+                                  <span>{item.quantity} x {item.price.toFixed(2)} = {item.total.toFixed(2)}</span>
+                                </div>
                               </li>
                             ))}
                           </ul>
+                          <div className="mt-4 space-y-2">
+                            <p><span className="font-semibold">Subtotal:</span> {orderDetails[order._id].subtotal}</p>
+                            <p><span className="font-semibold">Shipping:</span> {orderDetails[order._id].shipping}</p>
+                            <p><span className="font-semibold">Tax:</span> {orderDetails[order._id].tax}</p>
+                            <p><span className="font-semibold">Total:</span> {orderDetails[order._id].total}</p>
+                          </div>
                           <div className="mt-4">
                             <label className="block mb-1 font-semibold">
                               Change Status:
                             </label>
                             <select
-                              value={order.status}
+                              value={orderDetails[order._id].orderStatus}
                               onChange={(e) =>
                                 handleStatusChange(
-                                  order.id,
-                                  e.target.value as OrderStatus
+                                  order._id,
+                                  e.target.value
                                 )
                               }
                               className="bg-black text-white border border-gray-600 rounded-md px-3 py-2"
                             >
+                              <option value="Pending">Pending</option>
                               <option value="Complete">Complete</option>
                               <option value="Delivered">Delivered</option>
-                              <option value="Pending">Pending</option>
+                              <option value="Shipping">Shipping</option>
                               <option value="Cancelled">Cancelled</option>
                             </select>
                           </div>
