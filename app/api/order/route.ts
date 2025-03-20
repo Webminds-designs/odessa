@@ -37,12 +37,20 @@ export async function GET(request: Request): Promise<Response> {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get("userId");
 
-  if (!userId) {
-    return NextResponse.json({ error: "Missing userId" }, { status: 400 });
-  }
-
   try {
-    // Fetch orders for the user sorted by creation date (latest first)
+    await connectDB();
+    
+    // Special case for admin: fetch all orders
+    if (userId === 'admin') {
+      const orders = await Order.find().sort({ createdAt: -1 });
+      return NextResponse.json(orders, { status: 200 });
+    }
+    
+    // Regular case: fetch orders for a specific user
+    if (!userId) {
+      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    }
+    
     const orders = await Order.find({ userid: userId }).sort({ createdAt: -1 });
     return NextResponse.json(orders, { status: 200 });
   } catch (error: any) {
