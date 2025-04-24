@@ -95,7 +95,7 @@ export default function Home() {
         <div className="w-full h-[400px] lg:h-[800px]">
           <AfterHero />
         </div>
-        <JewelleryDescription />
+        {/* <JewelleryDescription /> */}
         <Highlight />
         <Description />
         <NewCollection />
