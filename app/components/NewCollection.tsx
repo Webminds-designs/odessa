@@ -204,7 +204,7 @@ const NewCollection: React.FC = () => {
               }`}
             >
               {currentDiamond && (
-                <p className="font-vasion text-3xl">{currentDiamond.name}</p>
+                <p className="font-aeonikregular text-3xl">{currentDiamond.name}</p>
               )}
             </div>
 
@@ -216,7 +216,7 @@ const NewCollection: React.FC = () => {
               }`}
             >
               {currentDiamond && (
-                <p className="font-vasion text-xl text-brown">
+                <p className="font-aeonikregularitalic text-xl text-brown">
                   {currentDiamond.shortDescription}
                 </p>
               )}
@@ -230,7 +230,7 @@ const NewCollection: React.FC = () => {
               }`}
             >
               {currentDiamond && (
-                <p className="font-vasion text-lg lg:text-xl">
+                <p className="font-aeonikregular text-lg lg:text-xl">
                   <span>{currentDiamond.description}</span>
                   <span className="text-brown"> See More...</span>
                 </p>
