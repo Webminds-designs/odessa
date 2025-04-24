@@ -68,7 +68,7 @@ const Contact: React.FC = () => {
           <h1 className="text-3xl md:text-5xl font-semibold font-vasion ">
             Lost in the selecting diamond ?
           </h1>
-          <form onSubmit={handleSubmit} className="space-y-6 font-vasion">
+          <form onSubmit={handleSubmit} className="space-y-6 font-aeonikregular">
             <div>
               <label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-300">
                 Name
@@ -140,7 +140,7 @@ const Contact: React.FC = () => {
             )}
           </form>
         </div>
-        <div className="space-y-8 flex flex-col justify-end font-vasion ">
+        <div className="space-y-8 flex flex-col justify-end font-aeonikregular ">
           <p className="text-white text-sm md:text-base leading-loose tracking-wider">
             <span className="text-brown">We&apos;re here to assist you </span>
             with any questions about our exclusive diamond collections. Whether
